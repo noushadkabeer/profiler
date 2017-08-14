@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <definition name="baseLayout" template="/WEB-INF/content/components/layout/common-layout.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="header" value="/WEB-INF/content/components/global/header.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/common/menu.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/content/components/global/footer.jsp" />
+    </definition>
+    
+    <!-- Agency tiles -->
+    <definition name="agencyhome" extends="baseLayout">
+        <put-attribute name="title" value="Agency Home" />
+        <put-attribute name="body" value="/WEB-INF/content/agency/agencyhome.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    
+    <!-- Profile tiles -->
+    <definition name="profileShow" extends="baseLayout">
+        <put-attribute name="title" value="Profile View" />
+        <put-attribute name="body" value="/WEB-INF/content/profile/profile-show.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <definition name="profileNew" extends="baseLayout">
+        <put-attribute name="title" value="Profile View" />
+        <put-attribute name="body" value="/WEB-INF/content/profile/profileForm.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition> 
+    <definition name="profileDelete" extends="baseLayout">
+        <put-attribute name="title" value="Profile Delete" />
+        <put-attribute name="body" value="/WEB-INF/content/profile/profile-deleteConfirm.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <definition name="attachResume" extends="baseLayout">
+        <put-attribute name="title" value="Attach Resume" />
+        <put-attribute name="body" value="/WEB-INF/content/profile/attachResume.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    
+     <!-- Job tiles -->
+    <definition name="jobShow" extends="baseLayout">
+        <put-attribute name="title" value="Job View" />
+        <put-attribute name="body" value="/WEB-INF/content/job/job-show.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <definition name="jobNew" extends="baseLayout">
+        <put-attribute name="title" value="Profile View" />
+        <put-attribute name="body" value="/WEB-INF/content/job/jobForm.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition> 
+    <definition name="jobDelete" extends="baseLayout">
+        <put-attribute name="title" value="Job Delete" />
+        <put-attribute name="body" value="/WEB-INF/content/job/job-deleteConfirm.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <definition name="attachJD" extends="baseLayout">
+        <put-attribute name="title" value="Attach JD" />
+        <put-attribute name="body" value="/WEB-INF/content/job/attachJD.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+             <!-- Task tiles -->
+    <definition name="taskShow" extends="baseLayout">
+        <put-attribute name="title" value="Task View" />
+        <put-attribute name="body" value="/WEB-INF/content/task/task-show.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <definition name="taskEdit" extends="baseLayout">
+        <put-attribute name="title" value="task Edit" />
+        <put-attribute name="body" value="/WEB-INF/content/task/task-editNew.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <definition name="taskDelete" extends="baseLayout">
+        <put-attribute name="title" value="task Delete" />
+        <put-attribute name="body" value="/WEB-INF/content/task/task-deleteConfirm.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    
+    <!-- Event tiles -->
+    <definition name="eventShow" extends="baseLayout">
+        <put-attribute name="title" value="Event View" />
+        <put-attribute name="body" value="/WEB-INF/content/event/event-show.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <definition name="eventEdit" extends="baseLayout">
+        <put-attribute name="title" value="Event Edit" />
+        <put-attribute name="body" value="/WEB-INF/content/event/event-editNew.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <definition name="eventDelete" extends="baseLayout">
+        <put-attribute name="title" value="Event Delete" />
+        <put-attribute name="body" value="/WEB-INF/content/event/event-deleteConfirm.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    
+    <definition name="processBulkResumes" extends="baseLayout">
+        <put-attribute name="title" value="Attach Resume" />
+        <put-attribute name="body" value="/WEB-INF/content/profile/processBulkResume.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+ <!-- Agency tiles -->
+    <definition name="unprocessedDashboard" extends="baseLayout">
+        <put-attribute name="title" value="Unprocessed Profiles" />
+        <put-attribute name="body" value="/WEB-INF/content/agency/unprocessed.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    
+    <!-- Search tiles -->
+    <definition name="textSearch" extends="baseLayout">
+        <put-attribute name="title" value="Search Results" />
+        <put-attribute name="body" value="/WEB-INF/content/search/textSearch.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <!-- Advanced Search tiles -->
+    <definition name="advSearch" extends="baseLayout">
+        <put-attribute name="title" value="Search Results" />
+        <put-attribute name="body" value="/WEB-INF/content/search/advSearchResults.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    <definition name="advSearchInput" extends="baseLayout">
+        <put-attribute name="title" value="Advanced Search" />
+        <put-attribute name="body" value="/WEB-INF/content/search/advSearchInput.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    
+    <definition name="error" extends="baseLayout">
+ 		<put-attribute name="body" value="/WEB-INF/content/error.jsp" />
+ 	</definition>
+</tiles-definitions>
