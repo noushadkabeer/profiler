@@ -67,14 +67,14 @@
 											class="icon icon-trash"></i>Delete</s:a>																			 
 									</div> 
 					                 <s:form action="setUpForInsertOrUpdateUPProfile">  <s:hidden name="upProfile.id" value="%{#dbpedia.id}" />  
-							         <s:textfield name="upProfile.name" value="%{#dbpedia.name}" size="30" placeholder="%{getText('label.name')}"/>  
-							         <s:textfield name="upProfile.experience" value="%{#dbpedia.experience}" size="30" placeholder="%{getText('label.experience')}" />
-							         <s:textfield name="upProfile.education" value="%{#dbpedia.education}" size="30" placeholder="%{getText('label.education')}"/>
-									 <s:textfield name="upProfile.skills" value="%{#dbpedia.skills}" size="30" placeholder="%{getText('label.skills')}"/>
-									 <s:textfield name="upProfile.interests" value="%{#dbpedia.interests}" size="30" placeholder="%{getText('label.interests')}"/> 
-									 <s:textfield name="upProfile.address" value="%{#dbpedia.address}" size="30" placeholder="%{getText('label.address')}"/>  
-									 <s:textfield name="upProfile.location" value="%{#dbpedia.location}" size="30" placeholder="%{getText('label.location')}"/> 
-									 <s:textfield name="upProfile.resumeSummary" value="%{#dbpedia.resumeSummary}" size="30" placeholder="%{getText('label.resumeSummary')}"/> 
+							         <s:label value="Name"/><s:textfield name="upProfile.name" value="%{#dbpedia.name}" size="30" placeholder="%{getText('label.name')}"/>  
+							         <s:label value="Experience"/><s:textfield name="upProfile.experience" value="%{#dbpedia.experience}" size="30" placeholder="%{getText('label.experience')}" />
+							         <s:label value="Education"/><s:textfield name="upProfile.education" value="%{#dbpedia.education}" size="30" placeholder="%{getText('label.education')}"/>
+									 <s:label value="Skills"/><s:textfield name="upProfile.skills" value="%{#dbpedia.skills}" size="30" placeholder="%{getText('label.skills')}"/>
+									 <s:label value="Interests"/><s:textfield name="upProfile.interests" value="%{#dbpedia.interests}" size="30" placeholder="%{getText('label.interests')}"/> 
+									 <s:label value="Address"/><s:textfield name="upProfile.address" value="%{#dbpedia.address}" size="30" placeholder="%{getText('label.address')}"/>  
+									 <s:label value="Location"/><s:textfield name="upProfile.location" value="%{#dbpedia.location}" size="30" placeholder="%{getText('label.location')}"/> 
+									 <s:label value="Summary"/><s:textfield name="upProfile.resumeSummary" value="%{#dbpedia.resumeSummary}" size="30" placeholder="%{getText('label.resumeSummary')}"/> 
 									 <s:submit cssClass="btn btn-primary popModal_ex"></s:submit>
 									 
 									</s:form>

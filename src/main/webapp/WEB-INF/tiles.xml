@@ -19,7 +19,15 @@
         <put-attribute name="headactions" value="" />
         <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
     </definition>
-    
+
+<!-- Agency tiles -->
+    <definition name="adminhome" extends="baseLayout">
+        <put-attribute name="title" value="Administration Home" />
+        <put-attribute name="body" value="/WEB-INF/content/agency/agencyhome.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+        
     <!-- Profile tiles -->
     <definition name="profileShow" extends="baseLayout">
         <put-attribute name="title" value="Profile View" />
