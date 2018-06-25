@@ -57,7 +57,7 @@
 							<td><s:textfield name="profile.name" size="30" /></td>
 						</tr>
 						<tr>
-							<td class="tdLabel"><s:text name="label.experience" /></td>
+							<td class="tdLabel"><s:text name="label.experience" />(No of Years)</td>
 							<td><s:textfield name="profile.experience" size="30" /></td>
 						</tr>
 						<tr>

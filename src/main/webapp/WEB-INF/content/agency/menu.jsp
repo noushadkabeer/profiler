@@ -102,6 +102,7 @@
         
         <li><s:a href="setUpForInsertOrUpdateProfile.action"><i class="fa fa-book"></i> <span>Upload Resume</span></s:a></li>
          <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-circle-o text-red"></i> <span>Bulk Upload</span></s:a></li>
+         <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-circle-o text-aqua"></i> <span>Reports</span></s:a></li>
        <!-- <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

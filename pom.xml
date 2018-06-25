@@ -104,6 +104,11 @@
 			<artifactId>struts2-jquery-plugin</artifactId>
 			<version>2.5.3</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-junit-plugin</artifactId>
+			<version>2.3.15.1</version>
+		</dependency>
 
 		<!-- Added on 29/3/17 for reading ticket -->
 		<dependency>
@@ -457,7 +462,7 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
+			<version>1.10.19</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

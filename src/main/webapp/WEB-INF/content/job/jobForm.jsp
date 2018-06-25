@@ -39,7 +39,12 @@
 			<div class="span12">
 
 				<div class="page-header">
-					<h2>Edit Job</h2>
+					<h2><s:if test="!job.jobId.equals('')">
+					Edit Job 
+				</s:if>
+				<s:else>
+					New Job
+				</s:else></h2>
 				</div>
 				<s:fielderror cssClass="alert alert-error" />
 				<s:form>
@@ -50,7 +55,7 @@
 						</tr>
 						<tr>
 							<td class="tdLabel"><s:text name="label.jobExperience" /></td>
-							<td><s:textfield name="job.jobExperience" size="30" /></td>
+							<td><s:textfield name="job.jobExperience" size="30" />(No of Years)</td>
 						</tr>
 						<tr>
 							<td class="tdLabel"><s:text name="label.jobTitle" /></td>

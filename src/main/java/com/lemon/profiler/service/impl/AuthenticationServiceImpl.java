@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.w3c.dom.Document;
@@ -22,7 +23,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	
 	private static final Logger log = Logger.getLogger(AuthenticationServiceImpl.class);
 	public static AuthenticationServiceImpl authenticationService;
-	PropertyReaderService propS = PropertyReaderServiceImpl.getInstance();
+	PropertyReaderService propS ;
 	public AuthenticationServiceImpl getInstance(){
 		if(authenticationService!=null)
 			return authenticationService;
@@ -115,7 +116,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	public String authenticate(String username, String password) {
 		log.info("Authenticating..");
 		URL url = null;
-		if((null!=getSessionTicket()) && !getSessionTicket().equals("")){
+		propS = PropertyReaderServiceImpl.getInstance();
+		if(!StringUtils.isEmpty(getSessionTicket())){
 			return getSessionTicket();
 		}else{
 		HttpURLConnection connection = null;
@@ -153,6 +155,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	}
 	public boolean invalidatelogin(String ticket){
 		URL url = null;
+		propS = PropertyReaderServiceImpl.getInstance();
 		HttpURLConnection connection = null;
 		try{
 			String adminTicket = readTicket(ProfilerConstants.USERTYPE_ADMIN);
@@ -198,6 +201,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	public String getSessionTicket(){
 		String ticket = (String)ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_ALF_TICKET); 
 		log.info("Returing session ticket : "+ticket);
-		return ticket; 
+		
+		return StringUtils.isEmpty(ticket)?"":ticket; 
 	}
 }

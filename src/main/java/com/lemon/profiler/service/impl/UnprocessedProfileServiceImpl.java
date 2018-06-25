@@ -71,8 +71,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 				HttpClient client = new HttpClient();
 				PostMethod method = new PostMethod(strURL);
 				method.addParameter("stringToSearch", textToSearch);
-				log.info("Finding UP Profiles..");
-				log.info("Added String to search.. "+textToSearch+" with "+pageNum+" and "+pageSize);
+				log.info("Finding Unprocessed Resumes: search >> "+textToSearch+" with "+pageNum+" and "+pageSize);
 				method.addParameter("alf_ticket", ticket);
 				method.addParameter("pagenum", pageNum);
 				method.addParameter("pagesize", pageSize);

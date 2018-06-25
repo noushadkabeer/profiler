@@ -40,7 +40,7 @@
 				<div class="quickMenu" align="right"> <a href="setUpForInsertOrUpdateProfile" class="btn btn-primary">
 					<i class="icon icon-file"></i>Upload Resume</a> <a href="setUpForInsertOrUpdateJob"	class="btn btn-primary">
 					<i class="icon icon-file"></i>Add Job</a> <a href="setUpForInsertOrUpdateEvent" class="btn btn-primary">
-					<i class="icon icon-file"></i>Add Event</a> <a href="setUpForInsertOrUpdateTask" class="btn btn-primary">
+					<!-- <i class="icon icon-file"></i>Add Event</a> <a href="setUpForInsertOrUpdateTask" class="btn btn-primary"> -->
 					<i class="icon icon-file"></i>Add Task</a> 
 				</div>				
 			</div> 
@@ -180,7 +180,7 @@
 			            </div>
 			            
 			            
-			            
+			           <!-- 
 			           <div id="view4"> 
 			            <h3><strong>My Events</strong>  </h3>
 							<table class="table table-striped">
@@ -214,7 +214,7 @@
 								<hr/>
 							</table>
 			            </div>
-			            
+			             --> 
 			        </div>
 			    </div>
 			
