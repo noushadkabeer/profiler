@@ -16,7 +16,7 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 	private static final long serialVersionUID = 1L;
 	private String userName;
 	private String password;	
-	AuthenticationService authService;
+	AuthenticationService authService = new AuthenticationServiceImpl();;
 	private static final Logger log = Logger.getLogger(AuthenticationAction.class);
 	
 	public String getUserName() {
@@ -38,7 +38,7 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 			log.info("Validation failed..");
 			return "input";
 		} else {
-		authService = new AuthenticationServiceImpl();
+	//	authService = new AuthenticationServiceImpl();
 		log.info(userName+password);
 		result = authService.authenticate(userName, password);
 		log.info("Authenticated :"+result);
@@ -53,6 +53,7 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 			return "success";
 		}
 		}
+		log.info("----------->"+ActionContext.getContext().getSession().get("alf_ticket"));
 		return result;
 	}
 	
@@ -91,4 +92,11 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 		
 	}
 	
+//	//Action mainly used for Test authentication 
+//	public String readSessionTicket() {	
+//		log.info("----------->"+ActionContext.getContext().getSession().get("alf_ticket"));
+//		log.info("Returing session ticket from getSessionTicket");		
+//		//authService = new AuthenticationServiceImpl();
+//		return authService.getSessionTicket();		
+//	}
 }

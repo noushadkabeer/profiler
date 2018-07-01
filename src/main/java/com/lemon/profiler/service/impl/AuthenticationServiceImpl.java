@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
@@ -68,6 +69,11 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	public String readTicket(String userType) {
 		
 		log.info("Checking if ticket is in session");
+		//if to check session ticket in case of Unit tests
+		if(ActionContext.getContext().getSession()!=null && ActionContext.getContext().getSession().containsKey(ProfilerConstants.PROPERTY_ALF_TICKET)) {
+			Map<String, Object> activeSession = ActionContext.getContext().getSession();
+        		return(String)activeSession.get(ProfilerConstants.PROPERTY_ALF_TICKET);         
+        }
 		HttpSession session=ServletActionContext.getRequest().getSession(false);  
         if(session!=null || session.getAttribute("adminTicket")!=null){  
         	if(userType.equals(ProfilerConstants.USERTYPE_ADMIN))
@@ -117,8 +123,9 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		log.info("Authenticating..");
 		URL url = null;
 		propS = PropertyReaderServiceImpl.getInstance();
-		if(!StringUtils.isEmpty(getSessionTicket())){
-			return getSessionTicket();
+		String tickt = getSessionTicket();
+		if(!StringUtils.isEmpty(tickt)){
+			return tickt;
 		}else{
 		HttpURLConnection connection = null;
 		try { 
@@ -200,7 +207,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	
 	public String getSessionTicket(){
 		String ticket = (String)ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_ALF_TICKET); 
-		log.info("Returing session ticket : "+ticket);
+		log.info("Returing session ticket : ");
+		log.info("Ticket >> "+ticket);
 		
 		return StringUtils.isEmpty(ticket)?"":ticket; 
 	}

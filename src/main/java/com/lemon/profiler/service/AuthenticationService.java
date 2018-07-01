@@ -7,5 +7,5 @@ public interface AuthenticationService {
 	public String authenticate(String username, String password);
 	public String validateTicket(String ticket);
 	public String readTicket(String userType);	
-	
+//	public String getSessionTicket();
 }

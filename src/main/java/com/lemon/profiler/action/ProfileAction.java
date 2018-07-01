@@ -1,19 +1,21 @@
 package com.lemon.profiler.action;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.poifs.property.PropertyConstants;
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.lemon.profiler.common.ProfilerUtil;
 import com.lemon.profiler.constants.ProfilerConstants;
 import com.lemon.profiler.model.Profile;
 import com.lemon.profiler.service.ProfileService;
 import com.lemon.profiler.service.impl.ProfileServiceImpl;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
-public class ProfileAction extends ActionSupport implements Preparable {
+public class ProfileAction extends ActionSupport implements Preparable, SessionAware {
 	/**
 	 * 
 	 */
@@ -55,13 +57,14 @@ public class ProfileAction extends ActionSupport implements Preparable {
 	}
 
 	public String insertOrUpdate() {
-		log.info("insert or update check..");
+//		log.info("insert or update check..");
 		if (!validationSuccessful()) {
 			log.info("Validation failed..");
 			return "input";
 		} else {
 			if (profile.getId() == null || profile.getId().isEmpty()) {
 				log.info("Profile insert..");
+//				log.info("----------->"+ActionContext.getContext().getSession().get("alf_ticket"));
 				profileService.insert(profile);
 			} else {
 				log.info(">>>>>>>>>>>>>>>> Profile Update"
@@ -131,4 +134,10 @@ public class ProfileAction extends ActionSupport implements Preparable {
 //		}
 	}
 
+	@Override
+	public void setSession(Map<String, Object> session) {
+		// TODO Auto-generated method stub
+		this.session = session;
+	}
+	Map<String, Object> session;
 }
