@@ -42,7 +42,7 @@
 					<a href="setUpForInsertOrUpdateEvent" class="btn btn-primary"><i class="icon icon-file"></i>Add Event</a> 
 					<a href="setUpForInsertOrUpdateTask" class="btn btn-primary"><i class="icon icon-file"></i>Add Task</a> </div>
 				<div class="page-header">
-					<h2>Search Results==</h2>
+					<h2>Search Results</h2>
 				</div>
 				<s:actionmessage cssClass="alert alert-error" />
 				<table class="table table-striped">

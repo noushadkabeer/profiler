@@ -50,7 +50,8 @@
      			<%@ include file="pagination.jsp" %>
    			</form>
 			</div>
-				<div style="width: 850px; margin: 5px; padding: 60px 0 400px;">
+				<div style="width: 850px; margin: 5px;">
+				<!-- removed padding: 60px 0 400px; for adjusting the width in body top from above div -->
 			       <!-- <ul class="tabs" data-persist="true">
 			            <li><a href="#view1">Jobs On Board</a></li>
 			            <li><a href="#view2">Profiles</a></li>

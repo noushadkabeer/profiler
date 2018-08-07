@@ -50,7 +50,7 @@
      			<%@ include file="pagination.jsp" %>
    			</form>
 			</div>
-				<div style="width: 850px; margin: 5px; padding: 60px 0 400px;">
+				<div style="width: 850px; margin: 5px; ">
 			       <!-- <ul class="tabs" data-persist="true">
 			            <li><a href="#view1">Jobs On Board</a></li>
 			            <li><a href="#view2">Profiles</a></li>
@@ -109,76 +109,9 @@
 				</table>        
 			            </div>
 			            
-			            <div id="view2">	
-			             <h3><strong>My Jobs</strong>  </h3>
-			            <table class="table table-striped">
-					<tr>
-						<th width="30px">Job ID</th>
-						<th>Job Experience</th>
-						<th>Title</th>
-						<th>Location</th>
-						<th>Company</th>
-						<th>Actions</th>
-					</tr>
-					<s:iterator value="jobs"  status="status">
-						<tr>
-							<td><s:property value="%{#status.count}" /></td>
-							<td><s:property value="jobExperience" /></td>
-							<td><s:property value="jobTitle" /></td>
-							<td><s:property value="location" /></td>
-							<td><s:property value="company" /></td>
-							<td>
-								<div class="btn-group">
-									<a href="viewJob" class="btn"><i
-										class="icon icon-eye-open"></i>View</a> 
-										<s:url id="update" action="setUpForInsertOrUpdateJob">
-		       		   						<s:param name="job.jobId" value="jobId"/>
-		       							</s:url> <s:a href="%{update}" cssClass="btn"><i
-										class="icon icon-edit"></i>Edit</s:a>
-										<s:url id="delete" action="deleteJobConfirm">
-		       		   						<s:param name="job.jobId" value="jobId"/>
-		       							</s:url> <s:a href="%{delete}" cssClass="btn btn-danger"><i
-										class="icon icon-trash"></i>Delete</s:a> 										 
-								</div>
-							</td>
-						</tr>
-					</s:iterator>
-					<hr/>
-				</table>		                            
-			            </div>
+			
 			            
-			            <div id="view3">
-			             <h3><strong>My Tasks</strong>  </h3>
-			                	<table class="table table-striped">
-									<tr>
-										<th>Task ID</th>
-										<th>Task Name</th>
-										<th>Task Details</th>
-										<th>Task Status</th>
-										<th>Actions</th>
-									</tr>
-									<s:iterator value="tasks" status="status">
-										<tr>
-											<td><s:property value="%{#status.count}" /></td>
-											<td><s:property value="taskName" /></td>
-											<td><s:property value="taskDetails" /></td>
-											<td><s:property value="taskStatus" /></td>
-											<td> 
-												<div class="btn-group">
-													<a href="viewProfile" class="btn"><i
-														class="icon icon-eye-open"></i>View</a> <a
-														href="editProfile" class="btn"><i
-														class="icon icon-edit"></i>Edit</a> <a
-														href="deleteProfile" class="btn btn-danger"><i
-														class="icon icon-trash"></i>Delete</a>
-												</div>
-											</td>
-										</tr>
-									</s:iterator>
-									<hr/>
-								</table> 
-			            </div>
-			            
+		            
 			            
 			           <!-- 
 			           <div id="view4"> 
@@ -260,7 +193,142 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
         </div>
         <!-- /.box-body --> 
       <!-- /.box -->
+      
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Jobs</h3>
 
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+              <i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+              <i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+        <div>
+        <div style="width: 850px; margin: 5px; ">
+			       <!-- <ul class="tabs" data-persist="true">
+			            <li><a href="#view1">Jobs On Board</a></li>
+			            <li><a href="#view2">Profiles</a></li>
+			            <li><a href="#view3">Tasks</a></li>
+			            <li><a href="#view4">Events</a></li>
+			        </ul> --> 
+			        <div class="tabcontents">
+			            
+			           <div id="view2">	
+			             <h3><strong>My Jobs</strong>  </h3>
+			            <table class="table table-striped">
+					<tr>
+						<th width="30px">Job ID</th>
+						<th>Job Experience</th>
+						<th>Title</th>
+						<th>Location</th>
+						<th>Company</th>
+						<th>Actions</th>
+					</tr>
+					<s:iterator value="jobs"  status="status">
+						<tr>
+							<td><s:property value="%{#status.count}" /></td>
+							<td><s:property value="jobExperience" /></td>
+							<td><s:property value="jobTitle" /></td>
+							<td><s:property value="location" /></td>
+							<td><s:property value="company" /></td>
+							<td>
+								<div class="btn-group">
+									<a href="viewJob" class="btn"><i
+										class="icon icon-eye-open"></i>View</a> 
+										<s:url id="update" action="setUpForInsertOrUpdateJob">
+		       		   						<s:param name="job.jobId" value="jobId"/>
+		       							</s:url> <s:a href="%{update}" cssClass="btn"><i
+										class="icon icon-edit"></i>Edit</s:a>
+										<s:url id="delete" action="deleteJobConfirm">
+		       		   						<s:param name="job.jobId" value="jobId"/>
+		       							</s:url> <s:a href="%{delete}" cssClass="btn btn-danger"><i
+										class="icon icon-trash"></i>Delete</s:a> 										 
+								</div>
+							</td>
+						</tr>
+					</s:iterator>
+					<hr/>
+				</table>		                            
+			            </div>
+			            
+			            
+			           
+			        </div>
+			    </div>
+			
+        
+        </div>
+        </div>
+       </div>
+<!-- 2nd Box Ends here -->
+
+  <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Jobs</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+              <i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+              <i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+        <div>
+        <div style="width: 850px; margin: 5px; ">
+			       <!-- <ul class="tabs" data-persist="true">
+			            <li><a href="#view1">Jobs On Board</a></li>
+			            <li><a href="#view2">Profiles</a></li>
+			            <li><a href="#view3">Tasks</a></li>
+			            <li><a href="#view4">Events</a></li>
+			        </ul> --> 
+			        <div class="tabcontents">
+			            
+			         			            <div id="view3">
+			             <h3><strong>My Tasks</strong>  </h3>
+			                	<table class="table table-striped">
+									<tr>
+										<th>Task ID</th>
+										<th>Task Name</th>
+										<th>Task Details</th>
+										<th>Task Status</th>
+										<th>Actions</th>
+									</tr>
+									<s:iterator value="tasks" status="status">
+										<tr>
+											<td><s:property value="%{#status.count}" /></td>
+											<td><s:property value="taskName" /></td>
+											<td><s:property value="taskDetails" /></td>
+											<td><s:property value="taskStatus" /></td>
+											<td> 
+												<div class="btn-group">
+													<a href="viewProfile" class="btn"><i
+														class="icon icon-eye-open"></i>View</a> <a
+														href="editProfile" class="btn"><i
+														class="icon icon-edit"></i>Edit</a> <a
+														href="deleteProfile" class="btn btn-danger"><i
+														class="icon icon-trash"></i>Delete</a>
+												</div>
+											</td>
+										</tr>
+									</s:iterator>
+									<hr/>
+								</table> 
+			            </div>
+			            
+			            
+			           
+			        </div>
+			    </div>
+			
+        
+        </div>
+        </div>
+       </div>
+       <!-- 3rd Box Ends here -->
     </section>
     <!-- /.content -->
   </div>
