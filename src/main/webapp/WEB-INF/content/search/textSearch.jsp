@@ -63,8 +63,9 @@
 							<td><s:property value="path" /></td>
 							<td>
 								<div class="btn-group">
-									<a href="viewJob" class="btn"><i
-										class="icon icon-eye-open"></i>View</a> 
+									<s:url id="viewProfile" action="viewProfile"><s:param name="profile.id" value="id"/>
+		       							</s:url> <s:a href="%{viewProfile}" cssClass="btn"><i
+										class="icon icon-eye-open"></i>View</s:a> 
 										<s:url id="update" action="setUpForInsertOrUpdateJob">
 		       		   						<s:param name="job.jobId" value="jobId"/>
 		       							</s:url> <s:a href="%{update}" cssClass="btn"><i

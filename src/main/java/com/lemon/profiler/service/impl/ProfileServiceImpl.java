@@ -387,7 +387,7 @@ public class ProfileServiceImpl implements ProfileService{
 		Profile profile = new Profile();  
 		PostMethod post = new PostMethod(strURL);
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
-		//log.info("Ticket Prepared & ready to Search :"+searchString);
+		log.info("Ticket Prepared & ready to Search :"+searchString);
 		if (ticket != null && !ticket.isEmpty()	) {
 			try {
 				HttpClient client = new HttpClient();
