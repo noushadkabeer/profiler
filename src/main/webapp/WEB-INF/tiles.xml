@@ -154,6 +154,13 @@
         <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
     </definition>
     
+    <definition name="loadSettings" extends="baseLayout">
+        <put-attribute name="title" value="ProfileR - System Settings" />
+        <put-attribute name="body" value="/WEB-INF/content/common/settings.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    
     <definition name="error" extends="baseLayout">
  		<put-attribute name="body" value="/WEB-INF/content/error.jsp" />
  	</definition>

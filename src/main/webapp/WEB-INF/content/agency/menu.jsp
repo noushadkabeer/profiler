@@ -51,10 +51,10 @@
           </ul>
         </li>-->
         <li><a href="agencydashboard"><i class="fa fa-dashboard"></i> My Dashboard</a>
-        <li><a href="advancedSearch"><i class="fa fa-circle-o text-green"></i> Advanced Search</a>
+        <li><a href="advancedSearch"><i class="fa fa-search text-green"></i> Advanced Search</a>
 
          </li>
-         <li><a href="setUpForInsertOrUpdateJob"><i class="fa fa-circle-o text-yellow"></i> Add Job</a>
+         <li><a href="setUpForInsertOrUpdateJob"><i class="fa fa-plus-square text-orange"></i> Add Job</a>
          </li>
           
       <!-- <li>
@@ -100,9 +100,10 @@
           </a>
         </li> -->
         
-        <li><s:a href="setUpForInsertOrUpdateProfile.action"><i class="fa fa-book"></i> <span>Upload Resume</span></s:a></li>
-         <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-circle-o text-red"></i> <span>Bulk Upload</span></s:a></li>
-         <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-circle-o text-aqua"></i> <span>Reports</span></s:a></li>
+        <li><s:a href="setUpForInsertOrUpdateProfile.action"><i class="fa fa-upload text-aqua"></i> <span>Upload Resume</span></s:a></li>
+         <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-cloud-upload text-blue"></i> <span>Bulk Upload</span></s:a></li>
+         <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-bar-chart text-yellow"></i> <span>Reports</span></s:a></li>
+         <li><s:a href="loadSettings.action"><i class="fa fa-cog text-aqua"></i> <span>Settings</span></s:a></li>
        <!-- <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

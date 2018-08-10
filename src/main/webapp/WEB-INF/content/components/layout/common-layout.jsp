@@ -32,7 +32,7 @@
 	
 
      <link href="<s:url value="/css/dropzone.css"/>" rel="stylesheet" type="text/css"/>
-     <link rel="shortcut icon" href="<s:url value="/images/favicon/favi.ico"/>" type="image/x-icon">
+     <link rel="shortcut icon" href="<s:url value="/images/favicon/favicon.png"/>" type="image/x-icon">
 </head>
 <body>
 

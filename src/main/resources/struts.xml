@@ -248,6 +248,12 @@
 			<result name="failure" type="tiles">error</result>
 		</action>
 		
+		<action name="loadSettings" method="loadSettings"
+			class="com.lemon.profiler.action.SettingsAction">
+			<result name="success" type="tiles">loadSettings</result>
+			<result name="failure" type="tiles">error</result>
+		</action>
+		
 	</package>
 
 

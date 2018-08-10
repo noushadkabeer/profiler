@@ -70,7 +70,7 @@ public class AdvancedSearchAction extends ActionSupport implements Preparable {
 			return "input";
 		}
 		log.info("Proceeding with search as profile info filled"+profile.getName());
-		profileList = profileService.advSearchProfile(profile, "", "");
+		profileList = profileService.advSearchProfile(profile, "1", "50");
 		}catch(Exception e){
 			e.printStackTrace();
 			return "failure";
