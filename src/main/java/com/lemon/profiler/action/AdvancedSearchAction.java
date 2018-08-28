@@ -25,7 +25,6 @@ public class AdvancedSearchAction extends ActionSupport implements Preparable {
 	private static final long serialVersionUID = 1L;
 //	private SearchService searchService = new SearchServiceImpl();
 	private ProfileService profileService = new ProfileServiceImpl();
-	public Profile profile;
 	 //Initializing Pagination with page size 10, and current page 1 
     private Pagination pagination = new Pagination(10, 1);
     
@@ -37,6 +36,8 @@ public class AdvancedSearchAction extends ActionSupport implements Preparable {
 	public void setPagination(Pagination pagination) {
 		this.pagination = pagination;
 	}
+
+	private Profile profile;
 
 	public Profile getProfile() {
 		return profile;
@@ -63,14 +64,17 @@ public class AdvancedSearchAction extends ActionSupport implements Preparable {
 	@Override
 	public String execute() {
 		try{
-		log.info("Advanced search initiated :");
+		log.info("Advanced search initiated :"+pagination.getPage_size()+ " Page Number "+pagination.getPage_number());
+		if(pagination.getPage_size() <=0) pagination.setPage_size(10);
+		if(pagination.getPage_number() <=0) pagination.setPage_number(1);
+		log.info("New :"+pagination.getPage_size() + " : "+pagination.getPage_number());
 		if(profile==null || profile.getId().isEmpty() && profile.getName().isEmpty() && profile.getAddress().isEmpty() && profile.getEducation().isEmpty() && profile.getSkills().isEmpty() 
 				&& profile.getLocation().isEmpty()	&& profile.getExperience().isEmpty() && profile.getResumeSummary().isEmpty()){
 			log.info("Returning for inputs");
 			return "input";
 		}
 		log.info("Proceeding with search as profile info filled"+profile.getName());
-		profileList = profileService.advSearchProfile(profile, "1", "50");
+		profileList = profileService.advSearchProfile(profile, ""+pagination.getPage_number(), ""+pagination.getPage_size());
 		}catch(Exception e){
 			e.printStackTrace();
 			return "failure";

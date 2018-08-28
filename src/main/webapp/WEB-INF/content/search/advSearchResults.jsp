@@ -45,9 +45,11 @@
 				</div>				
 			</div> 
 			<div>
-			<form action="agencydashboard" method="post" name="paginationForm"> 
+			<s:form action="advancedSearch" method="post" name="paginationForm"> 
      			<%@ include file="../common/pagination.jsp" %>
-   			</form>
+     			<s:textfield name="profile.name" size="30" />
+     			<s:property value="profile.name"/>
+   			</s:form>
 			</div>
 			
 				<div style="width: 850px; margin: 5px; padding: 60px 0 400px;">

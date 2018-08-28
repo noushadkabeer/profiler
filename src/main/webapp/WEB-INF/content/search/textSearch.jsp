@@ -43,7 +43,12 @@
 					<a href="setUpForInsertOrUpdateTask" class="btn btn-primary"><i class="icon icon-file"></i>Add Task</a> </div>
 				<div class="page-header">
 					<h2>Search Results</h2>
-				</div>
+				</div> 
+			<div>
+			<form action="textSearch" method="post" name="paginationForm"> 
+     			<%@ include file="../common/pagination.jsp" %>
+   			</form>
+			</div>
 				<s:actionmessage cssClass="alert alert-error" />
 				<table class="table table-striped">
 					<tr>					
