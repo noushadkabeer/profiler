@@ -47,7 +47,7 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 			result = "failure";
 		}else{
 			ActionContext.getContext().getSession().put("alf_ticket", result);
-			ActionContext.getContext().getSession().put("user", userName);
+			ActionContext.getContext().getSession().put("username", userName);
 			ActionContext.getContext().getSession().put("password", password);
 			ActionContext.getContext().getSession().put("logged-in", "true");
 			return "success";
@@ -81,7 +81,7 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 	  {
 	    ActionContext.getContext().getSession().remove("logged-in");
 	    ActionContext.getContext().getSession().remove("logged-in");
-	    ActionContext.getContext().getSession().remove("user");
+	    ActionContext.getContext().getSession().remove("username");
 	    ActionContext.getContext().getSession().remove("password");
 	    return "success";
 	  }

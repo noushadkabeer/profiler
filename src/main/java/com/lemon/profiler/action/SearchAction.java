@@ -10,6 +10,7 @@ import com.lemon.profiler.service.ProfileService;
 import com.lemon.profiler.service.SearchService;
 import com.lemon.profiler.service.impl.ProfileServiceImpl;
 import com.lemon.profiler.service.impl.SearchServiceImpl;
+import com.lemon.profiler.util.Pagination;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
@@ -39,7 +40,7 @@ public class SearchAction extends ActionSupport implements Preparable {
 	public String textSearch() {
 		try{
 		log.info("Searching for text :"+textToSearch);
-		nodes = searchService.searchText(textToSearch, "", "");}
+		nodes = searchService.searchText(textToSearch, ""+pagination.getPage_number(), ""+pagination.getPage_size());}
 		catch(Exception e){
 			return "failure";
 		}
@@ -80,5 +81,17 @@ public class SearchAction extends ActionSupport implements Preparable {
 	}
 	public void setNodes(List<Node> nodes) {
 		this.nodes = nodes;
+	}
+	
+	 //Initializing Pagination with page size 10, and current page 1 
+    private Pagination pagination = new Pagination(10, 1);
+    
+    
+	public Pagination getPagination() {
+		return pagination;
+	}
+
+	public void setPagination(Pagination pagination) {
+		this.pagination = pagination;
 	}
 }

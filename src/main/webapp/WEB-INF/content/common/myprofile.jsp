@@ -1,47 +1,61 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
-<html>
-<head>
-<link href="<s:url value="/css/main.css"/>" rel="stylesheet"
-	type="text/css" />
+<!DOCTYPE html>
+<%@taglib prefix="s" uri="/struts-tags"%>
 
 
-<title><s:text name="label.customers" /></title>
-</head>
-<body>
-	<h1>
-		<s:text name="label.myprofile" />
-	</h1>
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			My Dashboard <small>My Profile</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="#">Profile</a></li>
+			<li class="active">Settings</li>
+		</ol>
+	</section>
 
-	<table align=center class="borderAll">
-		<tr class="even">
-			<th><s:text name="label.userId" /></th>
-			<th><s:text name="Address 1" /></th>
-			<th><s:text name="Address 2" /></th>
-			<th><s:text name="City" /></th>
-			<th><s:text name="label.customerPin" /></th>
-			<th><s:text name="Work Phone" /></th>
-			<th><s:text name="Home Phone" /></th>
-			<th><s:text name="Interests" /></th>
-			<th>Actions&nbsp;</th>
-		</tr>
-		<tr class="<s:if test="#status.even">even</s:if><s:else>odd</s:else>">
-			<td><s:text name="profileBean.userId" /></td>
-			<td><s:text name="profileBean.address_1" /></td>
-			<td><s:text name="profileBean.address_2" /></td>
-			<td><s:text name="profileBean.city" /></td>
-			<td><s:text name="profileBean.pincode" /></td>
-			<td><s:text name="profileBean.workphone" /></td>
-			<td><s:text name="profileBean.homephone" /></td>
-			<td><s:text name="profileBean.interests" /></td>
+	<!-- Main content -->
+	<section class="content">
 
-			<td class="nowrap"><s:url id="update"
-					action="setUpForInsertOrUpdateProfile">
-					<s:param name="profileBean.userId" value="profileBean.userId" />
-				</s:url> <s:a href="%{update}">Edit</s:a> &nbsp;				
-    		</td>
-		</tr>
+		<!-- Default box -->
+		<div class="box">
+			<div class="box-header with-border">
+				<h3 class="box-title">My Profile</h3>
+				<s:fielderror  cssClass="alert alert-error"/>
 
-	</table>
-</body>
-</html>
+<s:form>
+				<strong>Personal Information </strong>
+				<s:label name="userid" value="User ID"/> <s:textfield name="user.userId" readonly="true" size="70"/>
+				<s:label name="username" value="User Name :"/><s:textfield name="user.userName" readonly="true" size="70"/>
+				<s:label name="firstname" value="First Name:"/> <s:textfield name="user.firstName" size="70"/>
+				<s:label value="Last Name"/><s:textfield name="user.lastName" size="70"/>
+				<s:label value="Email :"/><s:textfield name="user.userEmail" size="70"/>
+				<s:label value="Mobile :"/><s:textfield name="user.mobile" size="70"/>
+				<s:label value="Avatar :"/><s:textfield name="user.avatar" size="70"/>
+				<s:label value="Instant Msg:"/> <s:textfield name="user.instantmsg" size="70"/>
+				<s:label value="About you :"/> <s:textarea name="user.persondescription" />
+
+				<strong>Organization Information</strong>
+				<s:label value="Organization ID:"/>  <s:textfield name="user.userCompanyID" readonly="true" size="70"/>
+				<s:label value="Organization Name:"/> <s:textfield name="user.userOrganization" size="70"/>
+				<s:label value="Telephone :"/><s:textfield name="user.companypTelephone" size="70"/>
+				<s:label value="Email ID:"/> <s:textfield name="user.companyemail" size="70"/>
+				<s:label value="Post Code:"/> <s:textfield name="user.companypostcode" size="70"/>
+</s:form>
+
+
+			</div>
+			<!--/row-->
+
+
+
+		</div>
+		<!--/span-->
+
+
+	</section>
+	<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+

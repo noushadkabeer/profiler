@@ -46,6 +46,7 @@
         <!-- /.col -->
         <div class="col-xs-4">
           <s:submit cssClass="btn btn-primary btn-block btn-flat" value="Sign In"/>
+          New User? <s:a href="registerUser.action">Register</s:a>
         </div>
         <!-- /.col -->
       </div>

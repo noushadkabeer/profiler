@@ -112,15 +112,14 @@ Welcome <%request.getSession().getAttribute("username");%>
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<s:url value="/images/user2-160x160.jpg"/>" class="user-image" alt="User Image">
-              <span class="hidden-xs">Nishad Kabeer</span>
+              <span class="hidden-xs"><s:property value="%{#session.username}"/></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="<s:url value="/images/user2-160x160.jpg"/>" class="img-circle" alt="User Image">
 
-                <p>
-                  Nishad Kabeer - Specialist
+                <p><s:property value="%{#session.username}"/> - Specialist
                   <small>Member since April. 2017</small>
                 </p>
               </li>

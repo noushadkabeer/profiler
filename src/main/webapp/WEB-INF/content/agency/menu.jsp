@@ -20,7 +20,7 @@
           <img src="<s:url value="/images/user2-160x160.jpg"/>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Nishad Kabeer</p>
+          <p><s:property value="%{#session.username}"/></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -103,6 +103,10 @@
         <li><s:a href="setUpForInsertOrUpdateProfile.action"><i class="fa fa-upload text-aqua"></i> <span>Upload Resume</span></s:a></li>
          <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-cloud-upload text-blue"></i> <span>Bulk Upload</span></s:a></li>
          <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-bar-chart text-yellow"></i> <span>Reports</span></s:a></li>
+         
+         
+         <li class="header">Application Settings</li>         
+         <li><s:a href="userProfileSettings.action"><i class="fa fa-cog text-aqua"></i> <span>Update Profile</span></s:a></li>
          <li><s:a href="loadSettings.action"><i class="fa fa-cog text-aqua"></i> <span>Settings</span></s:a></li>
        <!-- <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>

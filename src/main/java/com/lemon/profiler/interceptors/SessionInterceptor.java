@@ -24,7 +24,7 @@ public class SessionInterceptor extends AbstractInterceptor {
 				.getSession();
 		String loginId = (String) session.get(ProfilerConstants.PROPERTY_ALF_TICKET);
 		if (loginId == null) {
-			log.info("Invalid session! Redirecting to Login");
+			log.info("Invalid session! Redirecting to Login "+invocation.getAction().toString());
 			return Action.LOGIN;
 		} else {
 			return invocation.invoke();			

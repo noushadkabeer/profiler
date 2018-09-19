@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
+import com.lemon.profiler.constants.ProfilerConstants;
 import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.PropertyReaderService;
 import com.lemon.profiler.service.impl.PropertyReaderServiceImpl;
@@ -63,8 +64,8 @@ public class DBAuthenticationServiceImpl implements AuthenticationService{
 		HttpURLConnection connection = null;
 		try { 
 			String query = String.format("u=%s&pw=%s",
-					URLEncoder.encode(propS.getKeyValue("adminuser"), "UTF-8"),
-					URLEncoder.encode(propS.getKeyValue("adminpassword"), "UTF-8"));
+					URLEncoder.encode(propS.getKeyValue(ProfilerConstants.ADMIN_USERNAME), "UTF-8"),
+					URLEncoder.encode(propS.getKeyValue(ProfilerConstants.ADMIN_PASSWORD), "UTF-8"));
 			url = new URL(propS.getKeyValue("contentServerURL")+"alfresco/service/api/login?"
 					+ query);
 			connection = (HttpURLConnection) url.openConnection();
