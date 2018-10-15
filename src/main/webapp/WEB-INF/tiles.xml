@@ -167,6 +167,14 @@
         <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
     </definition>
     
+    <!-- Report -->
+    <definition name="loadReportDashboard" extends="baseLayout">
+        <put-attribute name="title" value="ProfileR - Report Dashboard" />
+        <put-attribute name="body" value="/WEB-INF/content/agency/reportdashboard.jsp" />
+        <put-attribute name="headactions" value="" />
+        <put-attribute name="menu" value="/WEB-INF/content/agency/menu.jsp" /> 
+    </definition>
+    
     <definition name="error" extends="baseLayout">
  		<put-attribute name="body" value="/WEB-INF/content/error.jsp" />
  	</definition>

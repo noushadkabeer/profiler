@@ -22,8 +22,7 @@
 			
 			 <interceptor class="com.lemon.profiler.interceptors.SessionInterceptor" name="sessionInterceptor"/>
                 <interceptor-stack name="loginStack">
-                        <interceptor-ref name="sessionInterceptor" />
-                        <interceptor-ref name="defaultStack" />
+                        <interceptor-ref name="sessionInterceptor" />                        
                 </interceptor-stack>
 		</interceptors>
 		<default-interceptor-ref name="loginStack" />   
@@ -257,19 +256,42 @@
 			<result name="success" type="tiles">loadUserProfileSettings</result>
 			<result name="failure" type="tiles">error</result>
 		</action>
-		<action name="registerForm" method="registerUser"
-			class="com.lemon.profiler.action.UserProfileAction">
-			<interceptor-ref name="appDefault"/>    
-			<result name="registerForm">/WEB-INF/common/register.jsp</result>
+		<action name="registerUser" method="registerUser" class="com.lemon.profiler.action.UserProfileAction">
+			<interceptor-ref name="defaultStack" />   
+			<result name="registerForm">/WEB-INF/content/common/register.jsp</result>
 			<result name="failure" type="tiles">error</result>
 		</action>
 		<action name="createUser" method="insertOrUpdateUser"
 			class="com.lemon.profiler.action.UserProfileAction">
 			<interceptor-ref name="appDefault"/> 
-			<result name="success" type="redirect">index</result>
+			<result name="agencydashboard" type="redirect">agencydashboard</result>
+			<result name="default" type="redirect">index</result>
 			<result name="failure" type="tiles">error</result>
 		</action>
+		<!-- Reports -->
+		<action name="loadReportDashboard" method="loadReportDashboard"
+			class="com.lemon.profiler.action.ReportAction">
+			<result name="success" type="tiles">loadReportDashboard</result>
+			<result name="failure" type="tiles">error</result>
+		</action>
+		
 	</package>
 
+<package name="json-default" extends="struts-default">
+    <result-types>
+        <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+    </result-types>
+    <interceptors>
+        <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+    </interceptors>
+    
+		<action name="returnDefaultReport" method="returnDefaultReport" class="com.lemon.profiler.action.ReportAction">
+		 	<result type="json">
+		        <param name="noCache">true</param>
+		        <param name="excludeNullProperties">true</param>
+		        <param name="root">jsonString</param>
+		    </result>
+		</action>
+</package>
 
 </struts>

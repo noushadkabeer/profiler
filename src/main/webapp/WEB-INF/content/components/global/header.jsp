@@ -111,19 +111,19 @@ Welcome <%request.getSession().getAttribute("username");%>
           </li>
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<s:url value="/images/user2-160x160.jpg"/>" class="user-image" alt="User Image">
-              <span class="hidden-xs"><s:property value="%{#session.username}"/></span>
+              <img src="<s:url value="%{#session.userAvatar}"/>" class="user-image" alt="User Image">
+              <span class="hidden-xs"><s:property value="%{#session.user.firstName}"/></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<s:url value="/images/user2-160x160.jpg"/>" class="img-circle" alt="User Image">
+                <img src="<s:url value="%{#session.userAvatar}"/>" class="img-circle" alt="User Image">
 
-                <p><s:property value="%{#session.username}"/> - Specialist
-                  <small>Member since April. 2017</small>
+                <p><s:property value="%{#session.user.firstName}"/> <s:property value="%{#session.user.lastName}"/>(<s:property value="%{#session.username}"/>) - Specialist
+                  <small><s:property value="%{#session.user.userOrganization}"/> Member since April. 2017</small>
                 </p>
               </li>
-              <!-- Menu Body -->
+              <!-- Menu Body 
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">
@@ -135,13 +135,13 @@ Welcome <%request.getSession().getAttribute("username");%>
                   <div class="col-xs-4 text-center">
                     <a href="#">Friends</a>
                   </div>
-                </div>
+                </div>-->
                 <!-- /.row -->
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="userProfileSettings.action" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="logout" class="btn btn-default btn-flat">Sign out</a>

@@ -45,6 +45,10 @@ public class ProfilerUtil {
 	public String alfrescoContextURL(){
 		return propertyService.getKeyValue("contentServerURL") + propertyService.getKeyValue("alfrescocontext");
 	}
+	
+	public String cmisServiceURL(){
+		return propertyService.getKeyValue("contentServerURL") + propertyService.getKeyValue("cmisServiceURL");		
+	}
 	 
 	public static boolean notEmpty(String s) {
 		 return (s != null && s.length() > 0);

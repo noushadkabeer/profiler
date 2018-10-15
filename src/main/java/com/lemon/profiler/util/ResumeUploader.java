@@ -1,11 +1,9 @@
 package com.lemon.profiler.util;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
@@ -27,12 +25,14 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 
+import com.lemon.profiler.action.AuthenticationAction;
 import com.lemon.profiler.constants.ProfilerConstants;
 import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.PropertyReaderService;
@@ -42,6 +42,7 @@ import com.lemon.profiler.service.impl.PropertyReaderServiceImpl;
 import eu.medsea.mimeutil.MimeUtil;
 
 public class ResumeUploader {
+	private static final Logger log = Logger.getLogger(ResumeUploader.class);
 	
 	public static void main(String args[]) throws Exception{
 		File folder = new File("C:\\Noushad\\Personal\\Profiler\\Resumes\\Sampl3\\");
@@ -53,8 +54,8 @@ public class ResumeUploader {
 		ResumeUploader ru = new ResumeUploader();
 		for (File file : listOfFiles) {
 			if (file.isFile()) {
-				System.out.println("Processing file : " + file.getName() + " " + oz + " th file out of " + listOfFiles.length);
-				System.out.println("Normal file? "+jSonfolder+"\\"+file.getName()+".json");
+				log.info("Processing file : " + file.getName() + " " + oz + " th file out of " + listOfFiles.length);
+				log.info("Normal file? "+jSonfolder+"\\"+file.getName()+".json");
 				jsonFile = new File(jSonfolder+"\\"+file.getName()+".json");
 				if(jsonFile.isFile()) System.out.println("Processed JSON file found for "+jsonFile.getName());
 				ru.tryParsing(jsonFile);
@@ -222,7 +223,7 @@ public class ResumeUploader {
 				}
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error(e.getMessage());
 			}
 		}
 	}

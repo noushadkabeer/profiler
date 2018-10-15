@@ -11,7 +11,6 @@ import com.lemon.profiler.constants.ProfilerConstants;
 import com.lemon.profiler.model.Profile;
 import com.lemon.profiler.service.ProfileService;
 import com.lemon.profiler.service.impl.ProfileServiceImpl;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 

@@ -17,10 +17,10 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<s:url value="/images/user2-160x160.jpg"/>" class="img-circle" alt="User Image">
+          <img src="<s:url value="%{#session.userAvatar}"/>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Administrator</p>
+          <p><s:property value="%{#session.user.firstName}"/></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -60,7 +60,7 @@
      
         
         <li><s:a href="setUpForInsertOrUpdateProfile.action"><i class="fa fa-book"></i> <span>Settings</span></s:a></li>
-         <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-circle-o text-red"></i> <span>Avtar</span></s:a></li>
+         <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-circle-o text-red"></i> <span>Avatar</span></s:a></li>
        <!-- <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

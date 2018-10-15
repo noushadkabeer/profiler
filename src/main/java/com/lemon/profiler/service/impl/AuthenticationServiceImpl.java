@@ -74,48 +74,26 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 			Map<String, Object> activeSession = ActionContext.getContext().getSession();
         		return(String)activeSession.get(ProfilerConstants.PROPERTY_ALF_TICKET);         
         }
-		HttpSession session=ServletActionContext.getRequest().getSession(false);  
-        if(session!=null || session.getAttribute("adminTicket")!=null){  
-        	if(userType.equals(ProfilerConstants.USERTYPE_ADMIN))
-        		return (String)session.getAttribute("adminTicket");  
-        	else if(userType.equals(ProfilerConstants.USERTYPE_USER))
-        		return(String)session.getAttribute(ProfilerConstants.PROPERTY_ALF_TICKET); 
+		Map<String, Object> session=ActionContext.getContext().getSession();  
+		System.out.println(session);
+		String alf_ticket = "";
+        if(session!=null){  
+        	try {
+        		if(userType.equals(ProfilerConstants.USERTYPE_ADMIN))
+            		alf_ticket = (String)session.get("adminTicket"); 
+        		else if(userType.equals(ProfilerConstants.USERTYPE_USER))
+            		alf_ticket = (String)session.get(ProfilerConstants.PROPERTY_ALF_TICKET); 
+        	}catch(Exception e) {
+        		System.out.println("Couldnt found admin ticket in session, gotta grab new!");
+        	}    	         	
         }  
-        else{  
-           
         
-		log.info("Trying to readTicket for Admin");
-		URL url = null;
-		HttpURLConnection connection = null;
-		try { 
-			String query = String.format("u=%s&pw=%s",
-					URLEncoder.encode(propS.getKeyValue("adminuser"), "UTF-8"),
-					URLEncoder.encode(propS.getKeyValue("adminpassword"), "UTF-8"));
-			url = new URL(propS.getKeyValue("contentServerURL")+"alfresco/service/api/login?"
-					+ query);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setDoOutput(true);
-			connection.connect(); 
-			InputStream is = connection.getInputStream();
-			DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder();
-			Document xmlDoc = docBuilder.parse(is);
-			log.info("Ticket =>"
-					+ xmlDoc.getElementsByTagName("ticket").item(0)
-							.getTextContent());
-			String ticket = xmlDoc.getElementsByTagName("ticket").item(0).getTextContent();
-			addTicketToSession("adminTicket", ticket);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-				connection.disconnect();
-			}
-		} 
-		
-        } 
+        if(alf_ticket ==null) {
+        	propS = PropertyReaderServiceImpl.getInstance();
+        	authenticationService = new AuthenticationServiceImpl();
+        	return authenticationService.authenticate(propS.getKeyValue("adminuser"), propS.getKeyValue("adminpassword"));
+        }
+        
 		return null;
 	}
 	
