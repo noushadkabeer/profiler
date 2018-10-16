@@ -3,6 +3,7 @@ package com.lemon.profiler.action;
 import org.apache.log4j.Logger;
 
 import com.lemon.profiler.common.ProfilerUtil;
+import com.lemon.profiler.constants.ProfilerConstants;
 import com.lemon.profiler.model.User;
 import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.UserService;
@@ -64,10 +65,19 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 			ActionContext.getContext().getSession().put("password", password);
 			ActionContext.getContext().getSession().put("logged-in", "true");
 			user = userService.getUser(userName);
+			log.info("Avatar ::"+user.getAvatar());
 			if(user!=null) {
-				userAvatar = user.getAvatar().split("api/node/workspace/SpacesStore/")[1].split("/")[0];
+				if(user.getAvatar()!=null && !user.getAvatar().isEmpty()) {
+					userAvatar = user.getAvatar().split("api/node/workspace/SpacesStore/")[1].split("/")[0];
+					ActionContext.getContext().getSession().put("userAvatar", ProfilerUtil.getInstance().cmisServiceURL()+"content?id="+ userAvatar+"&alf_ticket="+result);
+				}
+				else {
+					userAvatar = "../Prfoler/images/defaultimg.jpg";
+					ActionContext.getContext().getSession().put("userAvatar", userAvatar);
+				}
 				System.out.println(user.getAvatar()+user.getFirstName()+ user.getLastName() + userAvatar);
-				ActionContext.getContext().getSession().put("userAvatar", ProfilerUtil.getInstance().cmisServiceURL()+"content?id="+ userAvatar+"&alf_ticket="+result);
+				ActionContext.getContext().getSession().put(ProfilerConstants.PROPERTY_USER_ORGANIZATION , user.getUserOrganization());
+				
 				ActionContext.getContext().getSession().put("user", user);
 			}
 			return "success";

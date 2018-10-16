@@ -9,6 +9,7 @@ public class ProfilerConstants {
 	
 	public static String PROPERTY_ALF_TICKET = "alf_ticket";
 	public static String PROPERTY_ADMIN_TICKET = "admin_ticket";
+	public static String PROPERTY_USER_ORGANIZATION = "user.organization";
 	
 	public static String PROPERTY_PAGE_NO = "pageNum";
 	public static String PROPERTY_PAGE_SIZE = "pageSize";

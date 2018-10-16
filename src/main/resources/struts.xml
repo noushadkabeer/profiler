@@ -21,13 +21,21 @@
 			</interceptor-stack>
 			
 			 <interceptor class="com.lemon.profiler.interceptors.SessionInterceptor" name="sessionInterceptor"/>
+			 <interceptor class="com.lemon.profiler.interceptors.ProfileUpdateInterceptor" name="profileUpdateInterceptor"/>
                 <interceptor-stack name="loginStack">
-                        <interceptor-ref name="sessionInterceptor" />                        
+                        <interceptor-ref name="sessionInterceptor" /> 
+                </interceptor-stack>
+                <interceptor-stack name="profileUpdateStack">
+               			<interceptor-ref name="sessionInterceptor" /> 
+                        <interceptor-ref name="profileUpdateInterceptor" />                        
                 </interceptor-stack>
 		</interceptors>
 		<default-interceptor-ref name="loginStack" />   
 		<default-action-ref name="index"/>
 		
+		<global-results>
+			<result name="updateProfile" type="redirect">userProfileSettings</result>
+		</global-results>
 		
 		<action name="index">
 			<result>/WEB-INF/content/login.jsp</result>
@@ -40,8 +48,10 @@
 		</action>-->
 
 		<action name="agencydashboard" method="prepareDashboard"
-			class="com.lemon.profiler.action.DashboardAction">
+			class="com.lemon.profiler.action.DashboardAction">	
+			<interceptor-ref name="appDefault" />		
 			<result name="success" type="tiles">agencyhome</result>
+			<result name="updateProfile" type="redirect">userProfileSettings</result>
 		</action>
 
 		<!-- <action name="getAllEmployees" method="getAllEmployees" class="com.lemon.profiler.action.EmployeeAction"> 
@@ -65,10 +75,11 @@
 			<result name="success" >/WEB-INF/content/login.jsp</result>
 			<result name="failure">/WEB-INF/content/login.jsp</result>
 		</action>
+		<!-- 
 		<action name="agencydashboard" method="prepareDashboard"
 			class="com.lemon.profiler.action.DashboardAction">
 			<result name="success" type="tiles">agencyhome</result>
-		</action>
+		</action>-->
 
 		<!-- Profile -->
 
