@@ -170,7 +170,7 @@ public class ResumeUploader {
 		AuthenticationService authService = new AuthenticationServiceImpl().getInstance();
 		PropertyReaderService propS = PropertyReaderServiceImpl.getInstance();
 		String strURL = propS.getKeyValue("contentServerURL")
-				+ propS.getKeyValue("serviceURL")+"uploadUnProcessedProfile";
+				+ propS.getKeyValue("applicationServiceURL")+"uploadUnProcessedProfile";
 		String ticket = "";
 		PostMethod post = new PostMethod(strURL);
 		String uploadedPath = "";

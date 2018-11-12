@@ -59,7 +59,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 	@Override
 	public ArrayList<Profile> obtainUnProcessedProfileList(String textToSearch, String pageNum, String pageSize) { 
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
-		String strURL = propS.getKeyValue("contentServerURL") + propS.getKeyValue("serviceURL")+"getUPProfileContent";
+		String strURL = propS.getKeyValue("contentServerURL") + propS.getKeyValue("applicationServiceURL")+"getUPProfileContent";
 		InputStream in3 = null;
 		com.lemon.profiler.model.Node node = null;
 		ArrayList<com.lemon.profiler.model.Node> workList = new ArrayList<com.lemon.profiler.model.Node>();
@@ -173,7 +173,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 	@Override
 	public String obtainUnProcessedProfileCount(String textToSearch, String pageNum, String pageSize) { 
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
-		String strURL = propS.getKeyValue("contentServerURL") + propS.getKeyValue("serviceURL")+"getUPProfileCount";
+		String strURL = propS.getKeyValue("contentServerURL") + propS.getKeyValue("applicationServiceURL")+"getUPProfileCount";
 		InputStream in3 = null;  
 		PostMethod post = new PostMethod(strURL);
 		String totalSize ="";
@@ -287,7 +287,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 			UnprocessedProfileSearchCriteria upsc) {
 		UnprocessedProfileSearchResults<Profile> searchResults = new UnprocessedProfileSearchResults<Profile>();
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
-		String strURL = propS.getKeyValue("contentServerURL") + propS.getKeyValue("serviceURL")+"getUPProfileContent";
+		String strURL = propS.getKeyValue("contentServerURL") + propS.getKeyValue("applicationServiceURL")+"getUPProfileContent";
 		InputStream in3 = null;
 		com.lemon.profiler.model.Node node = null;
 		ArrayList<com.lemon.profiler.model.Node> workList = new ArrayList<com.lemon.profiler.model.Node>();

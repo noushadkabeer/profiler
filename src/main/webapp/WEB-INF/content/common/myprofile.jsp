@@ -24,10 +24,10 @@
 				<h3 class="box-title">My Profile</h3>
 				<s:fielderror  cssClass="alert alert-error"/>
 
-<s:form>
-				<strong>Personal Information </strong>
-				<s:label name="userid" value="User ID"/> <s:textfield name="user.userId" readonly="true" size="70"/>
-				<s:label name="username" value="User Name :"/><s:textfield name="user.userName" readonly="true" size="70"/>
+<s:form action="insertOrUpdateUser">
+				<s:label value="Personal Information" /><br/>
+			 <s:hidden name="user.userId"/>
+				<s:label name="username" value="User Name :"/><s:textfield readonly="true" name="user.userName" size="70"/>
 				<s:label name="firstname" value="First Name:"/> <s:textfield name="user.firstName" size="70"/>
 				<s:label value="Last Name"/><s:textfield name="user.lastName" size="70"/>
 				<s:label value="Email :"/><s:textfield name="user.userEmail" size="70"/>
@@ -36,12 +36,15 @@
 				<s:label value="Instant Msg:"/> <s:textfield name="user.instantmsg" size="70"/>
 				<s:label value="About you :"/> <s:textarea name="user.persondescription" />
 
-				<strong>Organization Information</strong>
-				<s:label value="Organization ID:"/>  <s:textfield name="user.userCompanyID" readonly="true" size="70"/>
+				<s:label value="Organization Information" /><br/>
+				<s:label value="Organization ID:"/>  <s:textfield name="user.userCompanyID" size="70"/>
 				<s:label value="Organization Name:"/> <s:textfield name="user.userOrganization" size="70"/>
-				<s:label value="Telephone :"/><s:textfield name="user.companypTelephone" size="70"/>
+				<s:label value="Organization Title:"/> <s:textfield name="org.title" size="70"/>
+				<s:label value="Organization Description:"/>  <s:textfield name="org.description" size="70"/>
+				<s:label value="Telephone :"/><s:textfield name="user.companyTelephone" size="70"/>
 				<s:label value="Email ID:"/> <s:textfield name="user.companyemail" size="70"/>
 				<s:label value="Post Code:"/> <s:textfield name="user.companypostcode" size="70"/>
+				 <s:submit cssClass="btn btn-primary popModal_ex"></s:submit>
 </s:form>
 
 

@@ -58,7 +58,7 @@ public class JSONObjectProcessor {
 			u.setUserStatus(jsonObject.get("userStatus")  == null? "": jsonObject.get("userStatus").toString());
 			
 //			u.setUserName(jsonObject.get("username")  == null? "": jsonObject.get("username").toString());
-			log.info(" :: ");
+			log.info(" Returning user :>"+u.getUserName());
 			return u;
 			
 		}catch(Exception e) {

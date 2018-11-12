@@ -50,7 +50,7 @@ public class SearchServiceImpl implements SearchService{
 		List<Task> workList = new ArrayList<Task>();
 		Task workNode;
 		String strURL = propS.getKeyValue("contentServerURL")
-				+ propS.getKeyValue("serviceURL")+"commonSearch";
+				+ propS.getKeyValue("applicationServiceURL")+"commonSearch";
 		InputStream in3 = null;
 		PostMethod post = new PostMethod(strURL);
 		if (ticket != null && ticket.isEmpty()) {
@@ -143,7 +143,7 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public ArrayList<com.lemon.profiler.model.Node> searchText(String textToSearch, String pageNum, String pageSize) { 
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
-		String strURL = propS.getKeyValue("contentServerURL") + propS.getKeyValue("serviceURL")+"commonSearch";
+		String strURL = propS.getKeyValue("contentServerURL") + propS.getKeyValue("applicationServiceURL")+"commonSearch";
 		InputStream in3 = null;
 		com.lemon.profiler.model.Node node = null;
 		ArrayList<com.lemon.profiler.model.Node> workList = new ArrayList<com.lemon.profiler.model.Node>();

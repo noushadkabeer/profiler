@@ -7,8 +7,11 @@ import org.apache.struts2.ServletActionContext;
 import org.json.simple.JSONObject;
 
 import com.lemon.profiler.common.ProfilerUtil;
+import com.lemon.profiler.model.Organization;
 import com.lemon.profiler.model.User;
+import com.lemon.profiler.service.ApplicationSetupService;
 import com.lemon.profiler.service.UserService;
+import com.lemon.profiler.service.impl.ApplicationSetupServiceImpl;
 import com.lemon.profiler.service.impl.AuthenticationServiceImpl;
 import com.lemon.profiler.service.impl.UserServiceImpl;
 import com.opensymphony.xwork2.ActionContext;
@@ -22,6 +25,16 @@ public class UserProfileAction extends ActionSupport{
 	private static final long serialVersionUID = -6802268559049704714L;
 	private static final Logger log = Logger.getLogger(UserProfileAction.class);
 	UserService userService = null;
+	ApplicationSetupService applicationSetupService = null;
+	public Organization org = null;
+	
+	public Organization getOrg() {
+		return org;
+	}
+	public void setOrg(Organization org) {
+		this.org = org;
+	}
+
 	public User user = null;
 	public User getUser() {
 		return user;
@@ -48,14 +61,14 @@ public class UserProfileAction extends ActionSupport{
 	}
 	
 	public String insertOrUpdateUser() {
+		userService = new UserServiceImpl();
 		log.info("insert or update user..");
 		if (!validationSuccessful()) {
 			log.info("Validation failed..");
 			return "input";
 		} else {
 			if (ActionContext.getContext().getSession().get("alf_ticket")==null ) {
-				log.info("User registration initiated.. for user :"+ user.getUserEmail()); 
-				userService = new UserServiceImpl();
+				log.info("User registration initiated.. for user :"+ user.getUserEmail()); 				
 				JSONObject jsonObj = userService.createUser(user);
 				if(jsonObj.get("userName") ==null) {
 					addActionMessage("Something went wrong! Please try again later..");
@@ -83,7 +96,29 @@ public class UserProfileAction extends ActionSupport{
 				}
 				}
 			} else {
-				log.info(">>>>>>>>>>>>>>>> User update"	+ user.userEmail);
+				User tuser = null;
+				applicationSetupService = new ApplicationSetupServiceImpl();
+				//verify if the user is part of an existing organization
+				if(user.getUserOrganization()!=null) {
+					org.setShortName(user.getUserOrganization());
+					org.setType("PRIVATE");
+					String actualShortName = org.getShortName();
+					user.setUserOrganization(org.getTitle());
+					user.setUserCompanyID(org.getShortName());
+					if(applicationSetupService.getOrganizationalSite(org).getShortName().equals("noSite")) {						
+						tuser = userService.getUser(ActionContext.getContext().getSession().get("username").toString());
+						org.setShortName(actualShortName);
+						log.info("user >>"+tuser.getUserName());
+						user.setUserOrganization(actualShortName);
+						applicationSetupService.setupApplication(org, user);
+						}
+					log.info("Organization Confirmed :"+user.getUserCompanyID());
+				}
+					//return to the input
+					log.info("users organization is "+user.getUserCompanyID());
+					log.info("Users company shortdescription is "+user.getUserOrganization());
+				
+				
 				userService.updateUser(user);
 			}
 		}
@@ -92,16 +127,16 @@ public class UserProfileAction extends ActionSupport{
 	
 	private boolean validationSuccessful() { 
 		
-		if (user.getUserEmail() == null) {
+		if (user==null || user.getUserEmail() == null) {
 			log.info("profile null");
 			if (log.isDebugEnabled()) {
 				log.debug("Email  " + " is required");
 			}
 		}
-		if (user.getPassword() == null || user.getPassword().trim().length() < 1) {
-			 addActionMessage("Password is required");
-			return false;
-		}
+//		if (user.getPassword() == null || user.getPassword().trim().length() < 1) {
+//			 addActionMessage("Password is required");
+//			return false;
+//		}
 		
 		if(this.hasActionMessages()){
 			 return false;

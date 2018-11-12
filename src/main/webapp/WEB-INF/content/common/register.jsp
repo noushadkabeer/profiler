@@ -7,9 +7,10 @@
 <body>
 
 	<s:form>
-		<table align="center" class="borderAll">
-
-
+ <div class="social-auth-links text-center">
+   <b><s:actionerror /><br/><s:actionmessage /></b> 
+    </div>
+		<table class="borderAll">
 			<tr>
 				<td class="tdLabel"><s:text name="First Name" /></td>
 				<td><s:textfield name="user.firstName" size="24"
@@ -36,7 +37,7 @@
 
 		<table >
 			<tr>
-				<td><s:submit action="createUser"
+				<td><s:submit action="insertOrUpdateUser"
 						key="button.label.submit" cssClass="butStnd" /></td>
 				<td><s:reset key="button.label.cancel" cssClass="butStnd" /></td>
 			<tr>

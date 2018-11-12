@@ -39,7 +39,7 @@ public class ProfilerUtil {
 	}	
 	
 	public String serviceURL(){
-		return propertyService.getKeyValue("contentServerURL") + propertyService.getKeyValue("serviceURL");		
+		return propertyService.getKeyValue("contentServerURL") + propertyService.getKeyValue("applicationServiceURL");		
 	}
 	
 	public String alfrescoContextURL(){

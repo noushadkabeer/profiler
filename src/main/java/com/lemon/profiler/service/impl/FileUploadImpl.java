@@ -51,7 +51,7 @@ public class FileUploadImpl implements AlfrescoFileService {
 			String filesDirectory) throws ConnectionFailedException,
 			IOException {
 		String strURL = propS.getKeyValue("contentServerURL")
-				+ propS.getKeyValue("serviceURL")+"uploadNewProfile";
+				+ propS.getKeyValue("applicationServiceURL")+"uploadNewProfile";
 		String ticket = "";
 		PostMethod post = new PostMethod(strURL);
 		String uploadedPath = "";
@@ -105,7 +105,7 @@ public class FileUploadImpl implements AlfrescoFileService {
 		// TODO Auto-generated method stub
 		try{
 			String strURL = propS.getKeyValue("contentServerURL")
-					+ propS.getKeyValue("serviceURL")+"transformProfile";
+					+ propS.getKeyValue("applicationServiceURL")+"transformProfile";
 			String ticket = "";
 			
 			//InputStream in4 = null;

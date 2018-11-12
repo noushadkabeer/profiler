@@ -69,27 +69,29 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	public String readTicket(String userType) {
 		
 		log.info("Checking if ticket is in session");
+    	propS = PropertyReaderServiceImpl.getInstance();
 		//if to check session ticket in case of Unit tests
 		if(ActionContext.getContext().getSession()!=null && ActionContext.getContext().getSession().containsKey(ProfilerConstants.PROPERTY_ALF_TICKET)) {
 			Map<String, Object> activeSession = ActionContext.getContext().getSession();
-        		return(String)activeSession.get(ProfilerConstants.PROPERTY_ALF_TICKET);         
+        		return (String)activeSession.get(ProfilerConstants.PROPERTY_ALF_TICKET);         
         }
 		Map<String, Object> session=ActionContext.getContext().getSession();  
-		System.out.println(session);
+		//log.info(session);
 		String alf_ticket = "";
         if(session!=null){  
+        	log.info("Session not null, trying to get the ticket");
         	try {
         		if(userType.equals(ProfilerConstants.USERTYPE_ADMIN))
             		alf_ticket = (String)session.get("adminTicket"); 
         		else if(userType.equals(ProfilerConstants.USERTYPE_USER))
             		alf_ticket = (String)session.get(ProfilerConstants.PROPERTY_ALF_TICKET); 
         	}catch(Exception e) {
-        		System.out.println("Couldnt found admin ticket in session, gotta grab new!");
+        		log.info("Couldnt found admin ticket in session, gotta grab new!");
         	}    	         	
         }  
         
         if(alf_ticket ==null) {
-        	propS = PropertyReaderServiceImpl.getInstance();
+        	log.info("No ticket yet, need to get one");
         	authenticationService = new AuthenticationServiceImpl();
         	return authenticationService.authenticate(propS.getKeyValue("adminuser"), propS.getKeyValue("adminpassword"));
         }

@@ -55,7 +55,7 @@ public class TaskServiceImpl implements TaskService{
 		List<Task> workList = new ArrayList<Task>();
 		Task workNode;
 		String strURL = propS.getKeyValue("contentServerURL")
-				+ propS.getKeyValue("serviceURL")+"workList";
+				+ propS.getKeyValue("applicationServiceURL")+"workList";
 		InputStream in3 = null;
 		PostMethod post = new PostMethod(strURL);
 		if (ticket != null && ticket.isEmpty()) {

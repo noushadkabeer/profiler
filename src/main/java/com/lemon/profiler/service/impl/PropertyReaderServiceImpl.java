@@ -44,7 +44,6 @@ public class PropertyReaderServiceImpl implements  PropertyReaderService{
 	}
 
 	public void loadAppConfig() {
-		Properties prop = new Properties();
 		InputStream input = null;
 		try {
 			String filename = "app-config.properties";
