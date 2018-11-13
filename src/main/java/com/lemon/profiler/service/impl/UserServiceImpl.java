@@ -48,40 +48,52 @@ public class UserServiceImpl implements UserService{
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_ADMIN);	
 		user.setUserId(user.getUserEmail());
 		user.setUserName(user.getUserEmail());
-		 String strURL =  ProfilerUtil.getInstance().alfrescoContextURL()+ "/service/api/people/"+user.getUserId()+"?alf_ticket="+ticket;  
-		 HttpPut put = new HttpPut(strURL); 
-			
+		 String strURL =  ProfilerUtil.getInstance().alfrescoContextURL()+ "/service/slingshot/profile/userprofile?alf_ticket="+ticket;  
+		 //Note: The service url might have changed to as mentioned here https://community.alfresco.com/community/ecm/blog/2017/04/18/v1-rest-api-part-10-people
+		 //in higher alfresco versions
+		 //for 4.2 referred https://community.alfresco.com/thread/206469-alfresco-service-api
+//		 HttpPost put = new HttpPost(strURL); 
+		 HttpPost request = new HttpPost(strURL);			
 			//Before insert generate an unique id for the record
 		//	String tempUserName =ProfilerUtil.getInstance().generatedInteger(); 
 
 			log.info("Update profile "+strURL+"\n"+user.getUserName()+user.getFirstName()+user.getLastName()+user.getPassword()+user.getUserEmail()+user.getUserOrganization()+user.getUserCompanyID());
 			//post.addParameter("alf_ticket", ticket);
 			try { 
+				JSONObject jsonBody = new JSONObject();
+				//jsonBody.put(key, value)
 				JSONObject json = new JSONObject();
-				json.put("userName", user.getUserName());
-				json.put("firstName", user.getFirstName());    
-				json.put("lastName", user.getLastName());  
-				json.put("email", user.getUserEmail()); 
+				json.put("username", user.getUserName() == null ? "" : user.getUserName());
+				JSONObject jsonChild = new JSONObject();
+				
+				
+				jsonChild.put("userName", user.getUserName() == null ? "" : user.getUserName());
+				jsonChild.put("firstName", user.getFirstName() == null ? "" : user.getFirstName());    
+				jsonChild.put("lastName", user.getLastName() == null ? "" : user.getLastName());  
+				jsonChild.put("email", user.getUserEmail() == null ? "" : user.getUserEmail()); 
 				//json.put("password", user.getPassword());
-				json.put("companyaddress1", user.getCompanyaddress1());    
-				json.put("companyaddress2", user.getCompanyaddress2());  
+				jsonChild.put("companyaddress1", user.getCompanyaddress1() == null ? "" : user.getCompanyaddress1());    
+				jsonChild.put("companyaddress2", user.getCompanyaddress2() == null ? "" : user.getCompanyaddress2());  
 				//json.put("companyaddress3", user.getC); 
-				json.put("companyfax", user.getCompanyfax());
-				json.put("companyemail", user.getCompanyemail());    
+				jsonChild.put("companyfax", user.getCompanyfax() == null ? "" : user.getCompanyfax());
+				jsonChild.put("companyemail", user.getCompanyemail() == null ? "" : user.getCompanyemail());    
 //				json.put("skype", user.get);  
-				json.put("instantmsg", user.getInstantmsg()); 
-				json.put("userStatus", user.getUserStatus());
-				json.put("organization", user.getUserOrganization());  
-				json.put("organizationId", user.getUserCompanyID()); 
-				json.put("location", user.getUserLocation());
-				json.put("telephone", user.getCompanyTelephone());    
-				json.put("mobile", user.getMobile());  
-				json.put("companyemail", user.getCompanyemail()); 
+				jsonChild.put("instantmsg", user.getInstantmsg() == null ? "" : user.getInstantmsg()); 
+				jsonChild.put("userStatus", user.getUserStatus() == null ? "" : user.getUserStatus() );
+				jsonChild.put("organization", user.getUserOrganization() == null ? "" : user.getUserOrganization());  
+				jsonChild.put("organizationId", user.getUserCompanyID() == null ? "" : user.getUserCompanyID()); 
+				jsonChild.put("location", user.getUserLocation() == null ? "" : user.getUserLocation());
+				jsonChild.put("telephone", user.getCompanyTelephone() == null ? "" : user.getCompanyTelephone());    
+				jsonChild.put("mobile", user.getMobile() == null ? "" : user.getMobile());  
+				jsonChild.put("companyemail", user.getCompanyemail() == null ? "" : user.getCompanyemail()); 
+				
+				json.put("properties", jsonChild);
+				log.info("child contents\n ------------->"+json);
 				
 				CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
 				try {
-					HttpPut request = new HttpPut(strURL);
+					
 				    StringEntity params = new StringEntity(json.toString());
 				    request.addHeader("X-Requested-With", "application/json");
 				    request.addHeader("Content-Type", "application/json");
@@ -128,7 +140,7 @@ public class UserServiceImpl implements UserService{
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				put.releaseConnection();
+				request.releaseConnection();
 			}        		
 		
 		log.info("Updated user :"+user.getUserName());		
