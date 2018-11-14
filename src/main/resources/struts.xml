@@ -28,6 +28,7 @@
 				name="profileUpdateInterceptor" />
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="sessionInterceptor" />
+				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 			<interceptor-stack name="profileUpdateStack">
 				<interceptor-ref name="sessionInterceptor" />
@@ -204,12 +205,12 @@
 		<!-- Search -->
 		<action name="textSearch" method="textSearch"
 			class="com.lemon.profiler.action.SearchAction">
+			<interceptor-ref name="defaultStack" />
 			<result name="success" type="tiles">textSearch</result>
 		</action>
 		<!-- Advanced Search -->
 		<action name="advancedSearch"
 			class="com.lemon.profiler.action.AdvancedSearchAction">
-			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">advSearch</result>
 			<result name="input" type="tiles">advSearchInput</result>
 			<result name="failure" type="tiles">error</result>

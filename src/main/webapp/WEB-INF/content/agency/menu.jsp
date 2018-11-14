@@ -27,7 +27,7 @@
       <!-- search form -->
       <form action="textSearch" method="get" class="sidebar-form">
         <div class="input-group">
-          <s:textfield name="textToSearch" cssClass="form-control" placeholder="Search..."/>
+          <s:textfield name="textToSearch" cssClass="form-control" placeholder="Searched..."/>
               <span class="input-group-btn">
                 <button type="submit"  id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>

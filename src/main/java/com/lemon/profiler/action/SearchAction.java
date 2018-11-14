@@ -24,6 +24,13 @@ public class SearchAction extends ActionSupport implements Preparable {
 	private Profile profile;
 	private List<Node> nodes;
 	private String textToSearch;
+	public String getTextToSearch() {
+		return textToSearch;
+	}
+
+	public void setTextToSearch(String textToSearch) {
+		this.textToSearch = textToSearch;
+	}
 	public List<Profile> profileList;
 
 	public List<Profile> getProfileList() {
@@ -61,13 +68,7 @@ public class SearchAction extends ActionSupport implements Preparable {
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
-	public String getTextToSearch() {
-		return textToSearch;
-	}
-
-	public void setTextToSearch(String textToSearch) {
-		this.textToSearch = textToSearch;
-	}
+	
 	public List<Profile> getProfiles() {
 		return profiles;
 	}
