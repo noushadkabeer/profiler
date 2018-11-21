@@ -30,11 +30,23 @@
               <i class="fa fa-times"></i></button>
           </div>
         </div>
+      <!--   
+        <s:form action="advancedSearch" >
+        	<div class="box-body">
+        	<div class="form-group">
+                  <label for="profile.id" class="col-sm-2 control-label">ID</label>
+                  <div class="col-sm-10">
+                    <s:textfield name="profile.id" cssClass="form-control" size="30" />
+                  </div>
+        	</div>
+        	</div>
+        </s:form>-->
+        
         <div class="box-body">
         				
 				<s:fielderror cssClass="alert alert-error" />
 				
-				<s:form action="advancedSearch" >
+				<s:form action="advancedSearch" cssClass="form-horizontal">
 					<table class="table table-striped">
 					 
 						<tr>

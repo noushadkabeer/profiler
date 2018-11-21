@@ -72,7 +72,7 @@ public class MailRead {
       String host = "imap.gmail.com";// change accordingly
       String mailStoreType = "imap";
       String username = "NishadK@deltaoilgasjobs.com";// change accordingly
-      String password = "Nishad333";// change accordingly
+      String password = "";// change accordingly
 
       check(host, mailStoreType, username, password);
 

@@ -17,6 +17,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -266,6 +267,60 @@ public class UserServiceImpl implements UserService{
 		
 		log.info("Created user :"+user.getUserName());		
 	return null;	
+	}
+
+	@Override
+	public List<User> getAllUsers(String myOrganization) {
+
+		log.info("Finding the team for the org::> "+myOrganization);
+		JSONParser parser = new JSONParser(); 
+		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
+		if (ticket != null && !ticket.isEmpty()) {
+			 try
+		        {
+					String strURL = propS.getKeyValue("contentServerURL")
+							+ "alfresco/service/profiler/getUsersOfMyTeam?organization="+myOrganization+"&alf_ticket="+ticket;
+				 HttpClient client = new HttpClient();
+					GetMethod method = new GetMethod(strURL); 
+					int statusCode = client.executeMethod(method);
+					log.info(statusCode + " for the request :"+strURL);
+					if (statusCode != -1) { 
+						
+						List<User> users = new ArrayList<User>();
+						BufferedInputStream bis = new BufferedInputStream(method.getResponseBodyAsStream());
+			            BufferedReader streamReader = new BufferedReader(new InputStreamReader(bis, "UTF-8"));
+			            StringBuilder responseStrBuilder = new StringBuilder();
+			            String inputStr;
+			            while ((inputStr = streamReader.readLine()) != null)
+			                responseStrBuilder.append(inputStr);		
+			            log.info("Result recvd:\n------------------------------------------------\n"+responseStrBuilder+" \n");
+		                Object resultObject = parser.parse(responseStrBuilder.toString());
+			        	JSONObject userJson = (JSONObject)resultObject; 
+			        	if (userJson.get("team") instanceof JSONArray) {
+		                    JSONArray array=(JSONArray)userJson.get("team");
+		                    for (Object object : array) {
+		                        JSONObject obj =(JSONObject)object;
+		                        System.out.println("My team \n--->\n");
+		                        System.out.println(obj.get("firstName"));
+		                        System.out.println(obj.get("lastName"));
+		                        users.add(new JSONObjectProcessor().returnProcessedUser(obj));
+		                    }
+			        	}
+			        	return users;
+//
+//		                }else 
+			        //	log.info("Json contents \n"+userJson);
+			      //  return new JSONObjectProcessor().returnProcessedUser(userJson);
+			   	
+					}
+				} catch (Exception e)
+		        {
+					log.error("Error in processing getUser "+e.getMessage());
+		            e.printStackTrace();
+		        } 
+		}
+		return null;
+		
 	}
 	
 

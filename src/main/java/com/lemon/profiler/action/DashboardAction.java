@@ -10,19 +10,23 @@ import com.lemon.profiler.model.Event;
 import com.lemon.profiler.model.Job;
 import com.lemon.profiler.model.Profile;
 import com.lemon.profiler.model.Task;
+import com.lemon.profiler.model.User;
 import com.lemon.profiler.service.EventService;
 import com.lemon.profiler.service.JobService;
 import com.lemon.profiler.service.ProfileService;
 import com.lemon.profiler.service.PropertyReaderService;
 import com.lemon.profiler.service.TaskService;
 import com.lemon.profiler.service.UnprocessedProfileService;
+import com.lemon.profiler.service.UserService;
 import com.lemon.profiler.service.impl.EventServiceImpl;
 import com.lemon.profiler.service.impl.JobServiceImpl;
 import com.lemon.profiler.service.impl.ProfileServiceImpl;
 import com.lemon.profiler.service.impl.PropertyReaderServiceImpl;
 import com.lemon.profiler.service.impl.TaskServiceImpl;
 import com.lemon.profiler.service.impl.UnprocessedProfileServiceImpl;
+import com.lemon.profiler.service.impl.UserServiceImpl;
 import com.lemon.profiler.util.Pagination;
+import com.opensymphony.xwork2.ActionContext;
 
 
 public class DashboardAction {
@@ -34,14 +38,16 @@ public class DashboardAction {
 	TaskService taskService;
 	EventService eventService;
 	UnprocessedProfileService uppservice;
+	UserService userService;
 	PropertyReaderService propertyService = new PropertyReaderServiceImpl();
 	
 	public List<Job> jobs;
 	public List<Task> tasks;
 	public List<Profile> profiles;
 	public List<Event> events;
+	public List<User> myTeam;
 	
-	 //Initializing Pagination with page size 10, and current page 1 
+	//Initializing Pagination with page size 10, and current page 1 
     private Pagination pagination = new Pagination(10, 1);
     
 	//variable to hold unprocessed profile task list size
@@ -87,6 +93,9 @@ public class DashboardAction {
 		uppservice = new UnprocessedProfileServiceImpl();
 		totalUPTaskList = uppservice.obtainUnProcessedProfileCount(" ", pagination.getPage_number()+"", pagination.getPage_size()+"");
 		
+		userService = new UserServiceImpl();
+		User whoami = (User)ActionContext.getContext().getSession().get("user");
+		myTeam = userService.getAllUsers(whoami.userOrganization);
 		log.info("Dashboard Prepared with :"+jobs.size()+" Jobs, "+profiles.size() + " Profiles , "+tasks.size()+ " tasks, "+ events.size()+" events.");
 			
 		return "success";
@@ -129,4 +138,11 @@ public class DashboardAction {
     public void setPagination(Pagination pagination) {
         this.pagination = pagination;
     }
+	 public List<User> getMyTeam() {
+		return myTeam;
+	}
+
+	public void setMyTeam(List<User> myTeam) {
+		this.myTeam = myTeam;
+	}
 }

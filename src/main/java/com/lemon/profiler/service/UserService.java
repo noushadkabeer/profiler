@@ -9,6 +9,7 @@ import com.lemon.profiler.model.User;
 
 public interface UserService {
     public List<User> getAllUsers();
+    public List<User> getAllUsers(String myOrganization);
     public void updateUser(User emp);
     public void deleteUser(User id);
     public User getUser(String id);
