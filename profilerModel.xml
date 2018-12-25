@@ -32,6 +32,16 @@
                     <mandatory>false</mandatory>
                     <index enabled="true"/>
                 </property>
+                <property name="pf:profileContactNo">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
+                <property name="pf:profileEmail">
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true"/>
+                </property>
                 <property name="pf:profileExperience">
                     <type>d:text</type>
                     <mandatory>false</mandatory>

@@ -75,6 +75,8 @@
 										<tr>
 											<th>Sl.no</th>
 											<th>Name</th>
+											<th>Email</th>
+											<th>Contact No</th>
 											<th>Experience</th>
 											<th>Education</th>
 											<th>Skills</th>
@@ -88,6 +90,8 @@
 											<tr>
 												<td><s:property value="%{#status.count}" /></td>
 												<td><s:property value="#doe.name" /></td>
+												<td><s:property value="#doe.email" /></td>
+												<td><s:property value="#doe.contactNo" /></td>
 												<td><s:property value="#doe.experience" /></td>
 												<td><s:property value="#doe.education" /></td>
 												<td><s:property value="#doe.skills" /></td>
@@ -122,6 +126,11 @@
 														</s:url>
 														<s:a href="%{delete}" cssClass="btn btn-danger">
 															<i class="icon icon-trash"></i>D</s:a>
+														<s:url id="contact" action="contactProfile">
+															<s:param name="profile.id" value="id" />
+														</s:url>
+														<s:a href="%{Contact}" cssClass="btn btn-danger">
+															<i class="icon icon-trash"></i>Con</s:a>
 													</div>
 												</td>
 											</tr>
@@ -293,7 +302,70 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 				</div>
 			</div>
 			<!-- 2nd Box Ends here -->
+		<div class="box">
+				<div class="box-header with-border">
+					<!-- <h3 class="box-title">Jobs</h3> -->
 
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-widget="collapse" data-toggle="tooltip" title="Collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+						<button type="button" class="btn btn-box-tool"
+							data-widget="remove" data-toggle="tooltip" title="Remove">
+							<i class="fa fa-times"></i>
+						</button>
+					</div>
+				</div>
+				<div class="box-body">
+					<div>
+						<div style="width: 850px; margin: 5px;">
+							
+							<div class="tabcontents">
+
+								<div id="view3">
+									<h3>
+										<strong>My Team</strong>
+									</h3>
+									<table class="table table-striped">
+										<tr>
+											<th>Member ID</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>UserName</th>
+											<th>Actions</th>
+										</tr>
+										<s:iterator value="myTeam" status="status">
+											<tr>
+												<td><s:property value="userId" /></td>
+												<td><s:property value="firstName" /></td>
+												<td><s:property value="LastName" /></td>
+												<td><s:property value="userName" /></td>
+												<td>
+													<div class="btn-group">
+														<a href="viewProfile-" class="btn"><i
+															class="icon icon-eye-open"></i>Activate(ToDo)</a> <a
+															href="deleteProfile-" class="btn btn-danger"><i
+															class="icon icon-trash"></i>Deactivate(ToDo)</a>
+													</div>
+												</td>
+											</tr>
+										</s:iterator>
+										<hr />
+									</table>
+								</div>
+
+
+
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+			<!-- 3rd Box Ends here -->
+			
 			<div class="box">
 				<div class="box-header with-border">
 					<!-- <h3 class="box-title">Jobs</h3> -->
@@ -362,7 +434,7 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 					</div>
 				</div>
 			</div>
-			<!-- 3rd Box Ends here -->
+			<!-- 4th Box Ends here -->
 	</section>
 	<!-- /.content -->
 </div>

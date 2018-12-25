@@ -10,6 +10,7 @@ import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -17,6 +18,9 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
+
+import com.lemon.profiler.service.PropertyReaderService;
+import com.lemon.profiler.service.impl.PropertyReaderServiceImpl;
 
 
 
@@ -29,7 +33,7 @@ import javax.mail.util.ByteArrayDataSource;
  */
 public class EmailUtil
 {
-	private static Properties globalProps;
+	private static PropertyReaderService propS = new PropertyReaderServiceImpl();
 	private static byte[] _data; 
 	private static java.lang.String _name; 
 	
@@ -62,7 +66,7 @@ public class EmailUtil
 			*/
 			
 			//String host = PropertyUtils.getProperty("mail.host");
-			String host = globalProps.getProperty("mail.host");
+			String host = propS.getKeyValue("mail.host");
 			
 			// Get system properties
 			Properties properties = System.getProperties();
@@ -83,12 +87,7 @@ public class EmailUtil
 			mex.printStackTrace();
 		}
 	}
-	public static Properties getGlobalProps() {
-		return globalProps;
-	}
-	public static void setGlobalProps(Properties globalProps) {
-		EmailUtil.globalProps = globalProps;
-	}
+
 	
 	public static void sendMailTestRunFail(String subject, Serializable toMany, String html, String from,String fileName,byte[] byteArray)
 	{
@@ -100,11 +99,15 @@ public class EmailUtil
 			*/
 			
 			//String host = PropertyUtils.getProperty("mail.host");
-			String host = globalProps.getProperty("mail.host");
+			//String host = propS.getKeyValue("mail.host");
 			
 			// Get system properties
 			Properties properties = System.getProperties();
-			properties.setProperty("mail.smtp.host", host);
+			properties.setProperty("mail.smtp.host", propS.getKeyValue("mail.host"));
+			properties.setProperty("mail.smtp.port", propS.getKeyValue("mail.smtp.port"));
+			properties.setProperty("mail.smtp.socketFactory.port", propS.getKeyValue("mail.smtp.socketFactory.port"));
+			properties.setProperty("mail.smtp.socketFactory.class", propS.getKeyValue("mail.smtp.socketFactory.class"));
+			properties.setProperty("mail.smtp.auth", propS.getKeyValue("mail.smtp.auth"));
 			//properties.put("mail.debug", "true");
 			
 			// Get the default Session object.
@@ -145,5 +148,41 @@ public class EmailUtil
 		}
 	}
 	
+	public void pushMail(String subject, String to, String cc, String bcc, String content, String from) {
+		Properties properties = new Properties();
+	      properties.put("mail.smtp.host", propS.getKeyValue("mail.host"));
+	      properties.put("mail.smtp.socketFactory.port", propS.getKeyValue("mail.smtp.socketFactory.port"));
+	      properties.put("mail.smtp.socketFactory.class", propS.getKeyValue("mail.smtp.socketFactory.class"));
+	      properties.put("mail.smtp.auth", propS.getKeyValue("mail.smtp.auth"));
+	      properties.put("mail.smtp.port", propS.getKeyValue("mail.smtp.port"));
+	      final String fromme = from;
+		String ret = "SUCCESS";
+	      try {
+	         Session session = Session.getDefaultInstance(properties,  
+	            new javax.mail.Authenticator() {
+	               protected PasswordAuthentication 
+	               getPasswordAuthentication() {
+	                  return new 
+	                  PasswordAuthentication(fromme, propS.getKeyValue("mymail.password"));
+	               }
+	            }
+	         );
+
+	         Message message = new MimeMessage(session);
+	         message.setFrom(new InternetAddress(from));
+	         message.setRecipients(Message.RecipientType.TO, 
+	            InternetAddress.parse(to));
+	         message.setRecipients(Message.RecipientType.CC, 
+	 	            InternetAddress.parse(cc));
+	         message.setRecipients(Message.RecipientType.BCC, 
+		 	            InternetAddress.parse(bcc));
+	         message.setSubject(subject);
+	         message.setText(content);
+	         Transport.send(message);
+	      } catch(Exception e) {
+	         ret = "ERROR";
+	         e.printStackTrace();
+	      }
+	}
 	
 }

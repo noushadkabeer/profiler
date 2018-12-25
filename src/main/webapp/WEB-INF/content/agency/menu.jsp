@@ -101,6 +101,7 @@
         </li> -->
         
         <li><s:a href="setUpForInsertOrUpdateProfile.action"><i class="fa fa-upload text-aqua"></i> <span>Upload Resume</span></s:a></li>
+        <li><s:a href="draftemailToCandidate.action"><i class="fa fa-envelope text-aqua"></i> <span>Contact Candidate</span></s:a></li>
          <li><s:a href="bulkUploadProcessor.action"><i class="fa fa-cloud-upload text-blue"></i> <span>Bulk Upload</span></s:a></li>
          <li><s:a href="loadReportDashboard.action"><i class="fa fa-bar-chart text-yellow"></i> <span>Reports</span></s:a></li>
          

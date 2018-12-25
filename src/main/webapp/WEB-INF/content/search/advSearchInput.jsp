@@ -44,8 +44,48 @@
         
         <div class="box-body">
         				
+        				
+        				
+        				<!-- Start -->
+        				
+		<div id='TextBoxesGroup'>
+			<label id="queryLbl"></label>Query : <label id="finalQuery"></label>
+			<div id="TextBoxDiv1">
+				<label>Search Filter #1 : </label><select name="item_unit[]" id="filterdropdown1"><option value="">Select</option><option value="ID">ID</option><option value="Name">Name</option><option value="Experience">Experience</option><option value="Education">Education</option><option value="Skills">Skills</option><option value="Interests">Interests</option><option value="Location">Location</option><option value="Address">Address</option><option value="Resume Summary">Resume Summary</option></select> 
+				<input type='textbox' id='textbox1' >
+			</div>
+		</div>
+		<hr/>
+		<input type='button' value='Add Filter' id='addButton' class="btn btn-info">
+		<input type='button' value='Remove Filter' id='removeButton' class="btn btn-info">
+		<input type='button' value='Apply' id='getButtonValue' class="btn btn-info">
+		<hr/>
+        <s:form name="advancedSearchAjxForm" id="advancedSearchAjxForm">
+        	<s:hidden name="profile.id" id="id" value=""/>
+        	<s:hidden name="profile.name" id="name" value=""/>
+        	<s:hidden name="profile.experience" id="experience" value=""/>
+        	<s:hidden name="profile.education" id="education" value=""/>
+        	<s:hidden name="profile.skills" id="skills" value=""/>
+        	<s:hidden name="profile.location" id="location" value=""/>
+        	<s:hidden name="profile.interests" id="interests" value=""/>
+        	<s:hidden name="profile.address" id="address" value=""/>
+        	<s:hidden name="profile.resumeSummary" id="resumeSummary" value=""/>
+        	<s:submit value="Search" cssClass="btn btn-info"></s:submit>
+        </s:form>
+        
+        <div id="srchResponseDiv">
+        </div>
+        <br/>				
+        				 <!-- End -->
+        				
+        				
+        				
+        				
+        				
+        				
+        				
 				<s:fielderror cssClass="alert alert-error" />
-				
+				<!-- 
 				<s:form action="advancedSearch" cssClass="form-horizontal">
 					<table class="table table-striped">
 					 
@@ -94,7 +134,7 @@
 					
 					</div>
 				</s:form>
-				
+				 -->
 				<!-- <s:form id="formUp2" action="uploadDoc.action" namespace="/"
 								method="POST" enctype="multipart/form-data">
 								<s:file name="fileUpload" label="Select a File to upload" size="40" />
@@ -129,5 +169,4 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
 

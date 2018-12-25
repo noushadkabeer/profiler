@@ -78,7 +78,6 @@
 									 <s:submit cssClass="btn btn-primary popModal_ex"></s:submit>
 									 
 									</s:form>
-					            </p> 
 					        </sj:accordionItem> 
 					    </s:iterator>	
 					</sj:accordion>

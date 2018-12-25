@@ -84,6 +84,7 @@
     <script type="text/javascript" src="<s:url value="/js/dropzone.js"/>"></script>
 	
   <script type="text/javascript" src="<s:url value="/js/chartjs272/Chart.min.js"/>"></script>
+  <script type="text/javascript" src="<s:url value="/js/profileRcommon.js"/>"></script>
 	
 	 <script>
   $(document).ready( function() { 

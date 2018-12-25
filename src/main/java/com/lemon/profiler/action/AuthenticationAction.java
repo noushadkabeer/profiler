@@ -60,7 +60,7 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 			addActionMessage("Something went wrong. Please try again..");
 			result = "failure";
 		}else{
-			ActionContext.getContext().getSession().put("alf_ticket", result);
+			ActionContext.getContext().getSession().put(ProfilerConstants.PROPERTY_ALF_TICKET, result);
 			ActionContext.getContext().getSession().put("username", userName);
 			ActionContext.getContext().getSession().put("password", password);
 			ActionContext.getContext().getSession().put("logged-in", "true");
@@ -77,7 +77,7 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 				}
 				System.out.println(user.getAvatar()+user.getFirstName()+ user.getLastName() + userAvatar);
 				ActionContext.getContext().getSession().put(ProfilerConstants.PROPERTY_USER_ORGANIZATION , user.getUserOrganization());
-				
+				System.out.println("Users org :"+user.getUserOrganization());
 				ActionContext.getContext().getSession().put("user", user);
 			}
 			return "success";

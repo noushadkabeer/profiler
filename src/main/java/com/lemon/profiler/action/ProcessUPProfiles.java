@@ -73,6 +73,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.lemon.profiler.common.ProfilerUtil;
+import com.lemon.profiler.constants.ProfilerConstants;
 import com.lemon.profiler.mappers.pagination.ProfileSearchCriteria;
 import com.lemon.profiler.mappers.pagination.ProfileSearchResults;
 import com.lemon.profiler.mappers.pagination.UnprocessedProfileSearchCriteria;
@@ -90,6 +91,7 @@ import com.lemon.profiler.service.impl.ProfileServiceImpl;
 import com.lemon.profiler.service.impl.PropertyReaderServiceImpl;
 import com.lemon.profiler.service.impl.UnprocessedProfileServiceImpl;
 import com.lemon.profiler.util.Pagination;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ProcessUPProfiles extends ActionSupport{
@@ -123,6 +125,8 @@ public class ProcessUPProfiles extends ActionSupport{
 		UnprocessedProfileSearchCriteria psc = new UnprocessedProfileSearchCriteria();
 		psc.setPageSize(pagination.getPage_size());
 		psc.setPageNum(pagination.getPage_number());
+		String org = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+		psc.setSearchQuery("PATH:\"/app:company_home/st:sites/cm:"+org+"/cm:documentLibrary/cm:Unprocessed/*");
 		UnprocessedProfileSearchResults<Profile> searchResults = uppservice.obtainUnProcessedProfileList(psc);
 		unprocessedProfiles = searchResults.getResults();
 		upProfile = new Profile();
@@ -131,7 +135,7 @@ public class ProcessUPProfiles extends ActionSupport{
 		unprocessedProfiles = searchResults.getResults();
 		
 		log.info("Returning the list of size :> "+unprocessedProfiles.size());
-//		for(Profile profile: unprocessedProfiles){
+//		for(Profile profile: unprocessedProfiles){ 
 //			log.info(profile.id+ profile.attachments.getId());
 //			log.info(profile.getAttachments().getDownloadURL());
 //		}

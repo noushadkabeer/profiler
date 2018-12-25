@@ -38,6 +38,7 @@ import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.PropertyReaderService;
 import com.lemon.profiler.service.UnprocessedProfileService;
 import com.lemon.profiler.util.ProfileJSON2JavaMapper;
+import com.opensymphony.xwork2.ActionContext;
 
 
 public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
@@ -293,6 +294,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 		ArrayList<com.lemon.profiler.model.Node> workList = new ArrayList<com.lemon.profiler.model.Node>();
 		ArrayList<Profile> profiles = new ArrayList<Profile>(); 
 		Profile profile;
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		PostMethod post = new PostMethod(strURL);
 		try { 
 			//if (ticket != null && ticket.isEmpty() && ticket.equals(authService.validateTicket(ticket))) { 
@@ -303,6 +305,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 				log.info("Finding UP Profiles..");
 				log.info("Added String to search.. "+searchQ+" with "+upsc.getPageNum()+" and "+upsc.getPageSize());
 				method.addParameter("alf_ticket", ticket);
+				method.addParameter("organizationid" , organization);
 				method.addParameter("pagenum", ""+upsc.getPageNum());
 				method.addParameter("pagesize", ""+upsc.getPageSize());
 				int statusCode = client.executeMethod(method);

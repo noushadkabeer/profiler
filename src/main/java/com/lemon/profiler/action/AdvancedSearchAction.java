@@ -68,6 +68,7 @@ public class AdvancedSearchAction extends ActionSupport implements Preparable {
 		if(pagination.getPage_size() <=0) pagination.setPage_size(10);
 		if(pagination.getPage_number() <=0) pagination.setPage_number(1);
 		log.info("New :"+pagination.getPage_size() + " : "+pagination.getPage_number());
+		log.info(profile==null);
 		if(profile==null || profile.getId().isEmpty() && profile.getName().isEmpty() && profile.getAddress().isEmpty() && profile.getEducation().isEmpty() && profile.getSkills().isEmpty() 
 				&& profile.getLocation().isEmpty()	&& profile.getExperience().isEmpty() && profile.getResumeSummary().isEmpty()){
 			log.info("Returning for inputs");
@@ -82,6 +83,10 @@ public class AdvancedSearchAction extends ActionSupport implements Preparable {
 		
 		return "success";
 	}		 
+	
+	public String searchedProfiles() {
+		return "";
+	}
 	
 	public List<Profile> getProfiles() {
 		return profiles;

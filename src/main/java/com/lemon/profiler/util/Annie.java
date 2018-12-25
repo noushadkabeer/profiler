@@ -34,7 +34,17 @@ public class Annie  {
     // load the ANNIE application from the saved state in plugins/ANNIE
     File gateHome = Gate.getGateHome();
     System.out.println("Gate Home is "+gateHome.getAbsolutePath());
-     gateHome = new File("C:\\Noushad\\rnd\\code downloads\\ResumeParser-master\\GATEFiles");
+    try {
+    	  ClassPathUpdater.add( "C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\bin\\*;"
+    	  		+ "C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\lib\\*;C:\\NSD\\work\\profiler\\ResumeParser-master\\ResumeTransducer\\lib\\\\*" );
+    	}
+    	catch( Exception e ) {
+    	  e.printStackTrace();
+    	}
+//    System.setProperty("classpath","C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\bin\\*;"
+//			+ "C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\lib\\*;C:\\NSD\\work\\profiler\\ResumeParser-master\\ResumeTransducer\\lib\\*");
+
+     gateHome = new File("C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles");
     //File anniePlugin = new File(pluginsHome, "ANNIE");
     //TODO: Change to relative path
     //File annieGapp = new File(anniePlugin, "C:\\Users\\antonydeepak\\Documents\\workspace\\Programming_Workspace\\project_workspace\\ResumeParser\\ResumeParser_git\\ResumeParser\\GATEFiles\\ANNIEResumeParser.gapp");

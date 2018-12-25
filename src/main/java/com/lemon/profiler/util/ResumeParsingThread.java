@@ -93,11 +93,12 @@ class ProcessMate {
 	static Annie annie = new Annie();
 	ProcessMate(){
 		try{
-		Out.prln("Initialising basic system...");
-		System.setProperty("gate.home", "C:\\Noushad\\rnd\\code downloads\\ResumeParser-master\\GATEFiles");
+		System.setProperty("gate.home", "C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles");
+		System.setProperty("classpath","C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\bin\\*;"
+				+ "C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\lib\\*;C:\\NSD\\work\\profiler\\ResumeParser-master\\ResumeTransducer\\lib\\*");
 		System.out.println("Sys property set as"+System.getProperty("gate.home"));
 		Gate.init();
-		Out.prln("...basic system initialised");
+		log.info("Annie initialization complete");
 
 		// initialise ANNIE (this may take several minutes)
 		

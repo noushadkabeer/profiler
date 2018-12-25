@@ -40,6 +40,7 @@ import com.lemon.profiler.model.Profile;
 import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.ProfileService;
 import com.lemon.profiler.service.PropertyReaderService;
+import com.opensymphony.xwork2.ActionContext;
 
 public class ProfileServiceImpl implements ProfileService{
 
@@ -51,22 +52,24 @@ public class ProfileServiceImpl implements ProfileService{
 	
 	static {
 		profileList = new ArrayList<Profile>();
-		profileList.add(new Profile("001","Name","Experience","B.Sc","Skills","Interest","Abudhabi","SO14 OAT","Resume Summary", new Attachment("id", "attach", "ds", "DD")));
-		profileList.add(new Profile("002","Name2","Experience","B.Sc","Skills","Interest","Abudhabi","SO14 OAT","Resume Summary", new Attachment("id1", "attachs", "ds", "DD")));		
+		profileList.add(new Profile("001","Name","Experience","+9762343243","t@t.com","B.Sc","Skills","Interest","Abudhabi","SO14 OAT","Resume Summary", new Attachment("id", "attach", "ds", "DD")));
+		profileList.add(new Profile("002","Name2","Experience","+9762343243","t@t.com","B.Sc","Skills","Interest","Abudhabi","SO14 OAT","Resume Summary", new Attachment("id1", "attachs", "ds", "DD")));		
 	}
 
     Log logger = LogFactory.getLog(this.getClass());
 	
 	@Override
-	public List<Profile> obtainAllProfiles(String pageNum, String pageSize) {		 
-		String luceneQuery = "PATH:\"/app:company_home/cm:profiler//*\" AND TYPE:\"pf:profile\"";
+	public List<Profile> obtainAllProfiles(String pageNum, String pageSize) {	
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+		String luceneQuery = "PATH:\"/app:company_home/st:sites/"+organization+"/cm:documentLibrary/cm:ProfileR//*\" AND TYPE:\"pf:profile\"";
 		log.info("Query :" +luceneQuery + " with PageNum "+ pageNum + " and PageSize :"+pageSize);
 		return searchInRepository(luceneQuery, pageNum, pageSize, false);		
 	}
 
 	@Override
 	public Profile pullProfileByName(String name) {
-		String luceneQuery = "PATH:\"/app:company_home/cm:profiler//*\" AND TYPE:\"pf:profile\" AND @cm:name:"+name+"\"";
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+		String luceneQuery = "PATH:\"/app:company_home/st:sites/"+organization+"/cm:documentLibrary/cm:ProfileR//*\" AND TYPE:\"pf:profile\" AND @cm:name:"+name+"\"";
 		List<Profile> profiles = searchInRepository(luceneQuery, "undefined", "undefined", false);
 		Profile profile = profiles.get(0);
 		// TODO Auto-generated method stub
@@ -81,6 +84,7 @@ public class ProfileServiceImpl implements ProfileService{
 		PostMethod post = new PostMethod(strURL);
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
 		log.info("Ticket Prepared & ready to Search :"+id);
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		if (ticket != null && !ticket.isEmpty()) {
 			try {
 				HttpClient client = new HttpClient();
@@ -89,6 +93,7 @@ public class ProfileServiceImpl implements ProfileService{
 				method.addParameter("stringToSearch", id); 
 				// method.addParameter("u", "admin");
 				// method.addParameter("p", "admin");
+				method.addParameter("organizationid", organization);
 				method.addParameter("alf_ticket", ticket); 
 				int statusCode = client.executeMethod(method);
 				log.info(statusCode);
@@ -188,7 +193,7 @@ public class ProfileServiceImpl implements ProfileService{
         String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
         String strURL =  ProfilerUtil.getInstance().serviceURL()+ "updateProfile?alf_ticket="+ticket;  
 		PostMethod post = new PostMethod(strURL); 
-		
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		post.addParameter("alf_ticket", ticket);
 		try { 
 			InputStream in2 = null;
@@ -211,6 +216,7 @@ public class ProfileServiceImpl implements ProfileService{
 					new StringPart("name", profile.getName().trim()),
 					new StringPart("location", profile.getLocation()),
 					new StringPart("address", profile.getAddress()),
+					new StringPart("organizationid", organization),
 					new StringPart("resumeSummary", profile.getResumeSummary())		
 			};
 
@@ -257,7 +263,7 @@ public class ProfileServiceImpl implements ProfileService{
 			PostMethod post = new PostMethod(strURL); 
 			log.info("Creating a new profile "+strURL);
 			//Before insert generate an unique id for the record
-			
+			String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 			profile.setId(ProfilerUtil.getInstance().generatedInteger());	
 			//post.addParameter("alf_ticket", ticket);
 			try { 
@@ -281,6 +287,7 @@ public class ProfileServiceImpl implements ProfileService{
 						new StringPart("name", profile.getName().trim()),
 						new StringPart("location", profile.getLocation()),
 						new StringPart("address", profile.getAddress()),
+						new StringPart("organizationid", organization),
 						new StringPart("resumeSummary", profile.getResumeSummary())
 				};
 
@@ -387,6 +394,7 @@ public class ProfileServiceImpl implements ProfileService{
 		Profile profile = new Profile();  
 		PostMethod post = new PostMethod(strURL);
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		log.info("Ticket Prepared & ready to Search :"+searchString);
 		if (ticket != null && !ticket.isEmpty()	) {
 			try {
@@ -402,6 +410,7 @@ public class ProfileServiceImpl implements ProfileService{
 				method.addParameter("alf_ticket", ticket);
 				method.addParameter("pagenum", pageNum);
 				method.addParameter("pagesize", pageSize);
+				method.addParameter("organizationid", organization);
 				int statusCode = client.executeMethod(method);
 				log.info(statusCode);
 				if (statusCode != -1) {
@@ -493,30 +502,33 @@ public class ProfileServiceImpl implements ProfileService{
 
 	@Override
 	public List<Profile> advSearchProfile(Profile profile, String pageNum, String pageSize) {
-		String luceneQuery = "PATH:\"/app:company_home/cm:profiler//*\" AND TYPE:\"pf:profile\" "+advQuery(profile);
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+		String luceneQuery = "PATH:\"/app:company_home/st:sites/cm:"+organization+"/cm:documentLibrary/cm:ProfileR//*\" AND TYPE:\"pf:profile\" "+advQuery(profile);
 		return searchInRepository(luceneQuery, pageNum, pageSize, false);		
 	}
 	
 	public String advQuery(Profile profile){
 		String query = "";
-		if(profile!=null && !profile.getId().isEmpty()){
-			query = query + "+@pf\\:profileId:\""+profile.id+"\"";
-		}if(profile!=null && !profile.getName().isEmpty()){
-			query = query + "+@pf\\:profileName:\""+profile.name+"\"";
-		}		if(profile!=null && !profile.getEducation().isEmpty()){
-			query = query + "+@pf\\:profileEducation:\""+profile.education+"\"";
-		}if(profile!=null && !profile.getExperience().isEmpty()){
-			query = query + "+@pf\\:profileExperience:\""+profile.experience+"\"";
-		}if(profile!=null && !profile.getInterests().isEmpty()){
-			query = query + "+@pf\\:profileInterests:\""+profile.interests+"\"";
-		}if(profile!=null && !profile.getAddress().isEmpty()){
-			query = query + "+@pf\\:profileAddress:\""+profile.address+"\"";
-		}if(profile!=null && !profile.getSkills().isEmpty()){
-			query = query + "+@pf\\:profileSkills:\""+profile.skills+"\"";
-		}if(profile!=null && !profile.getLocation().isEmpty()){
-			query = query + "+@pf\\:profileLocation:\""+profile.location+"\"";
-		}if(profile!=null && !profile.getResumeSummary().isEmpty()){
-			query = query + "+@pf\\:profileSummary:\""+profile.resumeSummary+"\"";
+		if(profile != null ) {
+			if(profile.getId()!=null && !profile.getId().isEmpty()){
+				query = query + "AND @pf\\:profileId:\""+profile.id+"\"";
+			}if(profile.getName()!=null && !profile.getName().isEmpty()){
+				query = query + "AND @pf\\:profileName:\""+profile.name+"\"";
+			}		if(profile.getEducation()!=null && !profile.getEducation().isEmpty()){
+				query = query + "AND @pf\\:profileEducation:\""+profile.education+"\"";
+			}if(profile.getExperience()!=null && !profile.getExperience().isEmpty()){
+				query = query + "AND @pf\\:profileExperience:\""+profile.experience+"\"";
+			}if(profile.getInterests()!=null && !profile.getInterests().isEmpty()){
+				query = query + "AND @pf\\:profileInterests:\""+profile.interests+"\"";
+			}if(profile.getAddress()!=null && !profile.getAddress().isEmpty()){
+				query = query + "AND @pf\\:profileAddress:\""+profile.address+"\"";
+			}if(profile.getSkills()!=null && !profile.getSkills().isEmpty()){
+				query = query + "AND @pf\\:profileSkills:\""+profile.skills+"\"";
+			}if(profile.getLocation()!=null && !profile.getLocation().isEmpty()){
+				query = query + "AND @pf\\:profileLocation:\""+profile.location+"\"";
+			}if(profile.getResumeSummary()!=null && !profile.getResumeSummary().isEmpty()){
+				query = query + "AND @pf\\:profileSummary:\""+profile.resumeSummary+"\"";
+			}
 		}
 		log.info("Framed Adv Search Query :"+query);
 		return query;
@@ -540,7 +552,8 @@ public class ProfileServiceImpl implements ProfileService{
 //           //Use hibernate Criteria API to get and sort results based on USER_ID field in sortOrder
 //             results = userDAO.searchUsers(...);
 //        }
-        String luceneQuery = "PATH:\"/app:company_home/cm:profiler//*\" AND TYPE:\"pf:profile\"";
+        String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+        String luceneQuery = "PATH:\"/app:company_home/st:sites/"+organization+"/cm:documentLibrary/cm:ProfileR//*\" AND TYPE:\"pf:profile\"";
 		//log.info("Query :" +luceneQuery + " with PageNum "+ pageNum + " and PageSize :"+psc.getPageSize());
 	//	results = searchInRepository(luceneQuery, ""+psc.getPageNum(), ""+psc.getPageSize(), false);	
 		
@@ -564,6 +577,7 @@ public class ProfileServiceImpl implements ProfileService{
 				method.addParameter("alf_ticket", ticket);
 				method.addParameter("pagenum", ""+psc.getPageNum());
 				method.addParameter("pagesize", ""+psc.getPageSize());
+				method.addParameter("organizationid", organization);
 				int statusCode = client.executeMethod(method);
 				log.info(statusCode);
 				if (statusCode != -1) {
@@ -605,6 +619,12 @@ public class ProfileServiceImpl implements ProfileService{
 							profile.setExperience(element
 									.getElementsByTagName("profileExperience").item(0)
 									.getTextContent());
+							profile.setEmail(element
+									.getElementsByTagName("profileEmail")
+									.item(0).getTextContent());
+							profile.setContactNo(element
+									.getElementsByTagName("profileContactNo")
+									.item(0).getTextContent());
 							profile.setEducation(element
 									.getElementsByTagName("profileEducation")
 									.item(0).getTextContent());

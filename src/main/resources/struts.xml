@@ -70,10 +70,13 @@
 		<action name="setUpForInsertOrUpdateProfile"
 			method="setUpForInsertOrUpdate"
 			class="com.lemon.profiler.action.ProfileAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">profileNew</result>
 		</action>
 		<action name="insertOrUpdateProfile" method="insertOrUpdate"
 			class="com.lemon.profiler.action.ProfileAction">
+			<interceptor-ref name="defaultStack" />
 			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="redirect">agencydashboard</result>
 			<result name="input" type="tiles">profileNew</result>
@@ -135,43 +138,59 @@
 		<action name="setUpForInsertOrUpdateJob"
 			method="setUpForInsertOrUpdate"
 			class="com.lemon.profiler.action.JobAction">
+			<interceptor-ref name="defaultStack" />
 			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">jobNew</result>
 		</action>
 		<action name="insertOrUpdateJob" method="insertOrUpdate"
 			class="com.lemon.profiler.action.JobAction">
+			<interceptor-ref name="defaultStack" />
 			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="redirect">agencydashboard</result>
 			<result name="input" type="tiles">jobNew</result>
 		</action>
 		<action name="deleteJobConfirm" method="deleteConfirm"
 			class="com.lemon.profiler.action.JobAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">jobDelete</result>
 		</action>
 		<action name="deleteJob" method="deleteJob"
 			class="com.lemon.profiler.action.JobAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="redirect">agencydashboard</result>
 		</action>
 		<action name="attachJD" method="attachJD"
 			class="com.lemon.profiler.action.JobAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="redirect">attachJD</result>
 		</action>
 
 		<!-- Event Actions -->
 		<action name="createEvent" method="createEvent"
 			class="com.lemon.profiler.action.EventAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">agencyhome</result>
 		</action>
 		<action name="viewEvent" method="viewEvent"
 			class="com.lemon.profiler.action.EventAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">eventShow</result>
 		</action>
 		<action name="editEvent" method="editEvent"
 			class="com.lemon.profiler.action.EventAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">eventEdit</result>
 		</action>
 		<action name="deleteEvent" method="deleteEvent"
 			class="com.lemon.profiler.action.EventAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">eventDelete</result>
 		</action>
 
@@ -211,6 +230,8 @@
 		<!-- Advanced Search -->
 		<action name="advancedSearch"
 			class="com.lemon.profiler.action.AdvancedSearchAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">advSearch</result>
 			<result name="input" type="tiles">advSearchInput</result>
 			<result name="failure" type="tiles">error</result>
@@ -226,6 +247,7 @@
 		<!-- BulkUpload -->
 		<action method="bulkUploadProcessor" name="bulkUploadProcessor"
 			class="com.lemon.profiler.action.BulkUploadProcessorAction">
+			<interceptor-ref name="defaultStack" />
 			<interceptor-ref name="profileUpdateStack" />
 			<result name="input" type="tiles">processBulkResumes</result>
 			<result name="success" type="redirect">agencydashboard</result>
@@ -235,6 +257,8 @@
 		<!-- Preview -->
 		<action name="processUPProfiles" method="prepareUPDashboard"
 			class="com.lemon.profiler.action.ProcessUPProfiles">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">unprocessedDashboard</result>
 			<result name="failure" type="tiles">error</result>
 		</action>
@@ -242,6 +266,7 @@
 		<action name="setUpForInsertOrUpdateUPProfile"
 			method="insertOrUpdate"
 			class="com.lemon.profiler.action.ProcessUPProfiles">
+			<interceptor-ref name="defaultStack" />
 			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="redirect">agencydashboard</result>
 			<result name="failure" type="tiles">error</result>
@@ -276,6 +301,24 @@
 		<action name="loadReportDashboard" method="loadReportDashboard"
 			class="com.lemon.profiler.action.ReportAction">
 			<result name="success" type="tiles">loadReportDashboard</result>
+			<result name="failure" type="tiles">error</result>
+		</action>
+		
+		<!-- Email Candidate Action -->
+		<action name="emailCandidate" method="emailCandidate"
+			class="com.lemon.profiler.action.EmailCandidateAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
+			<result name="input" type="tiles">draftEmail</result>
+			<result name="failure" type="tiles">error</result>
+			<result name="success" type="tiles">agencydashboard</result>
+		</action>
+		<!-- Email Candidate Load -->
+		<action name="draftemailToCandidate" method="draftemailToCandidate"
+			class="com.lemon.profiler.action.EmailCandidateAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
+			<result name="input" type="tiles">draftEmail</result>
 			<result name="failure" type="tiles">error</result>
 		</action>
 

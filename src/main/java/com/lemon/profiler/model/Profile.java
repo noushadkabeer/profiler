@@ -9,6 +9,10 @@ public class Profile implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public String id;	
 	public String name;
+	//21/11 Added
+	public String email;
+	public String contactNo;
+	
 	public String experience;
 	public String education;
 	public String skills;
@@ -39,12 +43,18 @@ public class Profile implements Serializable{
 	
 	
 	
-	public Profile(String id, String name, String experience, String education,
-			String skills, String interests, String location, String address,
-			String resumeSummary, Attachment attachments) {
+
+	public String getId() {
+		return id;
+	}
+	public Profile(String id, String name, String email, String contactNo, String experience, String education,
+			String skills, String interests, String location, String address, String resumeSummary,
+			Attachment attachments) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.email = email;
+		this.contactNo = contactNo;
 		this.experience = experience;
 		this.education = education;
 		this.skills = skills;
@@ -55,9 +65,6 @@ public class Profile implements Serializable{
 		this.attachments = attachments;
 	}
 
-	public String getId() {
-		return id;
-	}
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -66,6 +73,21 @@ public class Profile implements Serializable{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getContactNo() {
+		return contactNo;
+	}
+
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
 	}
 	public String getExperience() {
 		return experience;

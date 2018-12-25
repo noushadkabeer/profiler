@@ -57,6 +57,19 @@
                     </div>
                 </div>
                 <div class="control-group">
+                    <label class="control-label" for="amount">Email</label>
+                    <div class="controls">
+                            <s:textfield id="Email" name="profile.email" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="amount">Contact Number</label>
+                    <div class="controls">
+                            <s:textfield id="contactNo" name="profile.contactNo" />
+                    </div>
+                </div>
+
+                <div class="control-group">
                     <label class="control-label" for="amount">Education</label>
                     <div class="controls">
                             <s:textfield id="education" name="profile.education" />

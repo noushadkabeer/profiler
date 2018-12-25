@@ -6,8 +6,12 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 
@@ -72,10 +76,54 @@ public class MailRead {
       String host = "imap.gmail.com";// change accordingly
       String mailStoreType = "imap";
       String username = "NishadK@deltaoilgasjobs.com";// change accordingly
-      String password = "";// change accordingly
+      String password = "DelTa@2018";// change accordingly
 
-      check(host, mailStoreType, username, password);
+      //check(host, mailStoreType, username, password);
+      new MailRead().sendEmail();
 
+   }
+   
+   
+	   private String from ="NishadK@deltaoilgasjobs.com";
+	   private String password = "DelTa@2018";
+	   private String to = "emperor3330@gmail.com";
+	   private String subject = "Test Email";
+	   private String body = "This is a test mail";
+
+	   static Properties properties = new Properties();
+	   static {
+	      properties.put("mail.smtp.host", "smtp.gmail.com");
+	      properties.put("mail.smtp.socketFactory.port", "465");
+	      properties.put("mail.smtp.socketFactory.class",
+	         "javax.net.ssl.SSLSocketFactory");
+	      properties.put("mail.smtp.auth", "true");
+	      properties.put("mail.smtp.port", "465");
+	   }
+
+	   public void sendEmail() {
+	      String ret = "SUCCESS";
+	      try {
+	         Session session = Session.getDefaultInstance(properties,  
+	            new javax.mail.Authenticator() {
+	               protected PasswordAuthentication 
+	               getPasswordAuthentication() {
+	                  return new 
+	                  PasswordAuthentication(from, password);
+	               }
+	            }
+	         );
+
+	         Message message = new MimeMessage(session);
+	         message.setFrom(new InternetAddress(from));
+	         message.setRecipients(Message.RecipientType.TO, 
+	            InternetAddress.parse(to));
+	         message.setSubject(subject);
+	         message.setText(body);
+	         Transport.send(message);
+	      } catch(Exception e) {
+	         ret = "ERROR";
+	         e.printStackTrace();
+	      }
    }
 
 }

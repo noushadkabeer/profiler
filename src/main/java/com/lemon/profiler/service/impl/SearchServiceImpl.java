@@ -27,6 +27,7 @@ import com.lemon.profiler.model.Task;
 import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.PropertyReaderService;
 import com.lemon.profiler.service.SearchService;
+import com.opensymphony.xwork2.ActionContext;
 
 
 public class SearchServiceImpl implements SearchService{
@@ -52,12 +53,14 @@ public class SearchServiceImpl implements SearchService{
 		String strURL = propS.getKeyValue("contentServerURL")
 				+ propS.getKeyValue("applicationServiceURL")+"commonSearch";
 		InputStream in3 = null;
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		PostMethod post = new PostMethod(strURL);
 		if (ticket != null && ticket.isEmpty()) {
 			try {
 				HttpClient client = new HttpClient();
 				PostMethod method = new PostMethod(strURL);
 				method.addParameter("alf_ticket", ticket);
+				method.addParameter("organizationid",organization);
 				int statusCode = client.executeMethod(method);
 				log.info(statusCode);
 				if (statusCode != -1) {

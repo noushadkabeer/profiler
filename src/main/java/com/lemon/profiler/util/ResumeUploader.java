@@ -38,6 +38,7 @@ import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.PropertyReaderService;
 import com.lemon.profiler.service.impl.AuthenticationServiceImpl;
 import com.lemon.profiler.service.impl.PropertyReaderServiceImpl;
+import com.opensymphony.xwork2.ActionContext;
 
 import eu.medsea.mimeutil.MimeUtil;
 
@@ -178,6 +179,7 @@ public class ResumeUploader {
 		ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
 		String cType = "";
 		System.out.println("Files ::> \n1. "+file.getName()+" \n2."+processed.getName());
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		if (ticket != null && !ticket.isEmpty()) {			
 			post.addParameter("alf_ticket", ticket);
 			try {
@@ -191,11 +193,14 @@ public class ResumeUploader {
 				System.out.println("Ticket generated.. uploading file "+file + strURL);
 				Part[] parts = { new StringPart("fileName", file.getName()), 
 						new FilePart("file", file),
-						new FilePart("jsoncontent", processed),
+						new FilePart("jsoncontent", processed),						
 						new StringPart("mimetype",cType),
 						new StringPart("id", randomId()),
+						//TODO: Update the organization hardcoding to read from session
+						new StringPart("organizationid", organization),
 						new StringPart("jsonfileid",file.getName()+".json")						
 				};
+				System.out.println("Added organization " +organization);
 				post.setRequestEntity(new MultipartRequestEntity(parts, post
 						.getParams()));
 				InputStream in = null;
