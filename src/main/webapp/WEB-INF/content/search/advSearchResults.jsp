@@ -47,8 +47,8 @@
 			<div>
 			<s:form action="advancedSearch" method="post" name="paginationForm"> 
      			<%@ include file="../common/pagination.jsp" %>
-     			<s:textfield name="profile.name" size="30" />
-     			<s:property value="profile.name"/>
+     			<!--<s:textfield name="profile.name" size="30" />
+     			<s:property value="profile.name"/>-->
    			</s:form>
 			</div>
 			

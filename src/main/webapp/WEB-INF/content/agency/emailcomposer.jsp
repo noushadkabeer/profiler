@@ -48,29 +48,29 @@
     </div>
 		<table class="borderAll">
 			<tr>
-				<td class="tdLabel"><s:text name="From" /></td>
-				<td><s:textfield name="from" size="24"
+				<td class="tdLabel"><s:label name="From :" /></td>
+				<td>From :<s:textfield name="from" size="24"
 						/></td>
 			<tr />
 			<tr>
-				<td class="tdLabel"><s:text name="To" /></td>
-				<td><s:textfield name="to" size="24"/></td>
+				<td class="tdLabel"><s:label name="To :" /></td>
+				<td>To :<s:textfield name="to" size="24"/></td>
 			<tr />
 			<tr>
-				<td class="tdLabel"><s:text name="CC" /></td>
-				<td><s:textfield name="cc" size="24"/></td>
+				<td class="tdLabel"><s:label name="CC :" /></td>
+				<td>CC :<s:textfield name="cc" size="24"/></td>
 			<tr />
 			<tr>
-				<td class="tdLabel"><s:text name="BCC" /></td>
-				<td><s:textfield name="bcc" size="24"/></td>
+				<td class="tdLabel"><s:label name="BCC :" /></td>
+				<td>Bcc :<s:textfield name="bcc" size="24"/></td>
 			<tr />
 			<tr>
-				<td class="tdLabel"><s:text name="Subject" /></td>
-				<td><s:textfield name="subject" size="24"/></td>
+				<td class="tdLabel"><s:label name="Subject :" /></td>
+				<td>Subject :<s:textfield name="subject" size="24"/></td>
 			<tr />
 			<tr>
-				<td class="tdLabel"><s:text name="Content" /></td>
-				<td><s:textarea name="content" cols="30" rows="6"/></td>
+				<td class="tdLabel"><s:label name="Content :" /></td>
+				<td>Context : <s:textarea name="content" cols="30" rows="6"/></td>
 			<tr />
 				
 		</table>

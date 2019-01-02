@@ -76,7 +76,7 @@ public class DashboardAction {
 		ProfileSearchResults<Profile> searchResults = profileService.obtainAllProfiles(psc);
 			//profiles = profileService.obtainAllProfiles(pagination.getPage_number()+"", pagination.getPage_size()+"");
 		profiles = searchResults.getResults();
-		pagination.setProperties(profiles.size());
+		pagination.setProperties(searchResults.getTotalResults());
 		
 	//	pagination.setPage_records(Integer.parseInt(propertyService.getKeyValue("pageSize")));
 		pagination.setPage_records(searchResults.getTotalResults());

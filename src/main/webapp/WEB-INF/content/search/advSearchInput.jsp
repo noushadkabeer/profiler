@@ -70,7 +70,7 @@
         	<s:hidden name="profile.interests" id="interests" value=""/>
         	<s:hidden name="profile.address" id="address" value=""/>
         	<s:hidden name="profile.resumeSummary" id="resumeSummary" value=""/>
-        	<s:submit value="Search" cssClass="btn btn-info"></s:submit>
+        	<s:submit value="Search" id="searchSubButton" cssClass="btn btn-info"></s:submit>
         </s:form>
         
         <div id="srchResponseDiv">

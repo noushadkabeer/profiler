@@ -16,17 +16,17 @@
 	id="sortOrder" value="<%=pagination.getSortOrder()%>" />
 <table width="50%" align="center">
 	<tr>
-		<td class="pagination-label" width="100%" nowrap="nowrap"><b>Total : <%=pagination.getPage_records() %>
-			 Items</b></td>
+		<td class="pagination-label" width="100%" nowrap="nowrap"><b>Search Results Total : <%=pagination.getPage_records() %>
+			 Items </b></td>
 		<td>
 			<%if(previous){%> <a href="#"
-			onclick="fnPagination(4,<%=pagination.getTotal_pages()%>);"> <b> Previous</b>
-		</a> <%}else{ %> <i>Previous</i> <%} %>
+			onclick="fnPagination(4,<%=pagination.getTotal_pages()%>);"> <b class="fa fa-arrow-left"> First</b>
+		</a> <%}else{ %> <i>First</i> <%} %>
 		</td>
 		<td>
 			<%if(previous){%> <a href="#"
-			onclick="fnPagination(3,<%=pagination.getTotal_pages()%>);"> <b>Left</b>
-		</a> <%}else{ %> <i>Left</i> <%} %>
+			onclick="fnPagination(3,<%=pagination.getTotal_pages()%>);"> <b class="fa fa-arrow-left"></b>
+		</a> <%}else{ %> <i>Previous</i> <%} %>
 		</td>
 		<td class="pagination-label" nowrap="nowrap">Page :</td>
 		<td><input name="pagination.page_number" width="3"
@@ -34,16 +34,16 @@
 			<%if(!previous && !next) {%> readonly="readonly" <%}%>
 			style="width: 30px;" maxlen="3"
 			value="<%=pagination.getPage_number()%>" type="text"
-			onclick="fnPagination(7,<%=pagination.getTotal_pages()%>);" /></td>
+			onchange="fnPagination(7,<%=pagination.getTotal_pages()%>);" /></td>
 		<td class="pagination-label" nowrap="nowrap">of <%=pagination.getTotal_pages()%></td>
 		<td>
 			<% if(next){ %> <a href="#"
-			onclick="fnPagination(1,<%=pagination.getTotal_pages()%>);"><b>Next</b>
+			onclick="fnPagination(1,<%=pagination.getTotal_pages()%>);"><b class="fa fa-arrow-right"></b>
 		</a> <%}else{ %> <i>Next</i><%} %>
 		</td>
 		<td>
 			<% if(next){ %> <a href="#"
-			onclick="fnPagination(2,<%=pagination.getTotal_pages()%>);"> <b>Last</b>
+			onclick="fnPagination(2,<%=pagination.getTotal_pages()%>);"> <b class="fa fa-arrow-right fa-4">Last</b>
 		</a> <%}else{ %> <i>Last</i> <%} %>
 		</td>
 		<td>&nbsp;</td>

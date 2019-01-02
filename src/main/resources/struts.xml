@@ -28,11 +28,12 @@
 				name="profileUpdateInterceptor" />
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="sessionInterceptor" />
-				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="defaultStack" />								
 			</interceptor-stack>
-			<interceptor-stack name="profileUpdateStack">
+			<interceptor-stack name="profileUpdateStack">				
 				<interceptor-ref name="sessionInterceptor" />
 				<interceptor-ref name="profileUpdateInterceptor" />
+				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
 		<default-interceptor-ref name="loginStack" />
@@ -48,6 +49,7 @@
 
 		<action name="agencydashboard" method="prepareDashboard"
 			class="com.lemon.profiler.action.DashboardAction">
+			<interceptor-ref name="defaultStack" />
 			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">agencyhome</result>
 			<result name="updateProfile" type="redirect">userProfileSettings</result>
@@ -91,7 +93,7 @@
 			</result>
 			<interceptor-ref name="defaultStack">
 				<param name="fileUpload.maximumSize">10485760</param>
-				<param name="fileUpload.allowedTypes">image/png,image/gif,image/jpeg,image/pjpeg,image/jpg,video/x-ms-rmvb,video/x-ms-wmv,video/x-ms-avi,
+			<!-- 	<param name="fileUpload.allowedTypes">image/png,image/gif,image/jpeg,image/pjpeg,image/jpg,video/x-ms-rmvb,video/x-ms-wmv,video/x-ms-avi,
 					video/fli,video/x-fli,video/x-atomic3d-feature,video/gl,video/x-gl,video/x-isvideo,video/mpeg,video/x-motion-jpeg,video/quicktime,video/x-sgi-movie,
 					video/x-mpeg,video/vnd.rn-realvideo,video/x-scm, text/plain,
 					application/pdf,
@@ -107,7 +109,7 @@
 					application/x-xls,
 					application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
 					application/vnd.openxmlformats-officedocument.wordprocessingml.document
-				</param>
+				</param> -->
 			</interceptor-ref>
 		</action>
 
@@ -230,6 +232,7 @@
 		<!-- Advanced Search -->
 		<action name="advancedSearch"
 			class="com.lemon.profiler.action.AdvancedSearchAction">
+			<interceptor-ref name="appDefault" />
 			<interceptor-ref name="defaultStack" />
 			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="tiles">advSearch</result>

@@ -2,7 +2,9 @@ package com.lemon.profiler.action;
 
 import org.apache.log4j.Logger;
 
+import com.lemon.profiler.model.User;
 import com.lemon.profiler.util.EmailUtil;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
@@ -50,6 +52,10 @@ public class EmailCandidateAction extends ActionSupport implements Preparable {
 		
 	}
 	public String draftemailToCandidate() {
+		log.info("To : "+to);
+		User usr = (User) ActionContext.getContext().getSession().get("user");
+		if(usr != null)
+			from = usr.getUserEmail().toString();
 		return "input";
 	}
 	

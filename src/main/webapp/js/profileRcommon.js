@@ -1,6 +1,7 @@
 $(document).ready(
 		function() {
 			var counter = 2;
+			$("#searchSubButton").prop('disabled', true);
 			$("#addButton").click(
 					function() {
 					//	if (counter > 10) {
@@ -49,6 +50,7 @@ $(document).ready(
 						}
 					//	alert(msg);
 						$("#finalQuery").text(queryLabel);
+						$("#searchSubButton").prop('disabled', false);
 					});
 			
 			
@@ -80,7 +82,7 @@ $(document).ready(
 				});
 
 				// to prevent refreshing the whole page page
-				return false;
+		//		return false;
 				
 				
 				

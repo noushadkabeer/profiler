@@ -52,12 +52,7 @@
 							</div>
 						</div>
 
-						<div>
-							<form action="agencydashboard" method="post"
-								name="paginationForm">
-								<%@ include file="pagination.jsp"%>
-							</form>
-						</div>
+
 						<div style="width: 850px; margin: 5px;">
 							<!-- <ul class="tabs" data-persist="true">
 			            <li><a href="#view1">Jobs On Board</a></li>
@@ -69,7 +64,7 @@
 
 								<div id="view1">
 									<h3>
-										<strong>My Profiles</strong>
+										<strong>Candidate Profiles</strong>
 									</h3>
 									<table class="table table-striped">
 										<tr>
@@ -115,22 +110,22 @@
 															<s:param name="profile.id" value="id" />
 														</s:url>
 														<s:a href="%{viewProfile}" cssClass="btn">
-															<i class="icon icon-eye-open"></i>V</s:a>
+															<i class="fa fa-search"></i></s:a>
 														<s:url id="update" action="setUpForInsertOrUpdateProfile">
 															<s:param name="profile.id" value="id" />
 														</s:url>
 														<s:a href="%{update}" cssClass="btn">
-															<i class="icon icon-edit"></i>E</s:a>
+															<i class="fa fa-pencil-square-o"></i></s:a>
 														<s:url id="delete" action="deleteProfileConfirm">
 															<s:param name="profile.id" value="id" />
 														</s:url>
-														<s:a href="%{delete}" cssClass="btn btn-danger">
-															<i class="icon icon-trash"></i>D</s:a>
-														<s:url id="contact" action="contactProfile">
-															<s:param name="profile.id" value="id" />
+														<s:a href="%{delete}" cssClass="fa fa-trash fa-3">
+															<i class="icon icon-trash"></i></s:a>
+														<s:url id="contact" action="draftemailToCandidate">
+															<s:param name="to" value="#doe.email" />
 														</s:url>
-														<s:a href="%{Contact}" cssClass="btn btn-danger">
-															<i class="icon icon-trash"></i>Con</s:a>
+														<s:a href="%{contact}" cssClass="btn btn-danger">
+															<i class="fa fa-envelope"></i></s:a>
 													</div>
 												</td>
 											</tr>
@@ -185,7 +180,12 @@
 					</div>
 					<!--/span-->
 				</div>
-
+						<div>
+							<form action="agencydashboard" method="post"
+								name="paginationForm">
+								<%@ include file="pagination.jsp"%>
+							</form>
+						</div>
 				<!-- 
 
 <table cellpadding="0" cellspacing="0" class="my-table" align="center" 
@@ -252,7 +252,7 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 
 								<div id="view2">
 									<h3>
-										<strong>My Jobs</strong>
+										<strong>Jobs/Positions</strong>
 									</h3>
 									<table class="table table-striped">
 										<tr>

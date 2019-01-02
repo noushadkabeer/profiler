@@ -60,7 +60,9 @@ public class AuthenticationAction extends ActionSupport implements Preparable{
 			addActionMessage("Something went wrong. Please try again..");
 			result = "failure";
 		}else{
+			
 			ActionContext.getContext().getSession().put(ProfilerConstants.PROPERTY_ALF_TICKET, result);
+			System.out.println("Added "+ProfilerConstants.PROPERTY_ALF_TICKET+ " "+result);
 			ActionContext.getContext().getSession().put("username", userName);
 			ActionContext.getContext().getSession().put("password", password);
 			ActionContext.getContext().getSession().put("logged-in", "true");

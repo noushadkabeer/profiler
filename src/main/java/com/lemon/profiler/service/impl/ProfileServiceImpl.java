@@ -553,7 +553,7 @@ public class ProfileServiceImpl implements ProfileService{
 //             results = userDAO.searchUsers(...);
 //        }
         String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
-        String luceneQuery = "PATH:\"/app:company_home/st:sites/"+organization+"/cm:documentLibrary/cm:ProfileR//*\" AND TYPE:\"pf:profile\"";
+        String luceneQuery = "PATH:\"/app:company_home/st:sites/cm:"+organization+"/cm:documentLibrary/cm:ProfileR//*\" AND TYPE:\"pf:profile\"";
 		//log.info("Query :" +luceneQuery + " with PageNum "+ pageNum + " and PageSize :"+psc.getPageSize());
 	//	results = searchInRepository(luceneQuery, ""+psc.getPageNum(), ""+psc.getPageSize(), false);	
 		

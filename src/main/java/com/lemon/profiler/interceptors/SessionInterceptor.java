@@ -23,6 +23,7 @@ public class SessionInterceptor extends AbstractInterceptor {
 	public String intercept(ActionInvocation invocation) throws Exception {
 //		Map<String, Object> session = invocation.getInvocationContext().getSession();
 		String loginId = (String) ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_ALF_TICKET);
+		System.out.println("Ticket :"+loginId);
 		if (loginId == null) {
 			log.info("Invalid session! Redirecting to Login "+invocation.getAction().toString());
 			return Action.LOGIN;
