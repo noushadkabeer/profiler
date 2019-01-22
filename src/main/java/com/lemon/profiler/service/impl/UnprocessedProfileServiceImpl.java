@@ -19,6 +19,7 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
@@ -242,7 +243,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 						new StringPart("education", profile.getEducation()),
 						new StringPart("experience", profile.getExperience()),
 						new StringPart("interests", profile.getInterests()),
-						new StringPart("skills", profile.getSkills()),
+						new StringPart("skills", StringUtils.join(profile.getSkills(), ',')),
 						new StringPart("name", profile.getName().trim()),
 						new StringPart("location", profile.getLocation()),
 						new StringPart("address", profile.getAddress()),

@@ -1,9 +1,11 @@
 package com.lemon.profiler.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
@@ -26,13 +28,18 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.sax.BodyContentHandler;
+import org.xml.sax.ContentHandler;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 
-import com.lemon.profiler.action.AuthenticationAction;
 import com.lemon.profiler.constants.ProfilerConstants;
 import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.PropertyReaderService;
@@ -114,15 +121,20 @@ public class ResumeUploader {
 	                	}
 	                }
 	                if(key.equals("skills")){
-	                	subParser = parser.parse(jsonObject.get("skills").toString());
-	                	jsonArr = (JSONArray) subParser;
-	                	//Title
-	                	for (int i = 0;  i < jsonArr.size();  i++)
-	                    {
-	                		subParser = parser.parse(jsonArr.get(i).toString());
-	                		skillOb = (JSONObject) subParser;
-	                		System.out.println("Expertise :: " +skillOb.get("Expertise"));
-	                    }
+//	                	subParser = parser.parse(jsonObject.get("skills").toString());
+//	                	jsonArr = (JSONArray) subParser;
+//	                	//Title
+//	                	for (int i = 0;  i < jsonArr.size();  i++)
+//	                    {
+//	                		subParser = parser.parse(jsonArr.get(i).toString());
+//	                		skillOb = (JSONObject) subParser;
+//	                		System.out.println("Expertise :: " +skillOb.get("Expertise"));
+//	                    }
+                	  JSONArray msg = (JSONArray) jsonObject.get("skills");
+                      Iterator<String> iterator = msg.iterator();
+                      while (iterator.hasNext()) {
+                          System.out.println(iterator.next());
+                      }
 	                	
 	                }
 	                if(key.equals("education_and_training")){
@@ -183,14 +195,17 @@ public class ResumeUploader {
 		if (ticket != null && !ticket.isEmpty()) {			
 			post.addParameter("alf_ticket", ticket);
 			try {
-				 MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
+//				 MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
+//				 MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.ExtensionMimeDetector");
+//				 MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
 			       // File f = new File ("c:/temp/mime/test.doc");
-			        Collection<?> mimeTypes = MimeUtil.getMimeTypes(file);
-			        System.out.println(mimeTypes+" >>>>>>>>>>>>>>>>>>>>>>> "+file.getName()+".json");
+			        //Collection<?> mimeTypes = MimeUtil.getMimeTypes(file);
+			        System.out.println(" >>>>>>>>>>>>>>>>>>>>>>> "+file.getName()+".pdf.json");
 			        //  output : application/msword
-			        if(mimeTypes.size()>0) cType = mimeTypes.iterator().next().toString();
+			        //if(mimeTypes.size()>0) cType = mimeTypes.iterator().next().toString();
+			        cType = new ResumeUploader().metadataFinder(file);
 			        
-				System.out.println("Ticket generated.. uploading file "+file + strURL);
+				System.out.println(cType+"Ticket generated.. uploading file "+file + strURL);
 				Part[] parts = { new StringPart("fileName", file.getName()), 
 						new FilePart("file", file),
 						new FilePart("jsoncontent", processed),						
@@ -242,6 +257,23 @@ public class ResumeUploader {
 		}
 		
 		return sb.toString();
+	}
+	
+	public String metadataFinder(File f) {
+		FileInputStream is = null;
+		try {
+		ContentHandler contenthandler = new BodyContentHandler();
+	      Metadata metadata = new Metadata();
+	      metadata.set(Metadata.RESOURCE_NAME_KEY, f.getName());
+	      Parser parser = new AutoDetectParser();
+	      // OOXMLParser parser = new OOXMLParser();
+	      ParseContext context=new ParseContext();	      
+	      parser.parse(is, contenthandler, metadata, context);
+	      return metadata.get(metadata.CONTENT_TYPE);
+		}catch (Exception e) {
+			
+		}
+		return "";
 	}
 }
 

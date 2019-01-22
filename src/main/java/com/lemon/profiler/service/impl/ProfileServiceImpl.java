@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,6 +21,7 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
@@ -52,8 +54,8 @@ public class ProfileServiceImpl implements ProfileService{
 	
 	static {
 		profileList = new ArrayList<Profile>();
-		profileList.add(new Profile("001","Name","Experience","+9762343243","t@t.com","B.Sc","Skills","Interest","Abudhabi","SO14 OAT","Resume Summary", new Attachment("id", "attach", "ds", "DD")));
-		profileList.add(new Profile("002","Name2","Experience","+9762343243","t@t.com","B.Sc","Skills","Interest","Abudhabi","SO14 OAT","Resume Summary", new Attachment("id1", "attachs", "ds", "DD")));		
+//		profileList.add(new Profile("001","Name","Experience","+9762343243","t@t.com","B.Sc","Skills","Interest","Abudhabi","SO14 OAT","Resume Summary", new Attachment("id", "attach", "ds", "DD")));
+//		profileList.add(new Profile("002","Name2","Experience","+9762343243","t@t.com","B.Sc","Skills","Interest","Abudhabi","SO14 OAT","Resume Summary", new Attachment("id1", "attachs", "ds", "DD")));		
 	}
 
     Log logger = LogFactory.getLog(this.getClass());
@@ -135,9 +137,9 @@ public class ProfileServiceImpl implements ProfileService{
 							profile.setEducation(element
 									.getElementsByTagName("profileEducation")
 									.item(0).getTextContent());
-							profile.setSkills(element
+							profile.setSkills(Arrays.asList(element
 									.getElementsByTagName("profileSkills")
-									.item(0).getTextContent());
+									.item(0).getTextContent().split("\\s*,\\s*")));
 							profile.setInterests(element
 									.getElementsByTagName("profileInterests")
 									.item(0).getTextContent());
@@ -212,7 +214,7 @@ public class ProfileServiceImpl implements ProfileService{
 					new StringPart("education", profile.getEducation()),
 					new StringPart("experience", profile.getExperience()),
 					new StringPart("interests", profile.getInterests()),
-					new StringPart("skills", profile.getSkills()),
+					new StringPart("skills", StringUtils.join(profile.getSkills(), ',')),
 					new StringPart("name", profile.getName().trim()),
 					new StringPart("location", profile.getLocation()),
 					new StringPart("address", profile.getAddress()),
@@ -283,7 +285,7 @@ public class ProfileServiceImpl implements ProfileService{
 						new StringPart("education", profile.getEducation()),
 						new StringPart("experience", profile.getExperience()),
 						new StringPart("interests", profile.getInterests()),
-						new StringPart("skills", profile.getSkills()),
+						new StringPart("skills", StringUtils.join(profile.getSkills(), ',')),
 						new StringPart("name", profile.getName().trim()),
 						new StringPart("location", profile.getLocation()),
 						new StringPart("address", profile.getAddress()),
@@ -452,9 +454,9 @@ public class ProfileServiceImpl implements ProfileService{
 							profile.setEducation(element
 									.getElementsByTagName("profileEducation")
 									.item(0).getTextContent());
-							profile.setSkills(element
+							profile.setSkills(Arrays.asList(element
 									.getElementsByTagName("profileSkills")
-									.item(0).getTextContent());
+									.item(0).getTextContent().split("\\s*,\\s*")));
 							profile.setInterests(element
 									.getElementsByTagName("profileInterests")
 									.item(0).getTextContent());
@@ -628,9 +630,9 @@ public class ProfileServiceImpl implements ProfileService{
 							profile.setEducation(element
 									.getElementsByTagName("profileEducation")
 									.item(0).getTextContent());
-							profile.setSkills(element
+							profile.setSkills(Arrays.asList(element
 									.getElementsByTagName("profileSkills")
-									.item(0).getTextContent());
+									.item(0).getTextContent().split("\\s*,\\s*")));
 							profile.setInterests(element
 									.getElementsByTagName("profileInterests")
 									.item(0).getTextContent());

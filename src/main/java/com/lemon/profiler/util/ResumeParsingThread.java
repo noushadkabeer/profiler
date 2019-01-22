@@ -1,23 +1,17 @@
 package com.lemon.profiler.util;
 
 import static gate.Utils.stringFor;
-import gate.Annotation;
-import gate.AnnotationSet;
-import gate.Corpus;
-import gate.Document;
-import gate.Factory;
-import gate.FeatureMap;
-import gate.Gate;
-import gate.util.GateException;
-import gate.util.Out;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -32,6 +26,17 @@ import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+
+import com.lemon.profiler.util.doc2pdf.Doc2PDFInitiator;
+
+import gate.Annotation;
+import gate.AnnotationSet;
+import gate.Corpus;
+import gate.Document;
+import gate.Factory;
+import gate.FeatureMap;
+import gate.util.GateException;
+import gate.util.Out;
 
 
 public class ResumeParsingThread implements Runnable {
@@ -48,7 +53,9 @@ public class ResumeParsingThread implements Runnable {
 	}
 	public void run() {
 		
-		pm.ProcessResume(file);
+//		pm.ProcessResume(file);
+		log.info("Start Convert2PDF :"+file.getName());
+		pm.convertDocsToPDF(file);
 	}
 
 	//public static void main(String args[]) {
@@ -93,21 +100,64 @@ class ProcessMate {
 	static Annie annie = new Annie();
 	ProcessMate(){
 		try{
-		System.setProperty("gate.home", "C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles");
-		System.setProperty("classpath","C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\bin\\*;"
-				+ "C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\lib\\*;C:\\NSD\\work\\profiler\\ResumeParser-master\\ResumeTransducer\\lib\\*");
-		System.out.println("Sys property set as"+System.getProperty("gate.home"));
-		Gate.init();
-		log.info("Annie initialization complete");
-
-		// initialise ANNIE (this may take several minutes)
-		
-		annie.initAnnie();
+			//Commented on 5/1/19 to switch to PDFConvertion
+//		System.setProperty("gate.home", "C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles");
+//		System.setProperty("classpath","C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\bin\\*;"
+//				+ "C:\\NSD\\work\\profiler\\ResumeParser-master\\GATEFiles\\lib\\*;C:\\NSD\\work\\profiler\\ResumeParser-master\\ResumeTransducer\\lib\\*");
+//		System.out.println("Sys property set as"+System.getProperty("gate.home"));
+//		Gate.init();
+//		log.info("Annie initialization complete");
+//
+//		// initialise ANNIE (this may take several minutes)
+//		
+//		annie.initAnnie();
 		}catch(Exception e){
 			
 		}
 	}
 	
+	synchronized void convertDocsToPDF(File file) {
+		// TODO Auto-generated method stub
+		Doc2PDFInitiator doc2pdf = new Doc2PDFInitiator();
+		try {
+			File directory = new File(FilenameUtils.getFullPath(file.getPath())+"temp\\"+FilenameUtils.removeExtension(file.getName()));
+		    if (! directory.exists()){
+		        directory.mkdir();
+		    }			
+			String pdfPath = directory.getAbsolutePath()+"\\"+FilenameUtils.removeExtension(file.getName())+".pdf";
+			log.info("Inpath : "+FilenameUtils.getFullPath(file.getPath())+ " PDFpath "+ pdfPath);
+			doc2pdf.processDocuments(FilenameUtils.getFullPath(file.getPath())+file.getName(), pdfPath, FilenameUtils.getExtension(file.getName()), false);
+			
+			//Noe extract and prepare json
+			String cmd = "py C:/Users/emper/PycharmProjects/profileR/venv/One.py \""+directory.getAbsolutePath()+"\"";
+			try
+	        {           
+	            Runtime rt = Runtime.getRuntime();
+	            log.info("Initiating conversion : "+directory.getAbsolutePath()+" :: CMD :>"+cmd);
+	            Process proc = rt.exec(cmd);
+	            InputStream stdin = proc.getInputStream();
+	            InputStreamReader isr = new InputStreamReader(stdin);
+	            BufferedReader br = new BufferedReader(isr);
+	            String line = null;
+	            log.info("Py Output :>");
+	            while ( (line = br.readLine()) != null)
+	            	log.info(line);
+	            log.info("--------------$$$$$$$$$$$$$$$$$$$$-------------");
+	            int exitVal = proc.waitFor();   
+	            proc.waitFor(10, TimeUnit.SECONDS);
+	            proc.destroy();
+	            log.info("Process destroyed : " + exitVal);
+	        } catch (Throwable t)
+	          {
+	            t.printStackTrace();
+	          }
+			
+		}catch(Exception e) {
+			System.out.println("Error in convertion");
+			e.printStackTrace();
+		}
+	}
+
 	synchronized void ProcessResume(File file){
 		//ResumeParserProgram rpp = new ResumeParserProgram();
 		
@@ -122,7 +172,7 @@ class ProcessMate {
 				//remove the html file
 				tikkaConvertedFile.delete();
 //				Out.prln("Writing to output..."+ FilenameUtils.getFullPath(file.getPath())+"temp\\"+file.getName()+".json");
-				File jsonFile = new File(FilenameUtils.getFullPath(file.getPath())+"temp\\"+file.getName()+".json");
+				File jsonFile = new File(FilenameUtils.getFullPath(file.getPath())+"temp\\"+FilenameUtils.removeExtension(file.getName())+"\\"+FilenameUtils.removeExtension(file.getName())+".pdf.json");
 				// creates the file
 				jsonFile.getParentFile().mkdirs();
 				//jsonFile.createNewFile();

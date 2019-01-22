@@ -1,6 +1,7 @@
 package com.lemon.profiler.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Profile implements Serializable{
 	/**
@@ -15,7 +16,14 @@ public class Profile implements Serializable{
 	
 	public String experience;
 	public String education;
-	public String skills;
+	public List<String> skills;
+	public List<String> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(List<String> skills) {
+		this.skills = skills;
+	}
 	public String interests;
 	public String location;
 	public String address;
@@ -47,8 +55,9 @@ public class Profile implements Serializable{
 	public String getId() {
 		return id;
 	}
+
 	public Profile(String id, String name, String email, String contactNo, String experience, String education,
-			String skills, String interests, String location, String address, String resumeSummary,
+			List<String> skills, String interests, String location, String address, String resumeSummary,
 			Attachment attachments) {
 		super();
 		this.id = id;
@@ -101,12 +110,7 @@ public class Profile implements Serializable{
 	public void setEducation(String education) {
 		this.education = education;
 	}
-	public String getSkills() {
-		return skills;
-	}
-	public void setSkills(String skills) {
-		this.skills = skills;
-	}
+
 	public String getInterests() {
 		return interests;
 	}
