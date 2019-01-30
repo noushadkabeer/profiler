@@ -73,12 +73,12 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 				HttpClient client = new HttpClient();
 				PostMethod method = new PostMethod(strURL);
 				method.addParameter("stringToSearch", textToSearch);
-				log.info("Finding Unprocessed Resumes: search >> "+textToSearch+" with "+pageNum+" and "+pageSize);
+				log.debug("Finding Unprocessed Resumes: search >> "+textToSearch+" with "+pageNum+" and "+pageSize);
 				method.addParameter("alf_ticket", ticket);
 				method.addParameter("pagenum", pageNum);
 				method.addParameter("pagesize", pageSize);
 				int statusCode = client.executeMethod(method);
-				log.info(statusCode);
+				log.debug(statusCode);
 				if (statusCode != -1) {
 					in3 = method.getResponseBodyAsStream();
 					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -95,21 +95,18 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 					Node profileNode;					
 					try {
 							for (int gti = 0; gti < itemLst.getLength(); gti++) {
-								log.info("Processing.. "+gti+" th Node");
+								log.debug("Processing.. "+gti+" th Node");
 								node = new com.lemon.profiler.model.Node();
 								Node uppNode = itemLst.item(gti);
 								if (uppNode.getNodeType() == Node.ELEMENT_NODE) {									
 									Element taskelem = (Element) uppNode;
 									profile = new Profile();
 									node.setId(taskelem.getElementsByTagName("id").item(0).getTextContent());
-									node.setName(taskelem.getElementsByTagName("name").item(0).getTextContent()); 
-									
-									
-									
+									node.setName(taskelem.getElementsByTagName("name").item(0).getTextContent()); 									
 									profilesList = taskelem.getElementsByTagName("profile");
 							//		profilesList = getDirectChild(taskelem, "profile").getChildNodes();
 									for (int j = 0; j < profilesList.getLength(); j++) {
-										log.info("Processing.. "+j+" th profile");
+										log.debug("Processing.. "+j+" th profile");
 										profileNode = profilesList.item(j);
 										if (profileNode.getNodeType() == Node.ELEMENT_NODE) {
 											Element element2 = (Element) profilesList.item(j); 
@@ -124,8 +121,8 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 													?element2.getElementsByTagName("url").item(0).getTextContent():"");
 																							
 											profile.setId(id);
-											log.info("ID set for profile >> "+id +" and Name as "+name);
-											profile.setName(name);	log.info("Added new ID :"+profile.id);												
+											log.debug("ID set for profile >> "+id +" and Name as "+name);
+											profile.setName(name);	log.debug("Added new ID :"+profile.id);												
 										}
 										
 									}	
@@ -133,7 +130,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 									attachmentLst = taskelem.getElementsByTagName("jsoncontent");  
 									//attachmentLst = attachmentLst.item(gti).getChildNodes();
 									for (int j1 = 0; j1 < attachmentLst.getLength(); j1++) {
-										log.info("Processing.. "+j1+" th jsoncontent");
+										log.debug("Processing.. "+j1+" th jsoncontent");
 										attachment = attachmentLst.item(j1);
 										if (attachment.getNodeType() == Node.ELEMENT_NODE) {
 											Element element3 = (Element) attachmentLst.item(j1);
@@ -147,12 +144,12 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 											String jsonCurl=ProfilerUtil.getInstance().alfrescoContextURL()+ (ProfilerUtil.nodeNotEmpty(element3.getElementsByTagName("url").item(0))
 													?element3.getElementsByTagName("url").item(0).getTextContent():"");
 									//		profile.setAttachments(new Attachment(jsonCid,jsonCname, jsonCtitle,jsonCurl));
-											log.info("Attachment set for profile >> "+jsonCid +" and Name as "+jsonCname);
+											log.debug("Attachment set for profile >> "+jsonCid +" and Name as "+jsonCname);
 											profile.setAttachments(new Attachment(jsonCid,jsonCname, jsonCtitle,jsonCurl));
 										}
 									}
 									profiles.add(profile);
-									log.info("Added profile ::> "+profile.getId());
+									log.debug("Added profile ::> "+profile.getId());
 								} 
 								
 							}
@@ -162,7 +159,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 						e.printStackTrace();
 					}
 				}
-				log.info("total worklist size :" + workList.size());
+				log.debug("total worklist size :" + workList.size());
 				//}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -184,13 +181,13 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 				HttpClient client = new HttpClient();
 				PostMethod method = new PostMethod(strURL);
 				method.addParameter("stringToSearch", textToSearch);
-				log.info("Finding UP Profiles..");
-				log.info("Added String to search.. "+textToSearch+" with "+pageNum+" and "+pageSize);
+				log.debug("Finding UP Profiles..");
+				log.debug("Added String to search.. "+textToSearch+" with "+pageNum+" and "+pageSize);
 				method.addParameter("alf_ticket", ticket);
 				method.addParameter("pagenum", pageNum);
 				method.addParameter("pagesize", pageSize);
 				int statusCode = client.executeMethod(method);
-				log.info(statusCode);
+				log.debug(statusCode);
 				if (statusCode != -1) {
 					in3 = method.getResponseBodyAsStream();
 					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -205,7 +202,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 							?doc.getElementsByTagName("totalSize").item(0).getTextContent():""; 
 					
 				}
-				log.info("total worklist size :" + totalSize);
+				log.debug("total worklist size :" + totalSize);
 				//}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -217,11 +214,11 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 	 
 	@Override
 	public void insertUPProfile(Profile profile) {
-		log.info("Started UP Profile insertion");
+		log.debug("Started UP Profile insertion");
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);	
 		 String strURL =  ProfilerUtil.getInstance().serviceURL()+ "uploadMoveDeleteUPProfile?alf_ticket="+ticket;  
 			PostMethod post = new PostMethod(strURL); 
-			log.info("Creating a new profile "+strURL);
+			log.debug("Creating a new profile "+strURL+profile.getEmail()+profile.getContactNo()+profile.getDob());
 			//Before insert generate an unique id for the record
 			
 			//profile.setId(ProfilerUtil.getInstance().generatedInteger());	
@@ -229,7 +226,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 			try { 
 				InputStream in2 = null;
 				String xmlString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><storeid>"+profile.getId()+"</storeid>"; 
-				log.info("Xml : " + xmlString);
+				log.debug("Xml : " + xmlString);
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder builder;
 				builder = factory.newDocumentBuilder();
@@ -238,8 +235,11 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 				Document document = null;
 				document = builder.parse(is);
 				String message = document.getDocumentElement().getTextContent();
-				log.info("Got the msg and displaying it :" + message); 
+				log.debug("Got the msg and displaying it :" + message); 
 				Part[] parts = { new StringPart("id", ProfilerUtil.getInstance().generatedInteger()),
+						new StringPart("email", profile.getEmail()),
+						new StringPart("contactNo", profile.getContactNo()),
+						new StringPart("dob", profile.getDob()),
 						new StringPart("education", profile.getEducation()),
 						new StringPart("experience", profile.getExperience()),
 						new StringPart("interests", profile.getInterests()),
@@ -251,7 +251,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 						new StringPart("nodeid", profile.getId())
 				};
 
-				log.info(parts.length + parts.toString()+ profile.getAddress()+profile.getResumeSummary());
+				log.debug(parts.length + parts.toString()+ profile.getAddress()+profile.getResumeSummary());
 				HttpClient client = new HttpClient();
 				// PostMethod method = new PostMethod(strURL);
 				//Credentials loginCreds = new UsernamePasswordCredentials("admin",	"admin");
@@ -261,14 +261,14 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 						new DefaultHttpMethodRetryHandler(3, false));
 				post.setRequestEntity(new MultipartRequestEntity(parts, post.getParams()));
 				int statusCode = client.executeMethod(post);
-				log.info(statusCode);
+				log.debug(statusCode);
 				if (statusCode != -1) {
 					in2 = post.getResponseBodyAsStream();
 					DocumentBuilderFactory factory2 = DocumentBuilderFactory
 							.newInstance();
 					DocumentBuilder builder2 = factory2.newDocumentBuilder();
 					Document doc3 = builder2.parse(in2);
-					log.info(in2 + "  -------"); 
+					log.debug(in2 + "  -------"); 
 					TransformerFactory factory7 = TransformerFactory.newInstance();
 					Transformer xform = factory7.newTransformer(); 
 					xform.transform(new DOMSource(doc3), new StreamResult(
@@ -281,7 +281,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 				post.releaseConnection();
 			}        		
 		
-		//log.info("Added one and now size is :"+profileList.size());		
+		//log.debug("Added one and now size is :"+profileList.size());		
 		
 	}
 	@Override
@@ -303,15 +303,15 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 				PostMethod method = new PostMethod(strURL);
 				String searchQ = upsc.getSearchQuery() == null? ProfilerConstants.PROP_SEARCH_UP_LOC: upsc.getSearchQuery();
 				method.addParameter("stringToSearch", searchQ);
-				log.info("Finding UP Profiles..");
-				log.info("Added String to search.. "+searchQ+" with "+upsc.getPageNum()+" and "+upsc.getPageSize());
+				log.debug("Finding UP Profiles..");
+				log.debug("Added String to search.. "+searchQ+" with "+upsc.getPageNum()+" and "+upsc.getPageSize());
 				method.addParameter("alf_ticket", ticket);
 				method.addParameter("organizationid" , organization);
 				method.addParameter("pagenum", ""+upsc.getPageNum());
 				method.addParameter("pagesize", ""+upsc.getPageSize());
 				int statusCode = client.executeMethod(method);
 				StringWriter sw = new StringWriter();
-				log.info(statusCode);
+				log.debug(statusCode);
 				if (statusCode != -1) {
 					in3 = method.getResponseBodyAsStream();
 					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -337,13 +337,13 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 									node.setId(taskelem.getElementsByTagName("id").item(0).getTextContent());
 									node.setName(taskelem.getElementsByTagName("name").item(0).getTextContent()); 
 									
-									log.info("Processing.. "+gti+" th UP Node :: Name(" +node.getName()+") & ID ("+node.getId()+")");
+									log.debug("Processing.. "+gti+" th UP Node :: Name(" +node.getName()+") & ID ("+node.getId()+")");
 									
 									
 									profilesList = taskelem.getElementsByTagName("profile");
 							//		profilesList = getDirectChild(taskelem, "profile").getChildNodes();
 									for (int j = 0; j < profilesList.getLength(); j++) {
-										//log.info("Processing.. "+j+" th profile");
+										//log.debug("Processing.. "+j+" th profile");
 										profileNode = profilesList.item(j);
 										if (profileNode.getNodeType() == Node.ELEMENT_NODE) {
 											Element element2 = (Element) profilesList.item(j); 
@@ -356,10 +356,10 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 													?element2.getElementsByTagName("title").item(0).getTextContent():"";
 											String url=ProfilerUtil.getInstance().alfrescoContextURL()+ (ProfilerUtil.nodeNotEmpty(element2.getElementsByTagName("url").item(0))
 													?element2.getElementsByTagName("url").item(0).getTextContent():"");
-											log.info("Identified Profile : "+id);												
+											log.debug("Identified Profile : "+id);												
 											profile.setId(id);
-											//log.info("ID set for profile >> "+id +" and Name as "+name);
-											profile.setName(name);	//log.info("Added new ID :"+profile.id);												
+											//log.debug("ID set for profile >> "+id +" and Name as "+name);
+											profile.setName(name);	//log.debug("Added new ID :"+profile.id);												
 										}
 										
 									}	
@@ -382,14 +382,26 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 													?element3.getElementsByTagName("url").item(0).getTextContent():"");
 											String jsonContent = ProfilerUtil.nodeNotEmpty(element3.getElementsByTagName("jcontent").item(0))
 													?element3.getElementsByTagName("jcontent").item(0).getTextContent():"";
-											log.info("Read content as such "+jsonContent);
+													//Fix for converting mobile to contactno before parsing
+													jsonContent =	jsonContent.replace("\"mobile\":", "\"contactNo\":");
+											log.debug("Read content as such "+jsonContent);
 											mappedLocalProfile = new ProfileJSON2JavaMapper().mappedProfile(jsonContent);
-											System.out.println("Values ::>"+mappedLocalProfile.getAddress()+", "+mappedLocalProfile.getInterests()+", "
+											System.out.println("Values ::>"+mappedLocalProfile.getName()+" >> "+mappedLocalProfile.getAddress()+", "+mappedLocalProfile.getInterests()+", "
 													+mappedLocalProfile.getSkills()+", "+mappedLocalProfile.getLocation()+", "+mappedLocalProfile.getEducation()+", ");
 									//		profile.setAttachments(new Attachment(jsonCid,jsonCname, jsonCtitle,jsonCurl));
-											log.info("Attachment set for profile("+profile.getId()+") >> "+jsonCid +" and Name as "+jsonCname);
+											log.debug("Attachment set for profile("+profile.getId()+") >> "+jsonCid +" and Name as "+jsonCname);
 											profile.setAttachments(new Attachment(jsonCid,jsonCname, jsonCtitle,jsonCurl));
-											
+											if(mappedLocalProfile.getName() != null) {
+												profile.setName(mappedLocalProfile.getName());
+											}
+											if(mappedLocalProfile.getEmail()!=null) {
+												profile.setEmail(mappedLocalProfile.getEmail());
+											}
+											if(mappedLocalProfile.getExperience()!=null) {
+												profile.setExperience(mappedLocalProfile.getExperience());
+											}if(mappedLocalProfile.getContactNo()!=null) {
+												profile.setContactNo(mappedLocalProfile.getContactNo());
+											}
 											if(mappedLocalProfile.getAddress()!=null)
 												profile.setAddress(mappedLocalProfile.getAddress());
 											if(mappedLocalProfile.getInterests()!=null)
@@ -400,11 +412,11 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 												profile.setLocation(mappedLocalProfile.getLocation());											
 											if(mappedLocalProfile.getEducation()!=null)
 												profile.setEducation(mappedLocalProfile.getEducation());
-											log.info("Update complete");
+											log.debug("Update complete");
 										}
 									}
 									profiles.add(profile);
-									//log.info("Added profile ::> "+profile.getId());
+									//log.debug("Added profile ::> "+profile.getId());
 								} 
 								
 							}
@@ -414,7 +426,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 						e.printStackTrace();
 					}
 				}
-				log.info("total worklist size :" + profiles.size());
+				log.debug("total worklist size :" + profiles.size());
 				searchResults.setResults(profiles);
 			} catch (Exception e) {
 				e.printStackTrace();

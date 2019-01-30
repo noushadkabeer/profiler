@@ -261,6 +261,10 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 											<th>Title</th>
 											<th>Location</th>
 											<th>Company</th>
+											<th>Job Type</th>
+											<th>Job Description</th>
+											<th>Salary Range</th>
+											<th>Referral Code</th>
 											<th>Actions</th>
 										</tr>
 										<s:iterator value="jobs" status="status">
@@ -270,6 +274,10 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 												<td><s:property value="jobTitle" /></td>
 												<td><s:property value="location" /></td>
 												<td><s:property value="company" /></td>
+												<td><s:property value="jobType" /></td>
+												<td><s:property value="aboutJob"/></td>
+												<td><s:property value="salary" /></td>
+												<td><s:property value="referenceCode" /></td>
 												<td>
 													<div class="btn-group">
 														<a href="viewJob" class="btn"><i

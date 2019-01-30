@@ -43,23 +43,23 @@ public class EventAction extends ActionSupport implements Preparable{
 
 	public String setUpForInsertOrUpdate() {
 		if (profile != null && !profile.getId().isEmpty()) {
-			log.info("Profile not null.");
+			log.debug("Profile not null.");
 			profile = profileService.pullProfile(profile.getId());
 		}
 		return "success";
 	}
 
 	public String insertOrUpdate() {
-		log.info("insert or update check..");
+		log.debug("insert or update check..");
 		if (!validationSuccessful()) {
-			log.info("Validation failed..");
+			log.debug("Validation failed..");
 			return "input";
 		} else {
 			if (profile.getId() == null || profile.getId().isEmpty()) {
-				log.info("Profile insert..");
+				log.debug("Profile insert..");
 				profileService.insert(profile);
 			} else {
-				log.info(">>>>>>>>>>>>>>>> Profile Update"
+				log.debug(">>>>>>>>>>>>>>>> Profile Update"
 						+ profile.id);
 				profileService.update(profile);
 			}
@@ -68,9 +68,9 @@ public class EventAction extends ActionSupport implements Preparable{
 	}
 
 	private boolean validationSuccessful() {
-		log.info("==============================>");
+		log.debug("==============================>");
 		if (profile == null) {
-			log.info("profile null");
+			log.debug("profile null");
 			if (log.isDebugEnabled()) {
 				log.debug("profile - : " + " items found");
 			}
@@ -87,25 +87,25 @@ public class EventAction extends ActionSupport implements Preparable{
 	}
 
 	public String viewProfile() {
-		log.info("View Profile");
+		log.debug("View Profile");
 		return "success";
 	}
 
 	public String editProfile() {
-		log.info("Edit Profile");
+		log.debug("Edit Profile");
 		return "success";
 	}
 
 	public String deleteConfirm() {
-		log.info(profile.id);
+		log.debug(profile.id);
 		profile = profileService.pullProfile(profile.getId());
-		log.info("Delete Confirmation..");
+		log.debug("Delete Confirmation..");
 		return "success";
 	}
 
 	public String deleteProfile() {
 		String result = profileService.delete(profile.id);
-		log.info("Deleting Profile" + profile.id);
+		log.debug("Deleting Profile" + profile.id);
 		return result;
 	}
 

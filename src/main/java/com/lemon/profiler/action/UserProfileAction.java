@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.json.simple.JSONObject;
 
-import com.lemon.profiler.common.ProfilerUtil;
 import com.lemon.profiler.model.Organization;
 import com.lemon.profiler.model.User;
 import com.lemon.profiler.service.ApplicationSetupService;

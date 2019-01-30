@@ -63,7 +63,7 @@ public class DashboardAction {
 	}
 
 	public String prepareDashboard(){		
-		log.info("Prepare request at DashboardAction.preparedashboard with Page Items of "+pagination.getPage_size()+ " Page Number "+pagination.getPage_number());
+		log.debug("Prepare request at DashboardAction.preparedashboard with Page Items of "+pagination.getPage_size()+ " Page Number "+pagination.getPage_number());
 		//get the tasks pending
 		taskService = new TaskServiceImpl();
 		tasks = taskService.obtainTaskList();
@@ -80,7 +80,7 @@ public class DashboardAction {
 		
 	//	pagination.setPage_records(Integer.parseInt(propertyService.getKeyValue("pageSize")));
 		pagination.setPage_records(searchResults.getTotalResults());
-		log.info("Total profiles : "+profiles.size());
+		log.debug("Total profiles : "+profiles.size());
 		
 		//Job listing list
 		jobService = new JobServiceImpl();
@@ -96,7 +96,7 @@ public class DashboardAction {
 		userService = new UserServiceImpl();
 		User whoami = (User)ActionContext.getContext().getSession().get("user");
 		myTeam = userService.getAllUsers(whoami.userOrganization);
-		log.info("Dashboard Prepared with :"+jobs.size()+" Jobs, "+profiles.size() + " Profiles , "+tasks.size()+ " tasks, "+ events.size()+" events.");
+		log.debug("Dashboard Prepared with :"+jobs.size()+" Jobs, "+profiles.size() + " Profiles , "+tasks.size()+ " tasks, "+ events.size()+" events.");
 			
 		return "success";
 	}

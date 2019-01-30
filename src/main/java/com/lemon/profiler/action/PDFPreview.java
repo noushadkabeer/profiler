@@ -146,9 +146,8 @@ public class PDFPreview extends ActionSupport{
 				if (statusCode != -1) { 
 		            BufferedInputStream bis = new BufferedInputStream(method.getResponseBodyAsStream());
 		         
-		         //   File dir = new File("C:\\Noushad\\Personal\\Profiler\\src\\main\\webapp\\pdfjs");
 		            File dir = new File( ServletActionContext.getRequest().getSession().getServletContext().getRealPath("/pdfjs"));
-		    		 filename = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(8), "pdf");
+		    		 filename = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(20), "pdf");
 		    		File file = new File(dir, filename);
 		    		
 		    		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));

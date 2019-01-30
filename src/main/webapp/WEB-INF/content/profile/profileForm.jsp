@@ -57,6 +57,18 @@
 							<td><s:textfield name="profile.name" size="30" /></td>
 						</tr>
 						<tr>
+							<td class="tdLabel"><s:text name="label.email" /></td>
+							<td><s:textfield name="profile.email" size="30" /></td>
+						</tr>
+						<tr>
+							<td class="tdLabel"><s:text name="label.contactNo" /></td>
+							<td><s:textfield name="profile.contactNo" size="30" /></td>
+						</tr>
+						<tr>
+							<td class="tdLabel"><s:text name="label.dob" /></td>
+							<td><s:textfield name="profile.dob" size="10"/></td>
+						</tr>
+						<tr>
 							<td class="tdLabel"><s:text name="label.experience" />(No of Years)</td>
 							<td><s:textfield name="profile.experience" size="30" /></td>
 						</tr>

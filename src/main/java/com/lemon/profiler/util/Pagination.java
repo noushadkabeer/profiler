@@ -1,7 +1,9 @@
 package com.lemon.profiler.util;
 
-public class Pagination {
+import org.apache.log4j.Logger;
 
+public class Pagination {
+	private static final Logger log = Logger.getLogger(Pagination.class);
 	private int page_size = 0;
 	private int page_number = 0;
 	private String sortColumn = null;
@@ -18,7 +20,8 @@ public class Pagination {
 		total_pages = (int) Math.ceil(((double) count / (double) page_size));
 		start = ((page_size * page_number) - page_size);
 		end = page_size;
-		System.out.println("Applying the page properties : TR "+total_records+" TP "+total_pages+" Start "+start +" end "+end);
+		log.debug("Applying the page properties : TR " + total_records + " TP " + total_pages + " Start "
+				+ start + " end " + end);
 		if (page_size == 0) {
 			start = 0;
 			end = count;

@@ -2,6 +2,7 @@ package com.lemon.profiler.service.impl;
 
 import java.io.InputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,7 @@ import com.lemon.profiler.model.Profile;
 import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.JobService;
 import com.lemon.profiler.service.PropertyReaderService;
+import com.opensymphony.xwork2.ActionContext;
 
 
 public class JobServiceImpl implements JobService{	
@@ -44,7 +46,7 @@ public class JobServiceImpl implements JobService{
 	private static final Logger log = Logger.getLogger(JobServiceImpl.class);
 	PropertyReaderService propS = new PropertyReaderServiceImpl();
 	AuthenticationService authService = new AuthenticationServiceImpl();
-	
+	StringWriter sw = new StringWriter();
 	private static ArrayList<Job> jobsList;
 	static {
 		jobsList = new ArrayList<Job>();
@@ -55,14 +57,16 @@ public class JobServiceImpl implements JobService{
     Log logger = LogFactory.getLog(this.getClass());
 	@Override
 	public List<Job> obtainAllJobs() {		
-		String luceneQuery = "PATH:\"/app:company_home/cm:profiler//*\" AND TYPE:\"pf:job\"";
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+		String luceneQuery = "PATH:\"/app:company_home/st:sites/cm:"+organization+"/cm:documentLibrary/cm:ProfileR/cm:Jobs//*\" AND TYPE:\"pf:job\"";
 		return searchInRepository(luceneQuery, "", "", false);	
 	}
 	
 
 	@Override
 	public Job pullJobByName(String name) {
-		String luceneQuery = "PATH:\"/app:company_home/cm:profiler//*\" AND TYPE:\"pf:profile\" AND @cm:name:"+name+"\"";
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+		String luceneQuery = "PATH:\"/app:company_home/st:sites/cm:"+organization+"/cm:documentLibrary/cm:ProfileR/cm:Jobs//*\" AND TYPE:\"pf:job\" AND @cm:name:"+name+"\"";
 		List<Job> jobs = searchInRepository(luceneQuery, "undefined", "undefined", false);
 		Job job = jobs.get(0);
 		return job;
@@ -70,14 +74,15 @@ public class JobServiceImpl implements JobService{
 	
 	@Override
 	public Job pullJob(String jobId) {
-		log.info("Fetching the Job :"+jobId);
+		log.debug("Fetching the Job :"+jobId);
 		Job job = null;
 		List<Job> jobs = new ArrayList<Job>(); 
 		String strURL = ProfilerUtil.getInstance().serviceURL()+ "findJobById";
 		InputStream in4 = null;
 		PostMethod post = new PostMethod(strURL);
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
-		log.info("Ticket Prepared & ready to Search :"+jobId);
+		log.debug("Ticket Prepared & ready to Search :"+jobId);
 		if (ticket != null && !ticket.isEmpty()) {
 			try {
 				HttpClient client = new HttpClient();
@@ -86,31 +91,32 @@ public class JobServiceImpl implements JobService{
 				method.addParameter("stringToSearch", jobId); 
 				// method.addParameter("u", "admin");
 				// method.addParameter("p", "admin");
+				method.addParameter("organizationid" , organization);
 				method.addParameter("alf_ticket", ticket); 
 				int statusCode = client.executeMethod(method);
-				log.info(statusCode);
+				log.debug(statusCode);
 				if (statusCode != -1) {
 					in4 = method.getResponseBodyAsStream();
 					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 					DocumentBuilder builder = factory.newDocumentBuilder();
 					Document doc = builder.parse(in4);
-					log.info("Bfr normalize \n"
+					log.debug("Bfr normalize \n"
 							+ doc.getTextContent());
 					doc.getDocumentElement().normalize();
-					log.info("Just normalized \n"
+					log.debug("Just normalized \n"
 							+ doc.getTextContent());
 					TransformerFactory factory7 = TransformerFactory
 							.newInstance();
 					Transformer xform = factory7.newTransformer();
-					xform.transform(new DOMSource(doc), new StreamResult(System.out));
-					log.info(doc.getTextContent());
+					xform.transform(new DOMSource(doc), new StreamResult(sw));
+					log.debug(doc.getTextContent());
 					NodeList itemLst = doc.getElementsByTagName("job"); 
 					for (int i = 0; i < itemLst.getLength(); i++) {
 						Node node = itemLst.item(i);
 						job = new Job();
 						if (node.getNodeType() == Node.ELEMENT_NODE) {
 							Element element = (Element) itemLst.item(i);
-							log.info(element
+							log.debug(element
 									.getElementsByTagName("jobId").item(0)
 									.getTextContent());
 							job.setJobId(element
@@ -152,23 +158,24 @@ public class JobServiceImpl implements JobService{
 				post.releaseConnection();
 			}
 		}
-		log.info("Total Profiles on Search by ID Returned :"+jobs.size());
+		log.debug("Total Profiles on Search by ID Returned :"+jobs.size());
 			
 		job = jobs.get(0);
 		return job;
 	}
 	@Override
 	public void update(Job job) {
-		log.info("will update this..");        
+		log.debug("will update this..");        
         //From here
         String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
         String strURL =  ProfilerUtil.getInstance().serviceURL()+ "updateJob?alf_ticket="+ticket;  
 		PostMethod post = new PostMethod(strURL); 		
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		post.addParameter("alf_ticket", ticket);
 		try { 
 			InputStream in2 = null;
 			String xmlString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><storeid>"+job.getJobId()+"</storeid>"; 
-			log.info("Xml : " + xmlString);
+			log.debug("Xml : " + xmlString);
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder;
 			builder = factory.newDocumentBuilder();
@@ -177,8 +184,9 @@ public class JobServiceImpl implements JobService{
 			Document document = null;
 			document = builder.parse(is);
 			String message = document.getDocumentElement().getTextContent();
-			log.info("Got the msg and displaying it :" + message); 			
+			log.debug("Got the msg and displaying it :" + message); 			
 			Part[] parts = { new StringPart("jobId", job.getJobId()),
+					new StringPart("organizationid" , organization),
 					new StringPart("jobExperience", job.getJobExperience()),
 					new StringPart("jobTitle", job.getJobTitle()),
 					new StringPart("jobCompany", job.getCompany()),
@@ -191,7 +199,7 @@ public class JobServiceImpl implements JobService{
 					new StringPart("jobNoOfVaccancies", job.getNoOfVaccancies()),
 			};
 
-			log.info(parts.length + parts.toString());
+			log.debug(parts.length + parts.toString());
 			HttpClient client = new HttpClient();
 			// PostMethod method = new PostMethod(strURL);
 //			Credentials loginCreds = new UsernamePasswordCredentials("admin","admin");
@@ -202,9 +210,9 @@ public class JobServiceImpl implements JobService{
 					new DefaultHttpMethodRetryHandler(3, false));
 			post.setRequestEntity(new MultipartRequestEntity(parts, post
 					.getParams()));
-			log.info(post);
+			log.debug(post);
 			int statusCode = client.executeMethod(post);
-			log.info(statusCode);
+			log.debug(statusCode);
 			if (statusCode != -1) {
 				in2 = post.getResponseBodyAsStream();
 
@@ -212,11 +220,11 @@ public class JobServiceImpl implements JobService{
 						.newInstance();
 				DocumentBuilder builder2 = factory2.newDocumentBuilder();
 				Document doc3 = builder2.parse(in2);
-				log.info(in2 + "  -------"); 
+				log.debug(in2 + "  -------"); 
 				TransformerFactory factory7 = TransformerFactory.newInstance();
 				Transformer xform = factory7.newTransformer(); 
 				xform.transform(new DOMSource(doc3), new StreamResult(
-						System.out));
+						sw));
 			}
 
 		} catch (Exception e) {
@@ -226,12 +234,12 @@ public class JobServiceImpl implements JobService{
 		}        
         
         
-        log.info("Record Updated Successfully..");
+        log.debug("Record Updated Successfully..");
 		
 	}
 	@Override
 	public void insert(Job job) {
-		log.info("Already existing :"+jobsList.size());		 
+		log.debug("Already existing :"+jobsList.size());		 
 //		jobsList.add(new Job((0+ new Random().nextInt(Integer.MAX_VALUE)+1)+"", job.getJobExperience(),job.getJobTitle(),
 //				job.getCompany(),job.getLocation(),job.getJobType(), job.getSalary(),job.getReferenceCode(),
 //				job.getContactInfo(),job.getAboutJob(),job.getNoOfVaccancies()));
@@ -240,10 +248,11 @@ public class JobServiceImpl implements JobService{
         String strURL =  ProfilerUtil.getInstance().serviceURL()+ "createJob?alf_ticket="+ticket;  
 		PostMethod post = new PostMethod(strURL); 		
 		post.addParameter("alf_ticket", ticket);
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		try { 
 			InputStream in2 = null;
 			String xmlString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><storeid>"+job.getJobId()+"</storeid>"; 
-			log.info("Xml : " + xmlString);
+			log.debug("Xml : " + xmlString);
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder;
 			builder = factory.newDocumentBuilder();
@@ -252,8 +261,9 @@ public class JobServiceImpl implements JobService{
 			Document document = null;
 			document = builder.parse(is);
 			String message = document.getDocumentElement().getTextContent();
-			log.info("Got the msg and displaying it :" + message); 			
+			log.debug("Got the msg and displaying it :" + message); 			
 			Part[] parts = { new StringPart("jobId", job.getJobId()),
+					new StringPart("organizationid" , organization),
 					new StringPart("jobExperience", job.getJobExperience()),
 					new StringPart("jobTitle", job.getJobTitle()),
 					new StringPart("jobCompany", job.getCompany()),
@@ -266,7 +276,7 @@ public class JobServiceImpl implements JobService{
 					new StringPart("jobNoOfVaccancies", job.getNoOfVaccancies()),	
 			};
 
-			log.info(parts.length + parts.toString());
+			log.debug(parts.length + parts.toString());
 			HttpClient client = new HttpClient();
 			// PostMethod method = new PostMethod(strURL);
 //			Credentials loginCreds = new UsernamePasswordCredentials("admin","admin");
@@ -277,9 +287,9 @@ public class JobServiceImpl implements JobService{
 					new DefaultHttpMethodRetryHandler(3, false));
 			post.setRequestEntity(new MultipartRequestEntity(parts, post
 					.getParams()));
-			log.info(post);
+			log.debug(post);
 			int statusCode = client.executeMethod(post);
-			log.info(statusCode);
+			log.debug(statusCode);
 			if (statusCode != -1) {
 				in2 = post.getResponseBodyAsStream();
 
@@ -287,11 +297,11 @@ public class JobServiceImpl implements JobService{
 						.newInstance();
 				DocumentBuilder builder2 = factory2.newDocumentBuilder();
 				Document doc3 = builder2.parse(in2);
-				log.info(in2 + "  -------"); 
+				log.debug(in2 + "  -------"); 
 				TransformerFactory factory7 = TransformerFactory.newInstance();
 				Transformer xform = factory7.newTransformer(); 
 				xform.transform(new DOMSource(doc3), new StreamResult(
-						System.out));
+						sw));
 			}
 
 		} catch (Exception e) {
@@ -301,13 +311,13 @@ public class JobServiceImpl implements JobService{
 		}        
         
 		
-		log.info("Added one and now size is :"+jobsList.size());		
+		log.debug("Added one and now size is :"+jobsList.size());		
 	}
 	@Override
 	public String delete(String id) {
 		String result = "";
 		Job job = null;
-		log.info("Deleting the Job :"+id);         
+		log.debug("Deleting the Job :"+id);         
 		//From here
         String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
         String strURL =  ProfilerUtil.getInstance().serviceURL()+ "deleteJob?alf_ticket="+ticket;  
@@ -316,7 +326,7 @@ public class JobServiceImpl implements JobService{
 		try { 
 			InputStream in2 = null;
 			String xmlString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><storeid>"+id+"</storeid>"; 
-			log.info("Xml : " + xmlString);
+			log.debug("Xml : " + xmlString);
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder;
 			builder = factory.newDocumentBuilder();
@@ -325,7 +335,7 @@ public class JobServiceImpl implements JobService{
 			Document document = null;
 			document = builder.parse(is);
 			String message = document.getDocumentElement().getTextContent();
-			log.info("Got the msg and displaying it :" + message); 
+			log.debug("Got the msg and displaying it :" + message); 
 			Part[] parts = { new StringPart("id", id),
 					new StringPart("id", id)				
 			}; 
@@ -334,20 +344,20 @@ public class JobServiceImpl implements JobService{
 					new DefaultHttpMethodRetryHandler(3, false));
 			post.setRequestEntity(new MultipartRequestEntity(parts, post
 					.getParams()));
-			log.info(post);
+			log.debug(post);
 			int statusCode = client.executeMethod(post);
-			log.info("Delete Status :"+statusCode);
+			log.debug("Delete Status :"+statusCode);
 			if (statusCode != -1) {
 				in2 = post.getResponseBodyAsStream();
 				DocumentBuilderFactory factory2 = DocumentBuilderFactory
 						.newInstance();
 				DocumentBuilder builder2 = factory2.newDocumentBuilder();
 				Document doc3 = builder2.parse(in2);
-				log.info(in2 + "  -------"); 
+				log.debug(in2 + "  -------"); 
 				TransformerFactory factory7 = TransformerFactory.newInstance();
 				Transformer xform = factory7.newTransformer(); 
 				xform.transform(new DOMSource(doc3), new StreamResult(
-						System.out));
+						sw));
 			}
 
 		} catch (Exception e) {
@@ -372,7 +382,8 @@ public class JobServiceImpl implements JobService{
 		Job job = new Job();  
 		PostMethod post = new PostMethod(strURL);
 		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
-		log.info("Ticket Prepared & ready to Search :"+searchString);
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+		log.debug("Ticket Prepared & ready to Search :"+searchString);
 		if (ticket != null && !ticket.isEmpty()) {
 			try {
 				HttpClient client = new HttpClient();
@@ -384,33 +395,34 @@ public class JobServiceImpl implements JobService{
 					method.addParameter("lucenequery", searchString);
 				// method.addParameter("u", "admin");
 				// method.addParameter("p", "admin");
+				method.addParameter("organizationid" , organization);
 				method.addParameter("alf_ticket", ticket);
 				method.addParameter("pagenum", pageNum);
 				method.addParameter("pagesize", pageSize);
 				int statusCode = client.executeMethod(method);
-				log.info(statusCode);
+				log.debug(statusCode);
 				if (statusCode != -1) {
 					in4 = method.getResponseBodyAsStream();
 					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 					DocumentBuilder builder = factory.newDocumentBuilder();
 					Document doc = builder.parse(in4);
-					log.info("Bfr normalize \n"
+					log.debug("Bfr normalize \n"
 							+ doc.getTextContent());
 					doc.getDocumentElement().normalize();
-					log.info("Just normalized \n"
+					log.debug("Just normalized \n"
 							+ doc.getTextContent());
 					TransformerFactory factory7 = TransformerFactory
 							.newInstance();
 					Transformer xform = factory7.newTransformer();
-					xform.transform(new DOMSource(doc), new StreamResult(System.out));
-					log.info(doc.getTextContent());
+					xform.transform(new DOMSource(doc), new StreamResult(sw));
+					log.debug(doc.getTextContent());
 					NodeList itemLst = doc.getElementsByTagName("job"); 
 					for (int i = 0; i < itemLst.getLength(); i++) {
 						Node node = itemLst.item(i);
 						job = new Job();
 						if (node.getNodeType() == Node.ELEMENT_NODE) {
 							Element element = (Element) itemLst.item(i);
-							log.info("ID "+element
+							log.debug("ID "+element
 									.getElementsByTagName("id").item(0)
 									.getTextContent());
 							job.setJobId(element
@@ -442,18 +454,19 @@ public class JobServiceImpl implements JobService{
 							job.setContactInfo(element
 									.getElementsByTagName("jobContactInfo")
 									.item(0).getTextContent());
-							log.info("job added :" + job.jobId);
+							log.debug("job added :" + job.jobId);
 							jobs.add(job);
 						}
 					} 
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				log.error(e.getMessage());
 			} finally {
 				post.releaseConnection();
 			}
 		}
-		log.info("Before :"+jobs.size());
+		log.debug("Before :"+jobs.size());
 		return jobs;
 	}
 	

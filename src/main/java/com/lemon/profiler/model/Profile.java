@@ -16,6 +16,15 @@ public class Profile implements Serializable{
 	
 	public String experience;
 	public String education;
+	public String dob;
+	
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
 	public List<String> skills;
 	public List<String> getSkills() {
 		return skills;
@@ -56,7 +65,7 @@ public class Profile implements Serializable{
 		return id;
 	}
 
-	public Profile(String id, String name, String email, String contactNo, String experience, String education,
+	public Profile(String id, String name, String email, String contactNo, String dob, String experience, String education,
 			List<String> skills, String interests, String location, String address, String resumeSummary,
 			Attachment attachments) {
 		super();
@@ -64,6 +73,7 @@ public class Profile implements Serializable{
 		this.name = name;
 		this.email = email;
 		this.contactNo = contactNo;
+		this.dob = dob;
 		this.experience = experience;
 		this.education = education;
 		this.skills = skills;

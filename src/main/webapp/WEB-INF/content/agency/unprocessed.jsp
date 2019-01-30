@@ -56,21 +56,21 @@
 			        </ul> --> 
 			        <sj:accordion id="accordion" autoHeight="false" collapsible="true" cssClass="mashups_record"> 
 					    <s:iterator value="unprocessedProfiles" var="dbpedia"> 
-					        <sj:accordionItem title="Profile - %{#dbpedia.name}"> 
+					        <sj:accordionItem title="Profile - %{#dbpedia.name}-%{#dbpedia.id}"> 
 					            <hr/> 
 					            <p align="justify" class="agrovoc_record">
 					            <div class="btn-group">
 										    <button id='<s:property value="dbpedia.id"/>' class="btn btn-primary popModal_ex" data-popmodal-bind="#content_blob" data-id='<s:property value="#dbpedia.id"/>'>Preview</button>
-										 	<s:url id="delete" action="deleteProfileConfirm">
-			       		   						<s:param name="id" value="jobId"/>
-			       							</s:url> <s:a href="%{delete}" cssClass="btn btn-danger"><i
-											class="icon icon-trash"></i>Delete</s:a>																			 
+										 	<s:url id="delete" action="deleteProfileConfirm"><s:param name="profile.id" value="%{#dbpedia.id}"/></s:url> <s:a href="%{delete}" cssClass="btn btn-danger"><i class="icon icon-trash"></i>Delete</s:a>																			 
 									</div> 
 					                 <s:form action="setUpForInsertOrUpdateUPProfile">  <s:hidden name="upProfile.id" value="%{#dbpedia.id}" />  
-							         <s:label value="Name"/><s:textfield name="upProfile.name" value="%{#dbpedia.name}" size="30" placeholder="%{getText('label.name')}"/>  
+							         <s:label value="Name"/><s:textfield name="upProfile.name" value="%{#dbpedia.name}" size="30" placeholder="%{getText('label.name')}"/>
+							         <s:label value="Contact No"/><s:textfield name="upProfile.contactNo" value="%{#dbpedia.contactNo}" size="30" placeholder="%{getText('label.contactNo')}"/>
+							         <s:label value="Email"/><s:textfield name="upProfile.email" value="%{#dbpedia.email}" size="30" placeholder="%{getText('label.email')}"/>							           
 							         <s:label value="Experience"/><s:textfield name="upProfile.experience" value="%{#dbpedia.experience}" size="30" placeholder="%{getText('label.experience')}" />
 							         <s:label value="Education"/><s:textfield name="upProfile.education" value="%{#dbpedia.education}" size="30" placeholder="%{getText('label.education')}"/>
 									 <s:label value="Skills"/><s:textfield name="upProfile.skills" value="%{#dbpedia.skills}" size="30" placeholder="%{getText('label.skills')}"/>
+									 <s:label value="Date of Birth"/><s:textfield name="upProfile.dob" value="%{#dbpedia.dob}" size="30" placeholder="%{getText('label.dob')}"/>
 									 <s:label value="Interests"/><s:textfield name="upProfile.interests" value="%{#dbpedia.interests}" size="30" placeholder="%{getText('label.interests')}"/> 
 									 <s:label value="Address"/><s:textfield name="upProfile.address" value="%{#dbpedia.address}" size="30" placeholder="%{getText('label.address')}"/>  
 									 <s:label value="Location"/><s:textfield name="upProfile.location" value="%{#dbpedia.location}" size="30" placeholder="%{getText('label.location')}"/> 

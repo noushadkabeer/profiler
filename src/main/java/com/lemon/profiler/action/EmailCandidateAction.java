@@ -52,7 +52,7 @@ public class EmailCandidateAction extends ActionSupport implements Preparable {
 		
 	}
 	public String draftemailToCandidate() {
-		log.info("To : "+to);
+		log.debug("To : "+to);
 		User usr = (User) ActionContext.getContext().getSession().get("user");
 		if(usr != null)
 			from = usr.getUserEmail().toString();
@@ -60,14 +60,14 @@ public class EmailCandidateAction extends ActionSupport implements Preparable {
 	}
 	
 	public String emailCandidate() {
-		log.info("Sending Mail To: "+to+" about: "+subject+" by :"+from+ " content :"+content);
+		log.debug("Sending Mail To: "+to+" about: "+subject+" by :"+from+ " content :"+content);
 		try {
 		emailUtil.pushMail(subject, to, cc, bcc, content, from);
 		}catch(Error e) {
 			log.error("Error in Sending email to Candidate "+e);
 			return "input";
 		}
-		log.info("Send Email");
+		log.debug("Send Email");
 		return "success";
 	}
 	public String getTo() {

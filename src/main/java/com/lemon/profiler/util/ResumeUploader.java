@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
@@ -28,17 +27,18 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
+import org.apache.tika.Tika;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
-import org.xml.sax.ContentHandler;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
+import org.xml.sax.ContentHandler;
 
 import com.lemon.profiler.constants.ProfilerConstants;
 import com.lemon.profiler.service.AuthenticationService;
@@ -47,15 +47,13 @@ import com.lemon.profiler.service.impl.AuthenticationServiceImpl;
 import com.lemon.profiler.service.impl.PropertyReaderServiceImpl;
 import com.opensymphony.xwork2.ActionContext;
 
-import eu.medsea.mimeutil.MimeUtil;
-
 public class ResumeUploader {
 	private static final Logger log = Logger.getLogger(ResumeUploader.class);
-	
+	Tika tika = new Tika();
 	public static void main(String args[]) throws Exception{
 		File folder = new File("C:\\Noushad\\Personal\\Profiler\\Resumes\\Sampl3\\");
 		File jSonfolder = new File("C:\\Noushad\\Personal\\Profiler\\Resumes\\json\\");
-		File[] listOfFiles = folder.listFiles();
+		File[] listOfFiles = folder.listFiles();		
 		int oz =1;
 		//trigger those many threads!
 		File jsonFile;
@@ -190,7 +188,6 @@ public class ResumeUploader {
 		String uploadedPath = "";
 		ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
 		String cType = "";
-		System.out.println("Files ::> \n1. "+file.getName()+" \n2."+processed.getName());
 		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		if (ticket != null && !ticket.isEmpty()) {			
 			post.addParameter("alf_ticket", ticket);
@@ -200,14 +197,35 @@ public class ResumeUploader {
 //				 MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
 			       // File f = new File ("c:/temp/mime/test.doc");
 			        //Collection<?> mimeTypes = MimeUtil.getMimeTypes(file);
-			        System.out.println(" >>>>>>>>>>>>>>>>>>>>>>> "+file.getName()+".pdf.json");
 			        //  output : application/msword
 			        //if(mimeTypes.size()>0) cType = mimeTypes.iterator().next().toString();
+				
 			        cType = new ResumeUploader().metadataFinder(file);
+			        if(cType.isEmpty() || cType=="") {
+			        	if(file.getName().endsWith("doc"))
+			        		cType="application/msword";
+			        	if( file.getName().endsWith("docx"))
+			        		cType="application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+			        	if( file.getName().endsWith("ppt"))
+			        		cType="application/vnd.ms-powerpoint";
+			        	if(file.getName().endsWith("pptx"))
+			        		cType="application/vnd.openxmlformats-officedocument.presentationml.presentation";
+			        }
+			        System.out.println("the mimetype:"+cType);
+			        File pdffile = null;
+			        try {
+			        	String filePath = processed.getAbsolutePath().replace(".json", "");
+			        	filePath = filePath.replace("\\", "/");;
+			        	System.out.println("PDF File "+filePath);			        	
+			             pdffile = new File(filePath);				             
+			        } catch (Exception ex) {
+			        	ex.printStackTrace();
+			        }
 			        
-				System.out.println(cType+"Ticket generated.. uploading file "+file + strURL);
 				Part[] parts = { new StringPart("fileName", file.getName()), 
 						new FilePart("file", file),
+						new FilePart("pdffile", pdffile),
+					//	new StringPart("pdfmimetype", "application/pdf"),
 						new FilePart("jsoncontent", processed),						
 						new StringPart("mimetype",cType),
 						new StringPart("id", randomId()),
@@ -215,7 +233,6 @@ public class ResumeUploader {
 						new StringPart("organizationid", organization),
 						new StringPart("jsonfileid",file.getName()+".json")						
 				};
-				System.out.println("Added organization " +organization);
 				post.setRequestEntity(new MultipartRequestEntity(parts, post
 						.getParams()));
 				InputStream in = null;
@@ -260,17 +277,23 @@ public class ResumeUploader {
 	}
 	
 	public String metadataFinder(File f) {
-		FileInputStream is = null;
+//		FileInputStream is = null;
 		try {
-		ContentHandler contenthandler = new BodyContentHandler();
-	      Metadata metadata = new Metadata();
-	      metadata.set(Metadata.RESOURCE_NAME_KEY, f.getName());
-	      Parser parser = new AutoDetectParser();
-	      // OOXMLParser parser = new OOXMLParser();
-	      ParseContext context=new ParseContext();	      
-	      parser.parse(is, contenthandler, metadata, context);
-	      return metadata.get(metadata.CONTENT_TYPE);
+	//	ContentHandler contenthandler = new BodyContentHandler();
+//	      Metadata metadata = new Metadata();
+//	      metadata.set(Metadata.RESOURCE_NAME_KEY, f.getName());
+//	      Parser parser = new AutoDetectParser();
+//	      // OOXMLParser parser = new OOXMLParser();
+//	      is = new FileInputStream(f);
+//	      ParseContext context=new ParseContext();	      
+//	      parser.parse(is, contenthandler, metadata, context);
+//	      System.out.println("Returning the metadata content type:"+metadata.CONTENT_TYPE);
+	 //     return metadata.get(metadata.CONTENT_TYPE);
+	      
+	      System.out.println("Detected Mimetype :"+tika.detect(f));
+	      tika.detect(f);
 		}catch (Exception e) {
+			e.printStackTrace();
 			
 		}
 		return "";
