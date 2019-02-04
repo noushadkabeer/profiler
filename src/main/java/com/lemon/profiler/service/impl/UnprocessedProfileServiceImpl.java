@@ -176,6 +176,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 		InputStream in3 = null;  
 		PostMethod post = new PostMethod(strURL);
 		String totalSize ="";
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
 		try { 
 			//if (ticket != null && ticket.isEmpty() && ticket.equals(authService.validateTicket(ticket))) { 
 				HttpClient client = new HttpClient();
@@ -186,6 +187,7 @@ public class UnprocessedProfileServiceImpl implements UnprocessedProfileService{
 				method.addParameter("alf_ticket", ticket);
 				method.addParameter("pagenum", pageNum);
 				method.addParameter("pagesize", pageSize);
+				method.addParameter("organizationid" , organization);
 				int statusCode = client.executeMethod(method);
 				log.debug(statusCode);
 				if (statusCode != -1) {
