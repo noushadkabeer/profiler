@@ -43,12 +43,16 @@
 							<div class="quickMenu" align="right">
 								<a href="setUpForInsertOrUpdateProfile" class="btn btn-primary">
 									<i class="icon icon-file"></i>Upload Resume
-								</a> <a href="setUpForInsertOrUpdateJob" class="btn btn-primary">
-									<i class="icon icon-file"></i>Add Job
-								</a> <a href="setUpForInsertOrUpdateEvent" class="btn btn-primary">
-									<!-- <i class="icon icon-file"></i>Add Event</a> <a href="setUpForInsertOrUpdateTask" class="btn btn-primary"> -->
+								</a> &nbsp; <a href="setUpForInsertOrUpdateJob"
+									class="btn btn-primary"> <i class="icon icon-file"></i>Add
+									Job
+								</a> &nbsp; <a href="setUpForInsertOrUpdateEvent"
+									class="btn btn-primary"> <!-- <i class="icon icon-file"></i>Add Event</a> <a href="setUpForInsertOrUpdateTask" class="btn btn-primary"> -->
 									<i class="icon icon-file"></i>Add Task
 								</a>
+							</div>
+							<div>
+							 <b><s:actionerror /><br/><s:actionmessage /></b> 
 							</div>
 						</div>
 
@@ -110,22 +114,26 @@
 															<s:param name="profile.id" value="id" />
 														</s:url>
 														<s:a href="%{viewProfile}" cssClass="btn">
-															<i class="fa fa-search"></i></s:a>
+															<i class="fa fa-search"></i>
+														</s:a>
 														<s:url id="update" action="setUpForInsertOrUpdateProfile">
 															<s:param name="profile.id" value="id" />
 														</s:url>
 														<s:a href="%{update}" cssClass="btn">
-															<i class="fa fa-pencil-square-o"></i></s:a>
+															<i class="fa fa-pencil-square-o"></i>
+														</s:a>
 														<s:url id="delete" action="deleteProfileConfirm">
 															<s:param name="profile.id" value="id" />
 														</s:url>
 														<s:a href="%{delete}" cssClass="fa fa-trash fa-3">
-															<i class="icon icon-trash"></i></s:a>
+															<i class="icon icon-trash"></i>
+														</s:a>
 														<s:url id="contact" action="draftemailToCandidate">
 															<s:param name="to" value="#doe.email" />
 														</s:url>
 														<s:a href="%{contact}" cssClass="btn btn-danger">
-															<i class="fa fa-envelope"></i></s:a>
+															<i class="fa fa-envelope"></i>
+														</s:a>
 													</div>
 												</td>
 											</tr>
@@ -180,12 +188,11 @@
 					</div>
 					<!--/span-->
 				</div>
-						<div>
-							<form action="agencydashboard" method="post"
-								name="paginationForm">
-								<%@ include file="pagination.jsp"%>
-							</form>
-						</div>
+				<div>
+					<form action="agencydashboard" method="post" name="paginationForm">
+						<%@ include file="pagination.jsp"%>
+					</form>
+				</div>
 				<!-- 
 
 <table cellpadding="0" cellspacing="0" class="my-table" align="center" 
@@ -256,7 +263,7 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 									</h3>
 									<table class="table table-striped">
 										<tr>
-											<th width="30px">Job ID</th>
+											<th width="70px">Job ID</th>
 											<th>Job Experience</th>
 											<th>Title</th>
 											<th>Location</th>
@@ -275,7 +282,7 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 												<td><s:property value="location" /></td>
 												<td><s:property value="company" /></td>
 												<td><s:property value="jobType" /></td>
-												<td><s:property value="aboutJob"/></td>
+												<td><s:property value="aboutJob" /></td>
 												<td><s:property value="salary" /></td>
 												<td><s:property value="referenceCode" /></td>
 												<td>
@@ -310,7 +317,7 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 				</div>
 			</div>
 			<!-- 2nd Box Ends here -->
-		<div class="box">
+			<div class="box">
 				<div class="box-header with-border">
 					<!-- <h3 class="box-title">Jobs</h3> -->
 
@@ -328,7 +335,7 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 				<div class="box-body">
 					<div>
 						<div style="width: 850px; margin: 5px;">
-							
+
 							<div class="tabcontents">
 
 								<div id="view3">
@@ -340,7 +347,7 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 											<th>Member ID</th>
 											<th>First Name</th>
 											<th>Last Name</th>
-											<th>UserName</th>
+											<th>User Name</th>
 											<th>Actions</th>
 										</tr>
 										<s:iterator value="myTeam" status="status">
@@ -373,7 +380,7 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 				</div>
 			</div>
 			<!-- 3rd Box Ends here -->
-			
+
 			<div class="box">
 				<div class="box-header with-border">
 					<!-- <h3 class="box-title">Jobs</h3> -->

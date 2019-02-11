@@ -78,7 +78,6 @@ log.info("-------------------------------------------\n[Application Setup Starte
 //					log.info(strURL+" :: New Contents to Post "+JSON_STRING);
 //					statusCode = client.executeMethod(post);
 					HttpPost postRequest = new HttpPost(strURL+"?alf_ticket="+ticket);
-
 					
 					 JSON_STRING = "{\"person\":{\"userName\":\""+user.getUserName()+"\"},\"role\":\"SiteManager\"}";
 					System.out.println(JSON_STRING);

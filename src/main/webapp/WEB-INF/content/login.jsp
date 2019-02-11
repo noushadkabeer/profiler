@@ -17,7 +17,7 @@
 
 <body class="hold-transition login-page">
 <div class="login-box">
-  <div class="login-logo">
+  <div class="login-logo"><img alt="" src="<s:url value="/images/pebblsoft.png"/>">
     <a href="../../index2.html">Profile<b>R</b></a>
   </div>
   <!-- /.login-logo -->

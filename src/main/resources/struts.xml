@@ -44,6 +44,7 @@
 		</global-results>
 
 		<action name="index">
+			<interceptor-ref name="defaultStack" />
 			<result>/WEB-INF/content/login.jsp</result>
 		</action>
 
@@ -291,12 +292,22 @@
 			<result name="registerForm">/WEB-INF/content/common/register.jsp</result>
 			<result name="failure" type="tiles">error</result>
 		</action>
+		<action name="registerUserConfirm" method="insertOrUpdateUser"
+			class="com.lemon.profiler.action.UserProfileAction">
+			<interceptor-ref name="defaultStack" />
+			<result name="success">/WEB-INF/content/login.jsp</result>
+			<result name="agencydashboard" type="redirect">agencydashboard</result>
+			<result name="input">/WEB-INF/content/common/register.jsp</result>
+			<result name="default" type="redirect">index</result>
+			<result name="failure" type="tiles">error</result>
+		</action>
 		<action name="insertOrUpdateUser" method="insertOrUpdateUser"
 			class="com.lemon.profiler.action.UserProfileAction">
-			<interceptor-ref name="appDefault" />
+			<interceptor-ref name="defaultStack" />
 			<result name="agencydashboard" type="redirect">agencydashboard</result>
 			<result name="default" type="redirect">index</result>
 			<result name="input" type="redirect">userProfileSettings</result>
+			<result name="updateValidationFailed" type="tiles">loadUserProfileSettings</result>
 			<result name="failure" type="tiles">error</result>
 		</action>
 		

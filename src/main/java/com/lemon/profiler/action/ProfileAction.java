@@ -63,6 +63,7 @@ public class ProfileAction extends ActionSupport implements Preparable, SessionA
 		} else {
 			if (profile.getId() == null || profile.getId().isEmpty()) {
 				log.info("Profile insert..");
+				addActionMessage("Profile uploaded successfully!");
 //				log.info("----------->"+ActionContext.getContext().getSession().get("alf_ticket"));
 				profileService.insert(profile);
 			} else {

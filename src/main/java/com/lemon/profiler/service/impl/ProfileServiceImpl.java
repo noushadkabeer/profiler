@@ -279,8 +279,13 @@ public class ProfileServiceImpl implements ProfileService {
 					new StringPart("contactNo", profile.getContactNo()),
 					new StringPart("dob", profile.getDob()),
 					new StringPart("experience", profile.getExperience()),
+//Fix for 500 error
+					new StringPart("industry", profile.getExperience()),
+					new StringPart("qualification", profile.getEducation()),
 					new StringPart("interests", profile.getInterests()),
-					new StringPart("skills", StringUtils.join(profile.getSkills(), ',')),
+					//TODO Fix skills?
+					//new StringPart("skills", StringUtils.join(profile.getSkills(), ',')),
+					new StringPart("skills", profile.getExperience()),
 					new StringPart("name", profile.getName().trim()), new StringPart("location", profile.getLocation()),
 					new StringPart("address", profile.getAddress()), new StringPart("organizationid", organization),
 					new StringPart("resumeSummary", profile.getResumeSummary()) };
