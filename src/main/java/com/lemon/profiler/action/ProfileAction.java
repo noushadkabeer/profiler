@@ -83,8 +83,28 @@ public class ProfileAction extends ActionSupport implements Preparable, SessionA
 				log.debug("profile - : " + " items found");
 			}
 		}
-		if (profile.getName() == null || profile.getName().trim().length() < 1) {
+		if (profile == null || profile.getName() == null || profile.getName().trim().length() < 1) {
 			 addActionMessage("Name is required");
+			return false;
+		}
+		if (profile == null || profile.getEmail() == null || profile.getEmail().trim().length() < 1) {
+			 addActionMessage("Candidate's email is required");
+			return false;
+		}
+		if (profile == null || profile.getContactNo() == null || profile.getContactNo().trim().length() < 1) {
+			 addActionMessage("Candidate's contact no. is required");
+			return false;
+		}
+		if (profile == null || profile.getDob() == null || profile.getDob().trim().length() < 1) {
+			 addActionMessage("Candidate's Date of Birth is required");
+			return false;
+		}
+		if (profile == null || profile.getExperience() == null || profile.getExperience().trim().length() < 1) {
+			 addActionMessage("Experience is required");
+			return false;
+		}
+		if (profile == null || profile.getLocation() == null || profile.getLocation().trim().length() < 1) {
+			 addActionMessage("Location is required");
 			return false;
 		}
 		

@@ -9,6 +9,7 @@ import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.UserService;
 import com.lemon.profiler.service.impl.AuthenticationServiceImpl;
 import com.lemon.profiler.service.impl.UserServiceImpl;
+import com.lemon.profiler.util.ValidationHelper;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
@@ -83,6 +84,7 @@ public class AuthenticationAction extends ActionSupport implements Preparable {
 					}
 					ActionContext.getContext().getSession().put(ProfilerConstants.PROPERTY_USER_ORGANIZATION,
 							user.getUserOrganization());
+					ActionContext.getContext().getSession().put(ProfilerConstants.USER_EMAIL_PASSWORD, user.getInstantmsg());
 					ActionContext.getContext().getSession().put("user", user);
 				}
 				return "success";
@@ -94,16 +96,20 @@ public class AuthenticationAction extends ActionSupport implements Preparable {
 
 	private boolean validationSuccessful() {
 		if (userName == null || userName.isEmpty()) {
-			log.debug("Username is required");
+			addActionError("Username is required");
 		}
 		if (password == null || password.isEmpty()) {
-			addActionMessage("Password is required");
+			addActionError("Password is required");
 			if (log.isDebugEnabled()) {
 				log.debug("Authenticating username - : " + userName);
 			}
 			return false;
 		}
-		if (this.hasActionMessages()) {
+		if(userName!=null && !userName.isEmpty() ) {
+			if(!ValidationHelper.isValidEmailAddress(userName))
+				addActionError("Username must be a valid email");
+		}
+		if (this.hasActionErrors()) {
 			return false;
 		} else {
 			return true;

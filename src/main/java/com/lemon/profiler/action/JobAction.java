@@ -75,12 +75,17 @@ public class JobAction extends ActionSupport implements Preparable{
 				log.debug("job - : " + " items found");
 			}
 		}
-		if (job.getJobTitle() == null || job.getJobTitle().trim().length() < 1) {
-			// addActionMessage("Name is required");
+		if(job==null || job.getJobExperience() ==null || job.getJobExperience().trim().length()<=0)
+			addActionError("Experience is required");
+		if(job==null || job.getLocation() ==null || job.getLocation().trim().length()<=0)
+			addActionError("Job location is required");
+		if (job.getJobType() == null || job.getJobType().trim().length() < 1)
+			addActionError("Job Type is required");
+		if (job.getAboutJob() == null || job.getAboutJob().trim().length() < 1)
+			addActionError("Job description is required");
+		if(this.hasActionErrors())
+		{
 			return false;
-			// }
-			// if(this.hasActionMessages()){
-			// return false;
 		} else {
 			return true;
 		}

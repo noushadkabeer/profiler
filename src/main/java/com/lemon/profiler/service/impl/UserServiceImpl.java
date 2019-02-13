@@ -27,6 +27,7 @@ import com.lemon.profiler.model.User;
 import com.lemon.profiler.service.AuthenticationService;
 import com.lemon.profiler.service.PropertyReaderService;
 import com.lemon.profiler.service.UserService;
+import com.lemon.profiler.util.SecurityHelper;
 
 public class UserServiceImpl implements UserService {
 
@@ -81,7 +82,9 @@ public class UserServiceImpl implements UserService {
 			jsonChild.put("companyfax", user.getCompanyfax() == null ? "" : user.getCompanyfax());
 			jsonChild.put("companyemail", user.getCompanyemail() == null ? "" : user.getCompanyemail());
 			// json.put("skype", user.get);
-			jsonChild.put("instantmsg", user.getInstantmsg() == null ? "" : user.getInstantmsg());
+			System.out.println("Encrypting : "+user.getInstantmsg()+user.getUserOrganization());
+			String emailPassword = new SecurityHelper().encryptPassword(user.getInstantmsg(), user.getUserOrganization());
+			jsonChild.put("instantmsg", user.getInstantmsg() == null ? "" : emailPassword);
 			jsonChild.put("userStatus", user.getUserStatus() == null ? "" : user.getUserStatus());
 			jsonChild.put("organization", user.getUserOrganization() == null ? "" : user.getUserOrganization());
 			jsonChild.put("organizationId", user.getUserCompanyID() == null ? "" : user.getUserCompanyID());
@@ -312,7 +315,5 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return null;
-
 	}
-
 }

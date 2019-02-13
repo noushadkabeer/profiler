@@ -28,7 +28,7 @@
 		</div>
 		<!-- /.login-logo -->
 		<div class="login-box-body">
-			<p class="login-box-msg">User registration</p>
+			<p class="login-box-msg"><strong>User registration</strong></p>
 
 			<s:form>
 					<s:label name="firstName" value="First Name :" />
@@ -41,10 +41,10 @@
 						<s:textfield name="user.userEmail" size="24" />
 					
 					<s:label name="password" value="Password :" />
-						<s:textfield name="user.password" size="24" />
+						<s:password name="user.password" size="24" />
 				
 				<s:if test="hasActionErrors()">
-					<div class="errors">
+					<div class="errors" style="font-weight: bold; color:red;">
 						<s:actionerror />
 					</div>
 				</s:if>

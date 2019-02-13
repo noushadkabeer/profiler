@@ -13,6 +13,7 @@ import com.lemon.profiler.service.UserService;
 import com.lemon.profiler.service.impl.ApplicationSetupServiceImpl;
 import com.lemon.profiler.service.impl.AuthenticationServiceImpl;
 import com.lemon.profiler.service.impl.UserServiceImpl;
+import com.lemon.profiler.util.ValidationHelper;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -43,6 +44,17 @@ public class UserProfileAction extends ActionSupport {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public String confirmEmailPassword;
+	
+
+	public String getConfirmEmailPassword() {
+		return confirmEmailPassword;
+	}
+
+	public void setConfirmEmailPassword(String confirmEmailPassword) {
+		this.confirmEmailPassword = confirmEmailPassword;
 	}
 
 	public String loadUserProfileSettings() {
@@ -78,7 +90,7 @@ public class UserProfileAction extends ActionSupport {
 				log.info(ActionContext.getContext().getSession().get("alf_ticket") + "User registration initiated.. for user :" + user.getUserEmail());
 				JSONObject jsonObj = userService.createUser(user);
 				if (jsonObj.get("userName") == null) {
-					addActionMessage("Something went wrong! Please try again later..");
+					addActionError("Something went wrong! Please try again later..");
 					return "error";
 				} else {
 					String newUserName = jsonObj.get("userName").toString();
@@ -91,6 +103,8 @@ public class UserProfileAction extends ActionSupport {
 						ActionContext.getContext().getSession().put("password", user.getPassword());
 						ActionContext.getContext().getSession().put("logged-in", "true");
 						user = userService.getUser(jsonObj.get("userName").toString());
+						org.setDescription(user.getCompanyaddress2()==null? "":user.getCompanyaddress2());
+						org.setTitle(user.getCompanyfax()==null? "":user.getCompanyfax());
 						if (user != null) {
 							// userAvatar =
 							// jsonObj.get("avatar").toString().split("api/node/workspace/SpacesStore/")[1].split("/")[0];
@@ -117,6 +131,8 @@ public class UserProfileAction extends ActionSupport {
 				if (user.getUserOrganization() != null) {
 					org.setShortName(user.getUserOrganization());
 					org.setType("PRIVATE");
+					user.setCompanyfax(org.getTitle());
+					user.setCompanyaddress2(org.getDescription());
 					String actualShortName = org.getShortName();
 					user.setUserOrganization(org.getTitle());
 					user.setUserCompanyID(org.getShortName());
@@ -162,17 +178,24 @@ public class UserProfileAction extends ActionSupport {
 			if (log.isDebugEnabled()) {
 				log.debug("Email  is required");
 			}
+		}		
+		
+		if(user.getUserEmail()!=null && !user.getUserEmail().isEmpty() ) {
+			if(!ValidationHelper.isValidEmailAddress(user.getUserEmail()))
+				addActionError("Email entered is not valid");
 		}
+		
 		if (user == null || user.getPassword() == null || user.getPassword().isEmpty()) {
 			addActionError("Password is required");
 		}
-		System.out.println(user.getFirstName()+user.getLastName()+user.getUserEmail());
 		if (this.hasActionErrors()) {
-			System.out.println("Validation failed !" + getActionErrors());
 			ActionContext.getContext().getSession().clear();
 			return false;
 		} else {
-			System.out.println("True");
+			if(user.getUserEmail().equals(userService.getUser(user.getUserEmail()).getUserEmail())) {
+				addActionError("This email is already registered!");
+				return false;
+			}
 			return true;
 		}
 	}
@@ -195,7 +218,22 @@ public class UserProfileAction extends ActionSupport {
 			if (log.isDebugEnabled()) {
 				log.debug("Email  is required");
 			}
-		}		
+		}
+		if (user == null || user.getInstantmsg() == null || user.getInstantmsg().isEmpty() ||user.getInstantmsg().trim().length()<=0) {
+			addActionError("Email password is required");
+			if (log.isDebugEnabled()) {
+				log.debug("Email  password is required");
+			}
+		}
+		if (confirmEmailPassword == null || confirmEmailPassword.isEmpty() || confirmEmailPassword.trim().length()<=0) {
+			addActionError("Confirm password is required");
+			if (log.isDebugEnabled()) {
+				log.debug("Confirm  is required");
+			}
+		}
+		if(user != null && user.getInstantmsg() !=null && !user.getInstantmsg().isEmpty() && confirmEmailPassword !=null && !confirmEmailPassword.isEmpty() && !user.getInstantmsg().equals(confirmEmailPassword) )
+				addActionError("Email Password & Confirm password doesn't match");
+
 		if (user == null || user.getUserCompanyID() == null || user.getUserCompanyID().isEmpty()) {
 			addActionError("User's Organization ID is required");
 			if (log.isDebugEnabled())
@@ -212,9 +250,15 @@ public class UserProfileAction extends ActionSupport {
 				log.debug("User's Organization Title is required");
 		}
 		if (hasActionErrors()) {
-			System.out.println("Validation failed !" + getActionErrors());
+			System.out.println("Failed validations : "+getActionErrors());
 			return false;
 		} else {
+			if(user.getUserEmail()!=null && !user.getUserEmail().isEmpty() ) {
+				if(!ValidationHelper.isValidEmailAddress(user.getUserEmail())) {
+					addActionError("Email entered is not valid");
+					return false;
+				}
+			}
 			return true;
 		}
 	}

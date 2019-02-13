@@ -45,11 +45,12 @@
 									<i class="icon icon-file"></i>Upload Resume
 								</a> &nbsp; <a href="setUpForInsertOrUpdateJob"
 									class="btn btn-primary"> <i class="icon icon-file"></i>Add
-									Job
-								</a> &nbsp; <a href="setUpForInsertOrUpdateEvent"
-									class="btn btn-primary"> <!-- <i class="icon icon-file"></i>Add Event</a> <a href="setUpForInsertOrUpdateTask" class="btn btn-primary"> -->
+									Job</a>
+									<!-- Add task will be a 1.1 version feature. 
+								 &nbsp; <a href="setUpForInsertOrUpdateEvent"
+									class="btn btn-primary"> <!-- <i class="icon icon-file"></i>Add Event</a> <a href="setUpForInsertOrUpdateTask" class="btn btn-primary"> -- >
 									<i class="icon icon-file"></i>Add Task
-								</a>
+								</a> -->
 							</div>
 							<div>
 							 <b><s:actionerror /><br/><s:actionmessage /></b> 

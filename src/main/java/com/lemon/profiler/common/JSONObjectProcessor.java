@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.lemon.profiler.model.User;
+import com.lemon.profiler.util.SecurityHelper;
 
 public class JSONObjectProcessor {
 	private static final Logger log = Logger.getLogger(JSONObjectProcessor.class);
@@ -40,8 +41,8 @@ public class JSONObjectProcessor {
 			u.setLastName(jsonObject.get("lastName") == null ? "" : jsonObject.get("lastName").toString());
 			u.setUserName(jsonObject.get("userName") == null ? "" : jsonObject.get("userName").toString());
 			u.setUserId(jsonObject.get("userName") == null ? "" : jsonObject.get("userName").toString());
-			u.setUserCompanyID(
-					jsonObject.get("organizationId") == null ? "" : jsonObject.get("organizationId").toString());
+			String orgId = jsonObject.get("organizationId") == null ? "" : jsonObject.get("organizationId").toString();
+			u.setUserCompanyID(orgId);
 			u.setUserOrganization(
 					jsonObject.get("organization") == null ? "" : jsonObject.get("organization").toString());
 			u.setUserJobTitle(jsonObject.get("jobtitle") == null ? "" : jsonObject.get("jobtitle").toString());
@@ -55,7 +56,9 @@ public class JSONObjectProcessor {
 			u.setCompanyemail(jsonObject.get("companyemail") == null ? "" : jsonObject.get("companyemail").toString());
 			u.setPersondescription(
 					jsonObject.get("persondescription") == null ? "" : jsonObject.get("persondescription").toString());
-			u.setInstantmsg(jsonObject.get("instantmsg") == null ? "" : jsonObject.get("instantmsg").toString());
+			String mailpwd = jsonObject.get("instantmsg") == null ? "" : jsonObject.get("instantmsg").toString();
+			if(mailpwd!=null && !mailpwd.isEmpty())mailpwd = new SecurityHelper().decryptPassword(mailpwd,orgId);
+			u.setInstantmsg(mailpwd);
 			u.setCompanyTelephone(
 					jsonObject.get("companytelephone") == null ? "" : jsonObject.get("companytelephone").toString());
 			u.setCompanypostcode(

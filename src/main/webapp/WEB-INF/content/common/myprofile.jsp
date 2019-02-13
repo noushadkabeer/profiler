@@ -24,11 +24,11 @@
 				<h3 class="box-title">My Profile</h3>				
 					
 					<div class="errors">
-						<s:if test="hasActionErrors()">
-							<div class="errors">
-								<s:actionerror />
-							</div>
-						</s:if> 
+				<s:if test="hasActionErrors()">
+					<div class="errors" style="font-weight: bold; color:red;">
+						<s:actionerror />
+					</div>
+				</s:if>
 					</div>
 				<s:form action="insertOrUpdateUser">
 					<s:label value="Personal Information" />
@@ -44,13 +44,15 @@
 					<s:textfield name="user.userEmail" size="70" />
 					<s:label value="Mobile :" />
 					<s:textfield name="user.mobile" size="70" />
+					<s:label value="Email Password:" />
+					<s:password name="user.instantmsg" size="70" />
+					<s:label value="Confirm Email Password:" />
+					<s:password name="confirmEmailPassword" size="70" />
 					<s:label value="Avatar :" />
 					<s:textfield name="user.avatar" size="70" />
-					<s:label value="Instant Msg:" />
-					<s:textfield name="user.instantmsg" size="70" />
-					<s:label value="About you :" />
-					<s:textarea name="user.persondescription" />
 
+					<s:label value="About you (Roles/Responsibilities):" />
+					<s:textarea name="user.persondescription" />
 					<s:label value="Organization Information" />
 					<br />
 					<s:label value="Organization ID:" />

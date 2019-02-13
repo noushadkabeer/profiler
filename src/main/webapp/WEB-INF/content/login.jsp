@@ -53,7 +53,11 @@
     </form>
 
     <div class="social-auth-links text-center">
-    <s:actionerror /><br/><s:actionmessage />
+   		<s:if test="hasActionErrors()">
+					<div class="errors" style="font-weight: bold; color:red;">
+						<s:actionerror />
+					</div>
+				</s:if>
     </div>
     <!-- /.social-auth-links -->
  
