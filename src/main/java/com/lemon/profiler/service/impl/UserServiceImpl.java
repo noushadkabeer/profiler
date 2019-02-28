@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 			jsonChild.put("companyemail", user.getCompanyemail() == null ? "" : user.getCompanyemail());
 			// json.put("skype", user.get);
 			System.out.println("Encrypting : "+user.getInstantmsg()+user.getUserOrganization());
-			String emailPassword = new SecurityHelper().encryptPassword(user.getInstantmsg(), user.getUserOrganization());
+			String emailPassword = new SecurityHelper().decryptPassword(user.getInstantmsg(), user.getUserOrganization());
 			jsonChild.put("instantmsg", user.getInstantmsg() == null ? "" : emailPassword);
 			jsonChild.put("userStatus", user.getUserStatus() == null ? "" : user.getUserStatus());
 			jsonChild.put("organization", user.getUserOrganization() == null ? "" : user.getUserOrganization());

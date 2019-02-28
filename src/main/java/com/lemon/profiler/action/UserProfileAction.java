@@ -82,7 +82,7 @@ public class UserProfileAction extends ActionSupport {
 		// log.info("Validation failed.. and returning to input");
 		// return "input";
 		// } else {
-		if (ActionContext.getContext().getSession().get("alf_ticket") == null) {
+		if (ActionContext.getContext().getSession().get("alf_ticket") == null) {			
 			if (!validationSuccessful()) {
 				log.info("Validation failed.. and returning to input");
 				return "input";
@@ -103,6 +103,8 @@ public class UserProfileAction extends ActionSupport {
 						ActionContext.getContext().getSession().put("password", user.getPassword());
 						ActionContext.getContext().getSession().put("logged-in", "true");
 						user = userService.getUser(jsonObj.get("userName").toString());
+						System.out.println("Details as fetched :"+user.getCompanyaddress2()+user.getCompanyfax());
+						org = new Organization();
 						org.setDescription(user.getCompanyaddress2()==null? "":user.getCompanyaddress2());
 						org.setTitle(user.getCompanyfax()==null? "":user.getCompanyfax());
 						if (user != null) {

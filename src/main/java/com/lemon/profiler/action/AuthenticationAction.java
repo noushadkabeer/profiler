@@ -105,10 +105,10 @@ public class AuthenticationAction extends ActionSupport implements Preparable {
 			}
 			return false;
 		}
-		if(userName!=null && !userName.isEmpty() ) {
-			if(!ValidationHelper.isValidEmailAddress(userName))
-				addActionError("Username must be a valid email");
-		}
+//		if(userName!=null && !userName.isEmpty() ) {
+//			if(!ValidationHelper.isValidEmailAddress(userName))
+//				addActionError("Username must be a valid email");
+//		}
 		if (this.hasActionErrors()) {
 			return false;
 		} else {
