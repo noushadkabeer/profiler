@@ -57,7 +57,7 @@ public class JSONObjectProcessor {
 			u.setPersondescription(
 					jsonObject.get("persondescription") == null ? "" : jsonObject.get("persondescription").toString());
 			String mailpwd = jsonObject.get("instantmsg") == null ? "" : jsonObject.get("instantmsg").toString();
-			if(mailpwd!=null && !mailpwd.isEmpty())mailpwd = new SecurityHelper().decryptPassword(mailpwd,orgId);
+			if(mailpwd!=null && !mailpwd.isEmpty())mailpwd = new SecurityHelper().initiateSecurityByPasswordEncryption(mailpwd,orgId);
 			u.setInstantmsg(mailpwd);
 			u.setCompanyTelephone(
 					jsonObject.get("companytelephone") == null ? "" : jsonObject.get("companytelephone").toString());
@@ -67,7 +67,7 @@ public class JSONObjectProcessor {
 					jsonObject.get("companyaddress1") == null ? "" : jsonObject.get("companyaddress1").toString());
 			u.setCompanyaddress2(
 					jsonObject.get("companyaddress2") == null ? "" : jsonObject.get("companyaddress2").toString());
-
+			System.out.println("Avatar ::> "+jsonObject.get("avatar"));
 			u.setAvatar(jsonObject.get("avatar") == null ? "" : jsonObject.get("avatar").toString());
 			u.setUserStatusTime(
 					jsonObject.get("userStatusTime") == null ? "" : jsonObject.get("userStatusTime").toString());
