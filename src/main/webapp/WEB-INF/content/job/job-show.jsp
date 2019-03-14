@@ -36,28 +36,28 @@
     <div class="row-fluid">
         <div class="span12">
             <div class="page-header">
-                <h1>Job ${job.id}</h1>
+                <h1>Job ${job.jobId}</h1>
             </div>
             <table class="table table-striped">
                <tr>
                     <td class="span3">Title</td>
-                    <td class="span9"><s:property value="jobTitle"/></td>
+                    <td class="span9"><s:property value="job.jobTitle"/></td>
                 </tr>
                 <tr>
                     <td class="span3">Job ID</td>
-                    <td class="span9"><s:property value="jobId"/></td>
+                    <td class="span9"><s:property value="job.jobId"/></td>
                 </tr>                
                 <tr>
                     <td class="span3">Experience</td>
-                    <td class="span9"><s:property value="jobExperience"/></td>
+                    <td class="span9"><s:property value="job.jobExperience"/></td>
                 </tr>
                 <tr>
                     <td class="span3">Location</td>
-                    <td class="span9"><s:property value="location"/></td>
+                    <td class="span9"><s:property value="job.location"/></td>
                 </tr>
                 <tr>
                     <td class="span3">Company</td>
-                    <td class="span9"><s:property value="company"/></td>
+                    <td class="span9"><s:property value="job.company"/></td>
                 </tr>
             </table>
 	        <a href="${pageContext.request.contextPath}/agencydashboard" class="btn btn-info">

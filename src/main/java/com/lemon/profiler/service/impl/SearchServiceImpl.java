@@ -1,6 +1,7 @@
 package com.lemon.profiler.service.impl;
 
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.lemon.profiler.constants.ProfilerConstants;
+import com.lemon.profiler.mappers.pagination.TextSearchCriteria;
+import com.lemon.profiler.mappers.pagination.TextSearchResults;
 import com.lemon.profiler.model.Profile;
 import com.lemon.profiler.model.Task;
 import com.lemon.profiler.service.AuthenticationService;
@@ -150,13 +153,14 @@ public class SearchServiceImpl implements SearchService{
 		InputStream in3 = null;
 		com.lemon.profiler.model.Node node = null;
 		ArrayList<com.lemon.profiler.model.Node> workList = new ArrayList<com.lemon.profiler.model.Node>();
-		PostMethod post = new PostMethod(strURL);
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+		HttpClient client = new HttpClient();
+		PostMethod method = new PostMethod(strURL);
 		try { 
 			//if (ticket != null && ticket.isEmpty() && ticket.equals(authService.validateTicket(ticket))) { 
-				HttpClient client = new HttpClient();
-				PostMethod method = new PostMethod(strURL);
 				method.addParameter("stringToSearch", textToSearch);
 				log.info("Added String to search.. "+textToSearch);
+				method.addParameter("organizationid", organization);
 				method.addParameter("alf_ticket", ticket);
 				method.addParameter("pagenum", pageNum);
 				method.addParameter("pagesize", pageSize);
@@ -179,6 +183,7 @@ public class SearchServiceImpl implements SearchService{
 //								Element ielem = (Element) item;
 //								NodeList nodelist = ielem
 //										.getElementsByTagName("node");
+						String pathT = "";
 								for (int gti = 0; gti < itemLst
 										.getLength(); gti++) {
 									node = new com.lemon.profiler.model.Node();
@@ -193,7 +198,8 @@ public class SearchServiceImpl implements SearchService{
 										node.setMimetype(taskelem.getElementsByTagName("mimetype").item(0).getTextContent());
 										node.setSize(taskelem.getElementsByTagName("size").item(0).getTextContent());
 										node.setAuthor(taskelem.getElementsByTagName("author").item(0).getTextContent());
-										node.setPath(taskelem.getElementsByTagName("path").item(0).getTextContent());
+										pathT = taskelem.getElementsByTagName("path").item(0).getTextContent().isEmpty()? "" : taskelem.getElementsByTagName("path").item(0).getTextContent().replace("/Company Home/Sites/pebblsoft/documentLibrary/", "");
+										node.setPath(pathT);
 										node.setIcon16(taskelem.getElementsByTagName("icon16").item(0).getTextContent());
 										node.setIcon32(taskelem.getElementsByTagName("icon32").item(0).getTextContent()); 
 									}
@@ -211,7 +217,7 @@ public class SearchServiceImpl implements SearchService{
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				post.releaseConnection();
+				method.releaseConnection();
 			}
 		return workList;
 	}
@@ -219,6 +225,87 @@ public class SearchServiceImpl implements SearchService{
 	public List<Profile> searchProfile(Profile profile, String pageNum, String pageSize) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public TextSearchResults<com.lemon.profiler.model.Node> searchTextByCriteria(
+			TextSearchCriteria textSearchCriteria, String textToSearch) {
+		String ticket = authService.readTicket(ProfilerConstants.USERTYPE_USER);
+		String strURL = propS.getKeyValue("contentServerURL") + propS.getKeyValue("applicationServiceURL")+"commonSearch";
+		InputStream in3 = null;
+		com.lemon.profiler.model.Node node = null;
+		TextSearchResults<com.lemon.profiler.model.Node> tsNode = new TextSearchResults<com.lemon.profiler.model.Node>();
+		ArrayList<com.lemon.profiler.model.Node> workList = new ArrayList<com.lemon.profiler.model.Node>();
+		String organization = ActionContext.getContext().getSession().get(ProfilerConstants.PROPERTY_USER_ORGANIZATION).toString();
+		HttpClient client = new HttpClient();
+		PostMethod method = new PostMethod(strURL);
+		try { 
+			//if (ticket != null && ticket.isEmpty() && ticket.equals(authService.validateTicket(ticket))) { 
+				method.addParameter("stringToSearch", textToSearch);
+				log.info("Added String to search.. "+textToSearch);
+				method.addParameter("organizationid", organization);
+				method.addParameter("alf_ticket", ticket);
+				method.addParameter("pagenum", ""+textSearchCriteria.getPageNum());
+				method.addParameter("pagesize", ""+textSearchCriteria.getPageSize());
+				int statusCode = client.executeMethod(method);
+				log.info(statusCode);
+				if (statusCode != -1) {
+					in3 = method.getResponseBodyAsStream();
+					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+					DocumentBuilder builder = factory.newDocumentBuilder();
+					Document doc = builder.parse(in3);
+					doc.getDocumentElement().normalize();
+					TransformerFactory factory7 = TransformerFactory.newInstance();
+					Transformer xform = factory7.newTransformer();
+					StringWriter sw = new StringWriter();
+					xform.transform(new DOMSource(doc), new StreamResult(sw));
+					NodeList itemLst = doc.getElementsByTagName("node");
+					try {
+//						for (int i = 0; i < itemLst.getLength(); i++) {
+//							Node item = itemLst.item(i);
+//							if (item.getNodeType() == Node.ELEMENT_NODE) {
+//								Element ielem = (Element) item;
+//								NodeList nodelist = ielem
+//										.getElementsByTagName("node");
+						String pathT = "";
+								for (int gti = 0; gti < itemLst
+										.getLength(); gti++) {
+									node = new com.lemon.profiler.model.Node();
+									Node taskItem = itemLst.item(gti);
+									if (taskItem.getNodeType() == Node.ELEMENT_NODE) {
+										Element taskelem = (Element) taskItem;
+										node.setId(taskelem.getElementsByTagName("id").item(0).getTextContent());
+										node.setName(taskelem.getElementsByTagName("name").item(0).getTextContent()); 
+										node.setCreatedDate(taskelem.getElementsByTagName("createdDate").item(0).getTextContent());
+										node.setModifier(taskelem.getElementsByTagName("modifier").item(0).getTextContent());
+										node.setModifiedDate(taskelem.getElementsByTagName("modifiedDate").item(0).getTextContent());
+										node.setMimetype(taskelem.getElementsByTagName("mimetype").item(0).getTextContent());
+										node.setSize(taskelem.getElementsByTagName("size").item(0).getTextContent());
+										node.setAuthor(taskelem.getElementsByTagName("author").item(0).getTextContent());
+										pathT = taskelem.getElementsByTagName("path").item(0).getTextContent().isEmpty()? "" : taskelem.getElementsByTagName("path").item(0).getTextContent().replace("/Company Home/Sites/pebblsoft/documentLibrary/", "");
+										node.setPath(pathT);
+										node.setIcon16(taskelem.getElementsByTagName("icon16").item(0).getTextContent());
+										node.setIcon32(taskelem.getElementsByTagName("icon32").item(0).getTextContent()); 
+									}
+									workList.add(node);
+							//		log.info("Added node "+node.getId());
+								}
+							//}
+						//}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				log.info("total worklist size :" + workList.size());
+				//}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				method.releaseConnection();
+			}
+		if(workList.size()>0) tsNode.setResults(workList);
+		tsNode.setPageSize(textSearchCriteria.getPageSize());
+		tsNode.setTotalResults(workList.size());
+		return tsNode;
 	}
 	
 }

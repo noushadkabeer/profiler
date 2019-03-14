@@ -288,8 +288,13 @@ sorted <s:property value="#attr.pagination.sortClass"/> </s:if>">
 												<td><s:property value="referenceCode" /></td>
 												<td>
 													<div class="btn-group">
-														<a href="viewJob" class="btn"><i
-															class="icon icon-eye-open"></i>View</a>
+														<s:url id="viewJob" action="viewJob">
+															<s:param name="job.jobId" value="jobId" />
+														</s:url>
+														<s:a href="%{viewJob}" cssClass="btn">
+															<i class="fa fa-search">View</i>
+														</s:a>
+														
 														<s:url id="update" action="setUpForInsertOrUpdateJob">
 															<s:param name="job.jobId" value="jobId" />
 														</s:url>

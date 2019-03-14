@@ -1,5 +1,6 @@
 $(document).ready(
 		function() {
+			//window.history.pushState("","", "myOriginalUrlWithNoParams");
 			var counter = 2;
 			$("#searchSubButton").prop('disabled', true);
 			$("#addButton").click(
@@ -37,7 +38,7 @@ $(document).ready(
 						for (i = 1; i < counter; i++) {
 							msg += "\n Search Filter #" + i + " : "
 									+ $('#filterdropdown'+i).val()+ $('#textbox' + i).val();
-							alert("Started");
+							alert("Search Filter Applied!");
 							queryLabel += $('#filterdropdown'+i).val()+" : "+ $('#textbox' + i).val() + " | ";
 							if($("#filterdropdown" + i).val() == "ID"){ $("#id").val($("#textbox" + i).val());}
 							if($("#filterdropdown" + i).val() == "Name"){ $('#name').val($("#textbox" + i).val());}
@@ -69,7 +70,7 @@ $(document).ready(
 				})
 				.done(function(data){ // if getting done then call.
 
-					alert("Recieved the data");
+				//	alert("Recieved the data");
 				// show the response
 				$('#srchResponseDiv').html(data);
 

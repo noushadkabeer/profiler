@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.lemon.profiler.mappers.pagination.ProfileSearchResults;
+import com.lemon.profiler.mappers.pagination.TextSearchCriteria;
+import com.lemon.profiler.mappers.pagination.TextSearchResults;
 import com.lemon.profiler.model.Node;
 import com.lemon.profiler.model.Profile;
 import com.lemon.profiler.service.ProfileService;
@@ -42,13 +45,25 @@ public class SearchAction extends ActionSupport implements Preparable {
 	}
 	private static final Logger log = Logger.getLogger(SearchAction.class);
 
-	private List<Profile> profiles;
-
 	public String textSearch() {
 		try{
-		log.info("Searching for text :"+textToSearch);
-		nodes = searchService.searchText(textToSearch, ""+pagination.getPage_number(), ""+pagination.getPage_size());}
+
+			log.info("Searching for text :"+textToSearch);
+			TextSearchCriteria tsc = new TextSearchCriteria();
+			tsc.setPageSize( pagination.getPage_size());
+			tsc.setPageNum(pagination.getPage_number());
+			TextSearchResults<Node> nodesR = searchService.searchTextByCriteria(tsc, textToSearch);
+			nodes = nodesR.getResults();
+		//nodes = searchService.searchText(textToSearch, ""+pagination.getPage_number(), ""+pagination.getPage_size());
+		pagination.setProperties(nodesR.getTotalResults());
+		
+	//	pagination.setPage_records(Integer.parseInt(propertyService.getKeyValue("pageSize")));
+		pagination.setPage_records(nodesR.getTotalResults());
+		
+		}
+		
 		catch(Exception e){
+			e.printStackTrace();
 			return "failure";
 		}
 		return "success";
@@ -61,21 +76,6 @@ public class SearchAction extends ActionSupport implements Preparable {
 		
 	}
 	
-	public Profile getProfile() {
-		return profile;
-	}
-
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
-	
-	public List<Profile> getProfiles() {
-		return profiles;
-	}
-
-	public void setProfiles(List<Profile> profiles) {
-		this.profiles = profiles;
-	}
 
 	public List<Node> getNodes() {
 		return nodes;

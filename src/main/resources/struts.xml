@@ -164,6 +164,12 @@
 			<interceptor-ref name="profileUpdateStack" />
 			<result name="success" type="redirect">agencydashboard</result>
 		</action>
+		<action name="viewJob" method="viewJob"
+			class="com.lemon.profiler.action.JobAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="profileUpdateStack" />
+			<result name="success" type="tiles">jobShow</result>
+		</action>
 		<action name="attachJD" method="attachJD"
 			class="com.lemon.profiler.action.JobAction">
 			<interceptor-ref name="defaultStack" />
@@ -228,6 +234,7 @@
 		<action name="textSearch" method="textSearch"
 			class="com.lemon.profiler.action.SearchAction">
 			<interceptor-ref name="defaultStack" />
+			<result name="failure" type="tiles">error</result>
 			<result name="success" type="tiles">textSearch</result>
 		</action>
 		<!-- Advanced Search -->

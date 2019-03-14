@@ -93,6 +93,10 @@ public class JobAction extends ActionSupport implements Preparable{
 
 	public String viewJob() {
 		log.info("View job");
+		if(job!=null || !job.getJobId().isEmpty()){
+			System.out.println("View Job "+job.getJobId());
+			job = jobService.pullJob(job.getJobId());
+		}
 		return "success";
 	}
 

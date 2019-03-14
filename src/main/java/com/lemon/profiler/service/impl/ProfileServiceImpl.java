@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -493,33 +494,41 @@ public class ProfileServiceImpl implements ProfileService {
 
 	public String advQuery(Profile profile) {
 		String query = "";
+		String subQ = "";
 		if (profile != null) {
 			if (profile.getId() != null && !profile.getId().isEmpty()) {
-				query = query + "AND @pf\\:profileId:\"" + profile.id + "\"";
+				query = query + " AND @pf\\:profileId:\"" + profile.id + "\"";
 			}
 			if (profile.getName() != null && !profile.getName().isEmpty()) {
-				query = query + "AND @pf\\:profileName:\"" + profile.name + "\"";
+				query = query + " AND @pf\\:profileName:\"" + profile.name + "\"";
 			}
 			if (profile.getEducation() != null && !profile.getEducation().isEmpty()) {
-				query = query + "AND @pf\\:profileEducation:\"" + profile.education + "\"";
+				query = query + " AND @pf\\:profileEducation:\"" + profile.education + "\"";
 			}
 			if (profile.getExperience() != null && !profile.getExperience().isEmpty()) {
-				query = query + "AND @pf\\:profileExperience:\"" + profile.experience + "\"";
+				query = query + " AND @pf\\:profileExperience:\"" + profile.experience + "\"";
 			}
 			if (profile.getInterests() != null && !profile.getInterests().isEmpty()) {
-				query = query + "AND @pf\\:profileInterests:\"" + profile.interests + "\"";
+				query = query + " AND @pf\\:profileInterests:\"" + profile.interests + "\"";
 			}
 			if (profile.getAddress() != null && !profile.getAddress().isEmpty()) {
-				query = query + "AND @pf\\:profileAddress:\"" + profile.address + "\"";
+				query = query + " AND @pf\\:profileAddress:\"" + profile.address + "\"";
 			}
 			if (profile.getSkills() != null && !profile.getSkills().isEmpty()) {
-				query = query + "AND @pf\\:profileSkills:\"" + profile.skills + "\"";
+				// iterate via "iterator loop"
+				Iterator<String> crunchifyIterator = profile.getSkills().iterator();
+				while (crunchifyIterator.hasNext()) {
+					subQ = crunchifyIterator.next();
+					if(!subQ.isEmpty())
+						query = query + " AND @pf\\:profileSkills:\"" + subQ + "\"";
+				}				
+			
 			}
 			if (profile.getLocation() != null && !profile.getLocation().isEmpty()) {
-				query = query + "AND @pf\\:profileLocation:\"" + profile.location + "\"";
+				query = query + " AND @pf\\:profileLocation:\"" + profile.location + "\"";
 			}
 			if (profile.getResumeSummary() != null && !profile.getResumeSummary().isEmpty()) {
-				query = query + "AND @pf\\:profileSummary:\"" + profile.resumeSummary + "\"";
+				query = query + " AND @pf\\:profileSummary:\"" + profile.resumeSummary + "\"";
 			}
 		}
 		log.debug("Framed Adv Search Query :" + query);

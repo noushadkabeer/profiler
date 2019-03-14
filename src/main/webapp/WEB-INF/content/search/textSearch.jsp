@@ -39,8 +39,6 @@
 				<div align="right"> <a href="setUpForInsertOrUpdateProfile" class="btn btn-primary"><i
 					class="icon icon-file"></i>Upload Resume</a> <a href="setUpForInsertOrUpdateJob"
 					class="btn btn-primary"><i class="icon icon-file"></i>Add Job</a> 
-					<a href="setUpForInsertOrUpdateEvent" class="btn btn-primary"><i class="icon icon-file"></i>Add Event</a> 
-					<a href="setUpForInsertOrUpdateTask" class="btn btn-primary"><i class="icon icon-file"></i>Add Task</a> </div>
 				<div class="page-header">
 					<h2>Search Results</h2>
 				</div> 
@@ -53,10 +51,10 @@
 				<table class="table table-striped">
 					<tr>					
 						<th>ID</th>
-						<th>Name</th> 										
-						<th>Last Modified By</th>
+						<th>File</th> 										
+						<th>CV -Last Modified By</th>
 						<th>Size</th>
-						<th>Path</th>
+						<th>Location</th>
 						<th>Actions</th>						
 					</tr>
 					<s:iterator value="nodes">

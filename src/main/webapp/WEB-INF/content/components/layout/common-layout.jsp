@@ -33,8 +33,8 @@
 
 <link href="<s:url value="/css/dropzone.css"/>" rel="stylesheet"
 	type="text/css" />
-<link rel="shortcut icon"
-	href="<s:url value="/images/favicon/favicon.png"/>" type="image/x-icon">
+<!-- <link rel="shortcut icon"
+	href="<s:url value="/images/favicon/favicon.png"/>" type="image/x-icon">-->
 </head>
 <body>
 
@@ -78,9 +78,9 @@
 	<script src="<s:url value="/js/fastclick/fastclick.js"/>"></script>
 	<!-- AdminLTE App -->
 	<script src="<s:url value="/js/adminlte/app.min.js"/>"></script>
-	<!-- AdminLTE for demo purposes -->
+	<!-- AdminLTE for demo purposes 
 	<script src="<s:url value="/js/adminlte/demo.js"/>"></script>
-
+-->
 
 	<script type="text/javascript" src="<s:url value="/js/tabcontent.js"/>"></script>
 	<script type="text/javascript" src="<s:url value="/js/dropzone.js"/>"></script>

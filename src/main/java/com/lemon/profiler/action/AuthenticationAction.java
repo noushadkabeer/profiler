@@ -74,12 +74,15 @@ public class AuthenticationAction extends ActionSupport implements Preparable {
 				log.debug("Avatar ::" + user.getAvatar());
 				if (user != null) {
 					if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
-						userAvatar = user.getAvatar().split("api/node/workspace/SpacesStore/")[1].split("/")[0];
-						ActionContext.getContext().getSession().put("userAvatar",
-								ProfilerUtil.getInstance().cmisServiceURL() + "content?id=" + userAvatar
-										+ "&alf_ticket=" + result);
+//						userAvatar = user.getAvatar().split("api/node/workspace/SpacesStore/")[1].split("/")[0];
+//						ActionContext.getContext().getSession().put("userAvatar",
+//								ProfilerUtil.getInstance().cmisServiceURL() + "content?id=" + userAvatar
+//										+ "&alf_ticket=" + result);
+
+						userAvatar = "../Profiler/images/defaultimg.jpg";
+						ActionContext.getContext().getSession().put("userAvatar", userAvatar);
 					} else {
-						userAvatar = "../Prfoler/images/defaultimg.jpg";
+						userAvatar = "../Profiler/images/defaultimg.jpg";
 						ActionContext.getContext().getSession().put("userAvatar", userAvatar);
 					}
 					ActionContext.getContext().getSession().put(ProfilerConstants.PROPERTY_USER_ORGANIZATION,
